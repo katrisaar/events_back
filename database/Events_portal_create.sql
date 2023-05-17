@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2023-05-17 07:14:02.797
+-- Last modification date: 2023-05-17 11:55:20.416
 
 -- tables
 -- Table: activity_type
@@ -13,8 +13,8 @@ CREATE TABLE activity_type (
 CREATE TABLE address (
     id serial  NOT NULL,
     description varchar(255)  NOT NULL,
-    addressXcoordinate real  NULL,
-    addressYcoordinate real  NULL,
+    addressXcoordinate decimal(2,6)  NULL,
+    addressYcoordinate decimal(2,6)  NULL,
     CONSTRAINT address_pk PRIMARY KEY (id)
 );
 
