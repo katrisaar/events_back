@@ -39,7 +39,7 @@ public class ProfileController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "403", description = "Kahju küll, aga soovitud kasutajanimi on juba hõivatud. Proovi midagi muud.", content = @Content(schema = @Schema(implementation = ApiError.class)))})
-    public void register(@RequestBody ProfileDetails profileDetails) {
-        profileService.register(profileDetails);
+    public LoginResponse register(@RequestBody ProfileDetails profileDetails) {
+        return profileService.register(profileDetails);
     }
 }

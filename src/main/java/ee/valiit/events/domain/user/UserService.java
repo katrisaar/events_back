@@ -23,4 +23,8 @@ public class UserService {
         boolean usernameAlreadyExists = userRepository.usernameAlreadyExistsBy(username, Status.ACTIVE.getStatus());
         ValidationService.validateUsernameAlreadyExists(usernameAlreadyExists);
     }
+
+    public void addUser(User user) {
+        userRepository.save(user);
+    }
 }
