@@ -13,4 +13,9 @@ public class ValidationService {
         }
     }
 
+    public static void validateUsernameAlreadyExists(boolean usernameAlreadyExists) {
+        if (usernameAlreadyExists) {
+            throw new BusinessException(Error.USERNAME_ALREADY_EXISTS.getMessage(), Error.USERNAME_ALREADY_EXISTS.getErrorCode());
+        }
+    }
 }

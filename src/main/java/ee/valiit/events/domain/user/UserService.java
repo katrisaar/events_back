@@ -18,4 +18,9 @@ public class UserService {
         ValidationService.validateCorrectUser(userOptional);
         return userOptional.get();
     }
+
+    public void validateUsernameIsAvailable(String username) {
+        boolean usernameAlreadyExists = userRepository.usernameAlreadyExistsBy(username, Status.ACTIVE.getStatus());
+        ValidationService.validateUsernameAlreadyExists(usernameAlreadyExists);
+    }
 }
