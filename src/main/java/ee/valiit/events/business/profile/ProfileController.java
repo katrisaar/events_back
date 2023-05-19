@@ -42,4 +42,10 @@ public class ProfileController {
     public LoginResponse register(@RequestBody ProfileDetails profileDetails) {
         return profileService.register(profileDetails);
     }
+
+    @GetMapping("/profile")
+    @Operation(summary = "Tagastab olemasoleva kasutaja detailse info userId alusel")
+    public ProfileDetails getProfile(@RequestParam Integer userId) {
+        return profileService.getProfile(userId);
+    }
 }

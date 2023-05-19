@@ -2,11 +2,11 @@ package ee.valiit.events.domain.image;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
+@RequiredArgsConstructor
+@NoArgsConstructor(force = true)
 @Entity
 @Table(name = "image")
 public class Image {
@@ -16,6 +16,7 @@ public class Image {
     private Integer id;
 
     @NotNull
+    @NonNull
     @Column(name = "data", nullable = false)
     private byte[] data;
 

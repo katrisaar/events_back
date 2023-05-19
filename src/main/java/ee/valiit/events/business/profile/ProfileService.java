@@ -42,8 +42,10 @@ public class ProfileService {
         user.setRole(role);
         userService.addUser(user);
         return userMapper.toLoginResponse(user);
+    }
 
-        // todo: kui oleme ära salvestanud, siis paneme loodud useri id ja rolename LoginResponse kujule
-        // todo: ja anname selle LoginResponse tagasi kontrollerile
+    public ProfileDetails getProfile(Integer userId) {
+        User user = userService.getUserBy(userId);
+        return userMapper.toProfileDetails(user);
     }
 }
