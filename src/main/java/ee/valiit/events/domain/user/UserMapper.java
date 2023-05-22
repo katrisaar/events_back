@@ -2,7 +2,8 @@ package ee.valiit.events.domain.user;
 
 import ee.valiit.events.business.Status;
 import ee.valiit.events.business.profile.dto.LoginResponse;
-import ee.valiit.events.business.profile.dto.ProfileDetails;
+import ee.valiit.events.business.profile.dto.ProfileInfoWithImage;
+import ee.valiit.events.business.profile.dto.ProfileRequest;
 import ee.valiit.events.domain.image.Image;
 import ee.valiit.events.domain.user.contact.Contact;
 import ee.valiit.events.domain.util.ImageUtil;
@@ -16,15 +17,18 @@ public interface UserMapper {
     LoginResponse toLoginResponse(User user);
 
     @Mapping(expression = "java(Status.ACTIVE.getStatus())", target = "status")
-    User toUser(ProfileDetails profileDetails);
+    User toUser(ProfileRequest profileRequest);
 
     @Mapping(source = "contact.firstName", target = "firstName")
     @Mapping(source = "contact.lastName", target = "lastName")
     @Mapping(source = "contact.email", target = "email")
     @Mapping(source = "username", target = "username")
-    @Mapping(source = "password", target = "password")
-  //  @Mapping(source = "contact", target = "imageData", qualifiedByName = "contactImageToImageData")
-    ProfileDetails toProfileDetails(User user);
+    @Mapping(source = "contact", target = "imageData", qualifiedByName = "contactImageToImageData")
+    ProfileInfoWithImage toProfileInfoWithImage(User user);
+
+    @Mapping(ignore = true, target = "password")
+    // todo: kuidas teha passwordi update. kui ei tule passwordi kaasa (tühi string), siis ju ei muuda, muudab ainult siis, kui on väärtus
+    User partialUpdate(ProfileRequest profileRequest, @MappingTarget User user);
 
     @Named("imageDataToImage")
     static Image imageDataToImage(String imageData) {
@@ -35,7 +39,7 @@ public interface UserMapper {
     }
 
     @Named("contactImageToImageData")
-    static String imageToImageData(Contact contact) {
+    static String contactImageToImageData(Contact contact) {
         Image image = contact.getImage();
         if (image == null) {
             return "";
@@ -43,10 +47,4 @@ public interface UserMapper {
         return ImageUtil.byteArrayToBase64ImageData(image.getData());
     }
 
-//    @InheritInverseConfiguration(name = "toEntity")
-//    ProfileDetails toDto(User user);
-//
-//    @InheritConfiguration(name = "toEntity")
-//    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-//    User partialUpdate(ProfileDetails profileDetails, @MappingTarget User user);
 }

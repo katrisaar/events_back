@@ -31,4 +31,9 @@ public class UserService {
     public User getUserBy(Integer userId) {
         return userRepository.findById(userId).get();
     }
+
+    public void validateEditedUsernameIsAvailable(Integer userId, String username) {
+        boolean editedUsernameAlreadyExists = userRepository.editedUsernameAlreadyExistsBy(userId, username);
+        ValidationService.validateUsernameAlreadyExists(editedUsernameAlreadyExists);
+    }
 }
