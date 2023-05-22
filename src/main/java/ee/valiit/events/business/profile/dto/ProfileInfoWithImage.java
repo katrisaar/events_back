@@ -15,13 +15,10 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProfileDetails implements Serializable {
+public class ProfileInfoWithImage implements Serializable {
     @Size(max = 50)
     @NotNull
     private String username;
-    @Size(max = 50)
-    @NotNull
-    private String password;
     @Size(max = 50)
     @NotNull
     private String firstName;
@@ -31,5 +28,6 @@ public class ProfileDetails implements Serializable {
     @Size(max = 50)
     @NotNull
     private String email;
-    private byte[] imageData;
+    @NotNull
+    private String imageData;
 }

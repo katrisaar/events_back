@@ -1,6 +1,8 @@
 package ee.valiit.events.business.profile;
 
 import ee.valiit.events.business.profile.dto.LoginResponse;
+import ee.valiit.events.business.profile.dto.ProfileInfoWithImage;
+import ee.valiit.events.business.profile.dto.ProfileRequest;
 import ee.valiit.events.business.profile.dto.ProfileDetails;
 import ee.valiit.events.business.profile.dto.ProfileInfo;
 import ee.valiit.events.infrastructure.error.ApiError;
@@ -42,8 +44,28 @@ public class ProfileController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "403", description = "Kahju küll, aga soovitud kasutajanimi on juba hõivatud. Proovi midagi muud.", content = @Content(schema = @Schema(implementation = ApiError.class)))})
-    public LoginResponse register(@RequestBody ProfileDetails profileDetails) {
-        return profileService.register(profileDetails);
+    public LoginResponse register(@RequestBody ProfileRequest profileRequest) {
+        return profileService.register(profileRequest);
+    }
+
+    @GetMapping("/profile")
+    @Operation(summary = "Tagastab olemasoleva kasutaja detailse info userId alusel")
+    public ProfileInfoWithImage getProfile(@RequestParam Integer userId) {
+        return profileService.getProfile(userId);
+    }
+
+    @PutMapping("/profile")
+    @Operation(summary = "Olemasoleva kasutaja andmete muutmine",
+            description = """
+                    Võtab sisse kasutaja userId ja muudab olemasoleva kasutaja andmeid.
+                    Kui soovitakse muuta kasutajanime, aga soovitud kasutajanimi on sama, mis mõnel olemasoleval aktiivsel kasutajal, 
+                    siis tagastame veatetate koodiga 222 
+                    """)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "403", description = "Kahju küll, aga soovitud kasutajanimi on juba hõivatud. Proovi midagi muud.", content = @Content(schema = @Schema(implementation = ApiError.class)))})
+    public void editProfile(@RequestParam Integer userId, @RequestBody ProfileRequest profileRequest) {
+        profileService.editProfile(userId, profileRequest);
     }
     @GetMapping("/admin")
     @Operation(summary = "Tagastab nii aktiivsete kui ka kustutatud kasutajate nimekirja koos infoga.",
