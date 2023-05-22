@@ -27,7 +27,6 @@ public interface UserMapper {
     ProfileInfoWithImage toProfileInfoWithImage(User user);
 
     @Mapping(ignore = true, target = "password")
-    // todo: kuidas teha passwordi update. kui ei tule passwordi kaasa (tühi string), siis ju ei muuda, muudab ainult siis, kui on väärtus
     User partialUpdate(ProfileRequest profileRequest, @MappingTarget User user);
 
     @Named("imageDataToImage")
