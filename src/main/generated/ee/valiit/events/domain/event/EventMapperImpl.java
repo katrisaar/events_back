@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-05-22T15:36:57+0300",
+    date = "2023-05-22T15:56:59+0300",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Eclipse Adoptium)"
 )
 @Component
@@ -27,6 +27,7 @@ public class EventMapperImpl implements EventMapper {
         EventDto eventDto = new EventDto();
 
         eventDto.setStartDate( eventTimeStartDate( event ) );
+        eventDto.setEventId( event.getId() );
         eventDto.setRegistrationDate( eventTimeRegistrationDate( event ) );
         eventDto.setName( event.getName() );
         eventDto.setLocationName( eventLocationName( event ) );

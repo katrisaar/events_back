@@ -20,6 +20,7 @@ public class EventDto implements Serializable {
     @NotNull
     private String name;
     private Integer fee;
+    private Integer eventId;
     @Size(max = 255)
     @NotNull
     private String activityTypeName;

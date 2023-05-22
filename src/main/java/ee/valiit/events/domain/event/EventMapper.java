@@ -7,6 +7,7 @@ import java.util.List;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface EventMapper {
     @Mapping(source = "time.startDate", target = "startDate")
+    @Mapping(source = "id", target = "eventId")
     @Mapping(source = "time.registrationDate", target = "registrationDate")
     @Mapping(source = "name", target = "name")
     @Mapping(source = "location.name", target = "locationName")
