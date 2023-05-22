@@ -3,7 +3,6 @@ package ee.valiit.events.business.profile;
 import ee.valiit.events.business.profile.dto.LoginResponse;
 import ee.valiit.events.business.profile.dto.ProfileInfoWithImage;
 import ee.valiit.events.business.profile.dto.ProfileRequest;
-import ee.valiit.events.business.profile.dto.ProfileDetails;
 import ee.valiit.events.business.profile.dto.ProfileInfo;
 import ee.valiit.events.infrastructure.error.ApiError;
 import io.swagger.v3.oas.annotations.Operation;

@@ -59,7 +59,6 @@ public class ProfileService {
         User user = userService.getUserBy(userId);
         return userMapper.toProfileInfoWithImage(user);
     }
-    }
 
     @Transactional
     public void editProfile(Integer userId, ProfileRequest profileRequest) {
@@ -107,6 +106,8 @@ public class ProfileService {
 
     private boolean currentImageUpdateIsRequired(Image currectImage, String imageDataFromUpdate) {
         return ImageUtil.imageIsPresent(currectImage) && !imageDataFromUpdate.equals((ImageUtil.byteArrayToBase64ImageData(currectImage.getData())));
+    }
+
     public List<ProfileInfo> getAllUsers() {
         List<User> allUsers = userService.getAllUsers();
         return userMapper.toProfileInfos(allUsers);

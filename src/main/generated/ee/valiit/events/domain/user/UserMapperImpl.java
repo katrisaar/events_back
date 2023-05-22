@@ -2,8 +2,9 @@ package ee.valiit.events.domain.user;
 
 import ee.valiit.events.business.Status;
 import ee.valiit.events.business.profile.dto.LoginResponse;
-import ee.valiit.events.business.profile.dto.ProfileDetails;
 import ee.valiit.events.business.profile.dto.ProfileInfo;
+import ee.valiit.events.business.profile.dto.ProfileInfoWithImage;
+import ee.valiit.events.business.profile.dto.ProfileRequest;
 import ee.valiit.events.domain.user.contact.Contact;
 import ee.valiit.events.domain.user.role.Role;
 import java.util.ArrayList;
@@ -13,8 +14,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-05-22T11:49:10+0300",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Eclipse Adoptium)"
+    date = "2023-05-22T12:18:07+0300",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (JetBrains s.r.o.)"
 )
 @Component
 public class UserMapperImpl implements UserMapper {
@@ -34,19 +35,36 @@ public class UserMapperImpl implements UserMapper {
     }
 
     @Override
-    public User toUser(ProfileDetails profileDetails) {
-        if ( profileDetails == null ) {
+    public User toUser(ProfileRequest profileRequest) {
+        if ( profileRequest == null ) {
             return null;
         }
 
         User user = new User();
 
-        user.setUsername( profileDetails.getUsername() );
-        user.setPassword( profileDetails.getPassword() );
+        user.setUsername( profileRequest.getUsername() );
+        user.setPassword( profileRequest.getPassword() );
 
         user.setStatus( Status.ACTIVE.getStatus() );
 
         return user;
+    }
+
+    @Override
+    public ProfileInfoWithImage toProfileInfoWithImage(User user) {
+        if ( user == null ) {
+            return null;
+        }
+
+        ProfileInfoWithImage profileInfoWithImage = new ProfileInfoWithImage();
+
+        profileInfoWithImage.setFirstName( userContactFirstName( user ) );
+        profileInfoWithImage.setLastName( userContactLastName( user ) );
+        profileInfoWithImage.setEmail( userContactEmail( user ) );
+        profileInfoWithImage.setUsername( user.getUsername() );
+        profileInfoWithImage.setImageData( UserMapper.contactImageToImageData( user.getContact() ) );
+
+        return profileInfoWithImage;
     }
 
     @Override
@@ -66,6 +84,17 @@ public class UserMapperImpl implements UserMapper {
         profileInfo.setStatus( user.getStatus() );
 
         return profileInfo;
+    }
+
+    @Override
+    public User partialUpdate(ProfileRequest profileRequest, User user) {
+        if ( profileRequest == null ) {
+            return user;
+        }
+
+        user.setUsername( profileRequest.getUsername() );
+
+        return user;
     }
 
     @Override
