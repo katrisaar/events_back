@@ -3,6 +3,7 @@ package ee.valiit.events.domain.user;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
@@ -11,4 +12,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("select (count(u) > 0) from User u where upper(u.username) = upper(?1) and u.status = ?2")
     boolean usernameAlreadyExistsBy(String username, String status);
+
+    @Query("select u from User u order by u.status, u.role.name, u.contact.lastName, u.contact.firstName, u.username")
+    List<User> findAllUsers();
 }

@@ -2,6 +2,7 @@ package ee.valiit.events.business.profile;
 
 import ee.valiit.events.business.profile.dto.LoginResponse;
 import ee.valiit.events.business.profile.dto.ProfileDetails;
+import ee.valiit.events.business.profile.dto.ProfileInfo;
 import ee.valiit.events.infrastructure.error.ApiError;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -10,6 +11,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class ProfileController {
@@ -41,5 +44,11 @@ public class ProfileController {
             @ApiResponse(responseCode = "403", description = "Kahju küll, aga soovitud kasutajanimi on juba hõivatud. Proovi midagi muud.", content = @Content(schema = @Schema(implementation = ApiError.class)))})
     public LoginResponse register(@RequestBody ProfileDetails profileDetails) {
         return profileService.register(profileDetails);
+    }
+    @GetMapping("/admin")
+    @Operation(summary = "Tagastab nii aktiivsete kui ka kustutatud kasutajate nimekirja koos infoga.",
+            description= "Adminil on võimalik kasutajate infot kas muuta või kasutajaid süsteemist kustutada")
+    public List<ProfileInfo> getAllUsers() {
+        return profileService.getAllUsers();
     }
 }

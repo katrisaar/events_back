@@ -3,6 +3,7 @@ package ee.valiit.events.business.profile;
 import ee.valiit.events.business.profile.dto.LoginResponse;
 import ee.valiit.events.business.profile.dto.ProfileDetails;
 import ee.valiit.events.domain.user.User;
+import ee.valiit.events.business.profile.dto.ProfileInfo;
 import ee.valiit.events.domain.user.UserMapper;
 import ee.valiit.events.domain.user.UserService;
 import ee.valiit.events.domain.user.contact.Contact;
@@ -12,6 +13,8 @@ import ee.valiit.events.domain.user.role.Role;
 import ee.valiit.events.domain.user.role.RoleService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ProfileService {
@@ -42,8 +45,10 @@ public class ProfileService {
         user.setRole(role);
         userService.addUser(user);
         return userMapper.toLoginResponse(user);
+    }
 
-        // todo: kui oleme ära salvestanud, siis paneme loodud useri id ja rolename LoginResponse kujule
-        // todo: ja anname selle LoginResponse tagasi kontrollerile
+    public List<ProfileInfo> getAllUsers() {
+        List<User> allUsers = userService.getAllUsers();
+        return userMapper.toProfileInfos(allUsers);
     }
 }
