@@ -18,4 +18,10 @@ public class ValidationService {
             throw new BusinessException(Error.USERNAME_ALREADY_EXISTS.getMessage(), Error.USERNAME_ALREADY_EXISTS.getErrorCode());
         }
     }
+
+    public static void validateLocationAlreadyExists(boolean locationExists) {
+        if (locationExists) {
+            throw new BusinessException(Error.LOCATION_ALREADY_EXISTS.getMessage(), Error.LOCATION_ALREADY_EXISTS.getErrorCode());
+        }
+    }
 }

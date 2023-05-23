@@ -1,5 +1,6 @@
-package ee.valiit.events.domain.location;
+package ee.valiit.events.business.location;
 
+import ee.valiit.events.domain.location.Location;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -15,8 +16,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LocationDto implements Serializable {
-    private Integer id;
+    private Integer locationId;
     @Size(max = 255)
     @NotNull
-    private String name;
+    private String locationName;
 }

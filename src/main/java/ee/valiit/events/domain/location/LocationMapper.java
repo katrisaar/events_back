@@ -1,5 +1,6 @@
 package ee.valiit.events.domain.location;
 
+import ee.valiit.events.business.location.LocationDto;
 import org.mapstruct.*;
 
 import java.util.List;
@@ -8,9 +9,13 @@ import java.util.List;
 public interface LocationMapper {
     Location toEntity(LocationDto locationDto);
 
+    @Mapping(source = "name", target = "locationName")
+    @Mapping(source = "id", target = "locationId")
     LocationDto toLocationDto(Location location);
     List<LocationDto> toLocationDtos(List<Location> location);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Location partialUpdate(LocationDto locationDto, @MappingTarget Location location);
+
+    @Mapping(source = "locationName", target = "name")
+    @Mapping(ignore = true, target = "id")
+    Location toLocationEntity(LocationDto newLocationName);
 }
