@@ -14,8 +14,4 @@ public interface LocationMapper {
     LocationDto toLocationDto(Location location);
     List<LocationDto> toLocationDtos(List<Location> location);
 
-
-    @Mapping(source = "locationName", target = "name")
-    @Mapping(ignore = true, target = "id")
-    Location toLocationEntity(LocationDto newLocationName);
 }

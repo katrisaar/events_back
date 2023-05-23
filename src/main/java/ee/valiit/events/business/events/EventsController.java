@@ -39,7 +39,7 @@ public class EventsController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "403", description = "Sellise nimega asukoht on nimekirjas juba olemas.", content = @Content(schema = @Schema(implementation = ApiError.class)))})
-    public void addLocation(@RequestBody LocationDto newLocationName) {
+    public void addLocation(@RequestParam String newLocationName) {
         eventsService.addLocation(newLocationName);
     }
 }

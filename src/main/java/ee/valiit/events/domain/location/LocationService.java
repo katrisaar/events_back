@@ -1,6 +1,5 @@
 package ee.valiit.events.domain.location;
 
-import ee.valiit.events.business.location.LocationDto;
 import ee.valiit.events.validation.ValidationService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -11,8 +10,12 @@ public class LocationService {
     private LocationRepository locationRepository;
 
 
-    public void validateLocationIsAvailableBy(LocationDto newLocationName) {
+    public void validateLocationIsAvailableBy(String newLocationName) {
         boolean locationExists = locationRepository.locationExistsBy(newLocationName);
         ValidationService.validateLocationAlreadyExists(locationExists);
+    }
+
+    public void addLocation(Location location) {
+        locationRepository.save(location);
     }
 }

@@ -21,4 +21,7 @@ public class Location {
     @Column(name = "name", nullable = false)
     private String name;
 
+    public Location(String name) {
+        this.name = name;
+    }
 }
