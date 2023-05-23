@@ -1,12 +1,9 @@
 package ee.valiit.events.domain.event;
 
-import ee.valiit.events.business.Status;
+import ee.valiit.events.business.enums.Status;
 import ee.valiit.events.business.events.dto.EventDto;
 import ee.valiit.events.domain.location.Location;
 import ee.valiit.events.domain.location.LocationRepository;
-import ee.valiit.events.business.enums.Status;
-import ee.valiit.events.business.events.dto.EventDto;
-import ee.valiit.events.domain.eventuser.EventUser;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 

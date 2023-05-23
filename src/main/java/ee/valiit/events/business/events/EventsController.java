@@ -44,7 +44,8 @@ public class EventsController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "403", description = "Sellise nimega asukoht on nimekirjas juba olemas.", content = @Content(schema = @Schema(implementation = ApiError.class)))})
     public LocationDto addLocation(@RequestParam String newLocationName) {
-        return eventsService.addLocation(newLocationName);
+        return eventsService.addLocation(newLocationName); }
+
     @GetMapping("/organizedevents")
     @Operation(summary = "Tagastab kõikide kasutaja poolt korraldatavate tulevaste (aktiivsete) ürituste nimekirja.",
                 description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea")

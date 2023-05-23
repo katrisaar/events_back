@@ -50,6 +50,7 @@ public class EventsService {
         Location location = new Location(locationName);
         locationService.addLocation(location);
         return locationMapper.toLocationDto(location);
+    }
 
     public List<OrganizedEvent> findOrganizedEvents(Integer userId) {
         List<EventUser> eventUsers = eventUserService.findActiveOrganizedEventUsers(userId);
