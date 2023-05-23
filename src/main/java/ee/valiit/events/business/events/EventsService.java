@@ -34,4 +34,7 @@ public class EventsService {
         
         return dtos;
     }
+
+    public void addActivityType(String activityTypeName) {
+    }
 }
