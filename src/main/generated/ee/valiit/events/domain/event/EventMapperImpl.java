@@ -1,5 +1,6 @@
 package ee.valiit.events.domain.event;
 
+import ee.valiit.events.business.events.dto.EventDto;
 import ee.valiit.events.domain.activitytype.ActivityType;
 import ee.valiit.events.domain.location.Location;
 import ee.valiit.events.domain.spot.Spot;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-05-23T11:57:24+0300",
+    date = "2023-05-23T17:03:00+0300",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (JetBrains s.r.o.)"
 )
 @Component

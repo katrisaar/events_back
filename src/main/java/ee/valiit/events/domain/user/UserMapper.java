@@ -1,6 +1,6 @@
 package ee.valiit.events.domain.user;
 
-import ee.valiit.events.business.Status;
+import ee.valiit.events.business.enums.Status;
 import ee.valiit.events.business.profile.dto.LoginResponse;
 import ee.valiit.events.business.profile.dto.ProfileInfo;
 import org.mapstruct.*;

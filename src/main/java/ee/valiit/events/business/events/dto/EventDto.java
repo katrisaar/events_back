@@ -1,5 +1,6 @@
-package ee.valiit.events.domain.event;
+package ee.valiit.events.business.events.dto;
 
+import ee.valiit.events.domain.event.Event;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
