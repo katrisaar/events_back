@@ -16,18 +16,9 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProfileInfoWithImage implements Serializable {
-    @Size(max = 50)
-    @NotNull
     private String username;
-    @Size(max = 50)
-    @NotNull
     private String firstName;
-    @Size(max = 50)
-    @NotNull
     private String lastName;
-    @Size(max = 50)
-    @NotNull
     private String email;
-    @NotNull
     private String imageData;
 }
