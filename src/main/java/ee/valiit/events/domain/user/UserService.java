@@ -42,4 +42,10 @@ public class UserService {
         boolean editedUsernameAlreadyExists = userRepository.editedUsernameAlreadyExistsBy(userId, username);
         ValidationService.validateUsernameAlreadyExists(editedUsernameAlreadyExists);
     }
+
+    public void deactivateUser(Integer userId) {
+        User user = userRepository.findById(userId).get();
+        user.setStatus(Status.DELETED.getStatus());
+        userRepository.save(user);
+    }
 }

@@ -72,4 +72,10 @@ public class ProfileController {
     public List<ProfileInfo> getAllUsers() {
         return profileService.getAllUsers();
     }
+
+    @DeleteMapping("/profile")
+    @Operation(summary = "Kustutab (märgib mitteaktiivseks) olemasoleva kasutaja userId alusel")
+    public void deleteUser(@RequestParam Integer userId) {
+        profileService.deleteUser(userId);
+    }
 }

@@ -112,4 +112,8 @@ public class ProfileService {
         List<User> allUsers = userService.getAllUsers();
         return userMapper.toProfileInfos(allUsers);
     }
+
+    public void deleteUser(Integer userId) {
+        userService.deactivateUser(userId);
+    }
 }
