@@ -22,6 +22,12 @@ public class ValidationService {
         }
     }
 
+    public static void validateLocationAlreadyExists(boolean locationExists) {
+        if (locationExists) {
+            throw new BusinessException(Error.LOCATION_ALREADY_EXISTS.getMessage(), Error.LOCATION_ALREADY_EXISTS.getErrorCode());
+        }
+    }
+
     public static void validateEventUserListExists(List<EventUser> eventUsers) {
         if (eventUsers.isEmpty()) {
             throw new DataNotFoundException(Error.EVENT_LIST_IS_EMPTY.getMessage(), Error.EVENT_LIST_IS_EMPTY.getErrorCode());

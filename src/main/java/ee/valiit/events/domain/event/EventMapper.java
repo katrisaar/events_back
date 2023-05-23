@@ -1,6 +1,8 @@
 package ee.valiit.events.domain.event;
 
 import ee.valiit.events.business.events.dto.EventDto;
+import org.mapstruct.*;
+import ee.valiit.events.business.events.dto.EventDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;

@@ -1,6 +1,11 @@
 package ee.valiit.events.business.events;
 
 import ee.valiit.events.business.events.dto.EventDto;
+import ee.valiit.events.domain.event.EventService;
+import ee.valiit.events.domain.location.Location;
+import ee.valiit.events.business.location.LocationDto;
+import ee.valiit.events.domain.location.LocationMapper;
+import ee.valiit.events.domain.location.LocationService;
 import ee.valiit.events.business.eventuser.OrganizedEvent;
 import ee.valiit.events.domain.event.EventMapper;
 import ee.valiit.events.domain.event.EventService;
@@ -17,6 +22,10 @@ public class EventsService {
 
     @Resource
     EventService eventService;
+    @Resource
+    LocationMapper locationMapper;
+    @Resource
+    LocationService locationService;
 
     @Resource
     EventUserService eventUserService;
@@ -30,6 +39,17 @@ public class EventsService {
 
         return eventService.findAllActiveEvents();
     }
+
+    public List<LocationDto> getLocations() {
+        List<Location> allLocations = eventService.getAllLocations();
+        return locationMapper.toLocationDtos(allLocations);
+    }
+
+    public LocationDto addLocation(String locationName) {
+        locationService.validateLocationIsAvailableBy(locationName);
+        Location location = new Location(locationName);
+        locationService.addLocation(location);
+        return locationMapper.toLocationDto(location);
 
     public List<OrganizedEvent> findOrganizedEvents(Integer userId) {
         List<EventUser> eventUsers = eventUserService.findActiveOrganizedEventUsers(userId);

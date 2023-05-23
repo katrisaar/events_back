@@ -6,8 +6,8 @@ import lombok.Getter;
 public enum Error {
     INCORRECT_USERDATA("Sorri, nõu kän du", 111),
     USERNAME_ALREADY_EXISTS("Kahju küll, aga soovitud kasutajanimi on juba hõivatud. Proovi midagi muud.", 222),
-    EVENT_LIST_IS_EMPTY("Ei ole ühtegi üritust", 555)
-    ;
+    EVENT_LIST_IS_EMPTY("Ei ole ühtegi üritust", 555),
+    LOCATION_ALREADY_EXISTS("Sellise nimega asukoht on nimekirjas juba olemas.", 333);
 
     private final String message;
     private final int errorCode;
