@@ -24,4 +24,8 @@ public class Location {
     public Location(String name) {
         this.name = name;
     }
+
+    public Location() {
+
+    }
 }

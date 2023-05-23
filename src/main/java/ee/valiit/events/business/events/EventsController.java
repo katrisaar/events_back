@@ -33,13 +33,13 @@ public class EventsController {
     @PostMapping("/location")
     @Operation(summary = "Kasutaja poolt piirkonna lisamine",
             description = """
-                    Loome süsteemi uue piirkonna.
+                    Loome süsteemi uue piirkonna. Tagastab selle uue piirkonna locationName ja locationId.
                     Kui lisatud piirkond on juba olemas, siis tagastame veatetate koodiga 333
                     """)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "403", description = "Sellise nimega asukoht on nimekirjas juba olemas.", content = @Content(schema = @Schema(implementation = ApiError.class)))})
-    public void addLocation(@RequestParam String newLocationName) {
-        eventsService.addLocation(newLocationName);
+    public LocationDto addLocation(@RequestParam String newLocationName) {
+        return eventsService.addLocation(newLocationName);
     }
 }

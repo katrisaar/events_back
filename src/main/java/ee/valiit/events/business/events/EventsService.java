@@ -31,12 +31,11 @@ public class EventsService {
         return locationMapper.toLocationDtos(allLocations);
     }
 
-    public void addLocation(String locationName) {
+    public LocationDto addLocation(String locationName) {
         locationService.validateLocationIsAvailableBy(locationName);
         Location location = new Location(locationName);
         locationService.addLocation(location);
+        return locationMapper.toLocationDto(location);
+
     }
-
-
-
 }
