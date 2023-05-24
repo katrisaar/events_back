@@ -1,8 +1,6 @@
 package ee.valiit.events.business.events;
 
 import ee.valiit.events.business.events.dto.EventDto;
-import ee.valiit.events.domain.event.EventService;
-import ee.valiit.events.domain.location.Location;
 import ee.valiit.events.business.location.LocationDto;
 import ee.valiit.events.domain.location.LocationMapper;
 import ee.valiit.events.domain.location.LocationService;
@@ -16,8 +14,7 @@ import ee.valiit.events.domain.activitytype.ActivityType;
 import ee.valiit.events.domain.activitytype.ActivityTypeMapper;
 import ee.valiit.events.domain.activitytype.ActivityTypeService;
 import ee.valiit.events.domain.activitytype.ExistingActivityTypes;
-import ee.valiit.events.domain.event.EventDto;
-import ee.valiit.events.domain.event.EventService;
+import ee.valiit.events.domain.location.Location;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +25,10 @@ public class EventsService {
 
     @Resource
     EventService eventService;
+
     @Resource
     LocationMapper locationMapper;
+
     @Resource
     LocationService locationService;
 
@@ -38,8 +37,15 @@ public class EventsService {
 
     @Resource
     EventMapper eventMapper;
+
     @Resource
     EventUserMapper eventUserMapper;
+
+    @Resource
+    ActivityTypeService activityTypeService;
+
+    @Resource
+    ActivityTypeMapper activityTypeMapper;
 
     public List<EventDto> getActiveEvents() {
 
@@ -61,15 +67,6 @@ public class EventsService {
     public List<OrganizedEvent> findOrganizedEvents(Integer userId) {
         List<EventUser> eventUsers = eventUserService.findActiveOrganizedEventUsers(userId);
         return eventUserMapper.toOrganizedEvents(eventUsers);
-
-    @Resource
-    ActivityTypeService activityTypeService;
-
-    @Resource
-    private ActivityTypeMapper activityTypeMapper;
-
-    public List<EventDto> getActiveEvents() {
-        return eventService.findAllActiveEvents();
     }
 
     public List<ExistingActivityTypes> getActivityTypes() {
@@ -80,6 +77,10 @@ public class EventsService {
         return dtos;
     }
 
-    public void addActivityType(String activityTypeName) {
+    public ExistingActivityTypes addActivityType(String activityTypeName) {
+        activityTypeService.validateActivityTypeIsAvailableBy(activityTypeName);
+        ActivityType activityType = new ActivityType(activityTypeName);
+        activityTypeService.addActivityType(activityType);
+        return activityTypeMapper.toActivityTypeDto(activityType);
     }
 }

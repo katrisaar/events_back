@@ -21,4 +21,7 @@ public class ActivityType {
     @Column(name = "name", nullable = false)
     private String name;
 
+    public ActivityType(String name) {
+        this.name = name;
+    }
 }

@@ -1,5 +1,6 @@
 package ee.valiit.events.domain.activitytype;
 
+import ee.valiit.events.validation.ValidationService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -18,5 +19,14 @@ public class ActivityTypeService {
     public ActivityType getActivityType(Integer activityTypeId) {
         ActivityType activityType = activityTypeRepository.findById(activityTypeId).get();
         return activityType;
+    }
+
+    public void validateActivityTypeIsAvailableBy(String activityTypeName) {
+        boolean activityTypeExists = activityTypeRepository.activityTypeExistsBy(activityTypeName);
+        ValidationService.validateActivityTypeAlreadyExists(activityTypeExists);
+    }
+
+    public void addActivityType(ActivityType activityType) {
+        activityTypeRepository.save(activityType);
     }
 }

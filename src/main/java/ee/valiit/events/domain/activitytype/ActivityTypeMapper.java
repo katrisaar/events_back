@@ -9,7 +9,7 @@ public interface ActivityTypeMapper {
 
     @Mapping(source = "id", target = "activityTypeId")
     @Mapping(source = "name", target = "activityTypeName")
-    ExistingActivityTypes toDto(ActivityType activityType);
+    ExistingActivityTypes toActivityTypeDto(ActivityType activityType);
 
     List<ExistingActivityTypes> toDtos(List<ActivityType> activityTypes);
 }

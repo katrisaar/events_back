@@ -15,7 +15,6 @@ public class LocationService {
         ValidationService.validateLocationAlreadyExists(locationExists);
     }
 
-    public void addLocation(Location location) {
-        locationRepository.save(location);
-    }
+    public void addLocation(Location location) { locationRepository.save(location); }
+
 }
