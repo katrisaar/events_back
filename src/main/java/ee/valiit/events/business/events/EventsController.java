@@ -30,7 +30,7 @@ public class EventsController {
         return eventsService.getActiveEvents();
     }
 
-    @GetMapping("/createevent")
+    @GetMapping("/location")
     @Operation(summary = "Tagastab frondi rippmenüü jaoks kõik olemasolevad piirkonnad.")
     public List<LocationDto> getLocations() {
         return eventsService.getLocations();
@@ -51,7 +51,7 @@ public class EventsController {
 
     @GetMapping("/organizedevents")
     @Operation(summary = "Tagastab kõikide kasutaja poolt korraldatavate tulevaste (aktiivsete) ürituste nimekirja.",
-                description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea")
+            description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "404", description = "Ei leitud ühtegi üritust", content = @Content(schema = @Schema(implementation = ApiError.class)))})
@@ -59,7 +59,7 @@ public class EventsController {
         return eventsService.findOrganizedEvents(userId);
     }
 
-        @GetMapping("/activitytype")
+    @GetMapping("/activitytype")
     @Operation(summary = "Leiab ja tagastab dropdowni olemasolevate tegevusvaldkondadega.")
     public List<ExistingActivityTypes> getActivityTypes() {
         List<ExistingActivityTypes> activityTypes = eventsService.getActivityTypes();
