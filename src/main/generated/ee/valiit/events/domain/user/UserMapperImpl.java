@@ -1,6 +1,6 @@
 package ee.valiit.events.domain.user;
 
-import ee.valiit.events.business.Status;
+import ee.valiit.events.business.enums.Status;
 import ee.valiit.events.business.profile.dto.LoginResponse;
 import ee.valiit.events.business.profile.dto.ProfileInfo;
 import ee.valiit.events.business.profile.dto.ProfileInfoWithImage;
@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-05-23T16:11:28+0300",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Eclipse Adoptium)"
+    date = "2023-05-23T17:30:47+0300",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (JetBrains s.r.o.)"
 )
 @Component
 public class UserMapperImpl implements UserMapper {

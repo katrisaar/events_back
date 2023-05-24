@@ -14,11 +14,11 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrganizedEvent implements Serializable {
+public class InterestedEvent implements Serializable {
     private Integer eventId;
     private String eventName;
-    private Integer spotsAvailable;
-    private Integer spotsTaken;
     private LocalDate registrationDate;
     private LocalDate startDate;
+    private String locationName;
+    private Integer spotsAvailable;
 }
