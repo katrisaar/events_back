@@ -2,10 +2,9 @@ package ee.valiit.events.business.events;
 
 import ee.valiit.events.business.events.dto.EventDto;
 import ee.valiit.events.business.eventuser.InterestedEvent;
+import ee.valiit.events.business.eventuser.OrganisedEvent;
 import ee.valiit.events.business.eventuser.ParticipatingEvent;
 import ee.valiit.events.business.location.LocationDto;
-import ee.valiit.events.business.eventuser.OrganisedEvent;
-import ee.valiit.events.business.eventuser.OrganizedEvent;
 import ee.valiit.events.domain.activitytype.ExistingActivityTypes;
 import ee.valiit.events.infrastructure.error.ApiError;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,9 +14,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 

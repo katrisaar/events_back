@@ -24,4 +24,7 @@ public class ActivityType {
     public ActivityType(String name) {
         this.name = name;
     }
+
+    public ActivityType() {
+    }
 }
