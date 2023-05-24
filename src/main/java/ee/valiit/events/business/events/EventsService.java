@@ -6,6 +6,12 @@ import ee.valiit.events.domain.location.Location;
 import ee.valiit.events.business.location.LocationDto;
 import ee.valiit.events.domain.location.LocationMapper;
 import ee.valiit.events.domain.location.LocationService;
+import ee.valiit.events.business.eventuser.OrganizedEvent;
+import ee.valiit.events.domain.event.EventMapper;
+import ee.valiit.events.domain.event.EventService;
+import ee.valiit.events.domain.eventuser.EventUser;
+import ee.valiit.events.domain.eventuser.EventUserMapper;
+import ee.valiit.events.domain.eventuser.EventUserService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +26,14 @@ public class EventsService {
     LocationMapper locationMapper;
     @Resource
     LocationService locationService;
+
+    @Resource
+    EventUserService eventUserService;
+
+    @Resource
+    EventMapper eventMapper;
+    @Resource
+    EventUserMapper eventUserMapper;
 
     public List<EventDto> getActiveEvents() {
 
@@ -36,6 +50,10 @@ public class EventsService {
         Location location = new Location(locationName);
         locationService.addLocation(location);
         return locationMapper.toLocationDto(location);
+    }
 
+    public List<OrganizedEvent> findOrganizedEvents(Integer userId) {
+        List<EventUser> eventUsers = eventUserService.findActiveOrganizedEventUsers(userId);
+        return eventUserMapper.toOrganizedEvents(eventUsers);
     }
 }

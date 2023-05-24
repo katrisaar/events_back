@@ -1,4 +1,4 @@
-package ee.valiit.events.business;
+package ee.valiit.events.business.enums;
 
 import lombok.Getter;
 
