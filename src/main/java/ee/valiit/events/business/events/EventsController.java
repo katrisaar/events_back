@@ -3,6 +3,7 @@ package ee.valiit.events.business.events;
 import ee.valiit.events.business.events.dto.EventDto;
 import ee.valiit.events.business.location.LocationDto;
 import ee.valiit.events.business.eventuser.OrganizedEvent;
+import ee.valiit.events.domain.activitytype.ExistingActivityTypes;
 import ee.valiit.events.infrastructure.error.ApiError;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -10,10 +11,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class EventsController {
     public List<LocationDto> getLocations() {
         return eventsService.getLocations();
     }
+
     @PostMapping("/location")
     @Operation(summary = "Kasutaja poolt piirkonna lisamine",
             description = """
@@ -44,7 +46,8 @@ public class EventsController {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "403", description = "Sellise nimega asukoht on nimekirjas juba olemas.", content = @Content(schema = @Schema(implementation = ApiError.class)))})
     public LocationDto addLocation(@RequestParam String newLocationName) {
-        return eventsService.addLocation(newLocationName); }
+        return eventsService.addLocation(newLocationName);
+    }
 
     @GetMapping("/organizedevents")
     @Operation(summary = "Tagastab kõikide kasutaja poolt korraldatavate tulevaste (aktiivsete) ürituste nimekirja.",
@@ -54,5 +57,25 @@ public class EventsController {
             @ApiResponse(responseCode = "404", description = "Ei leitud ühtegi üritust", content = @Content(schema = @Schema(implementation = ApiError.class)))})
     public List<OrganizedEvent> findOrganizedEvents(@RequestParam Integer userId) {
         return eventsService.findOrganizedEvents(userId);
+    }
+
+        @GetMapping("/activitytype")
+    @Operation(summary = "Leiab ja tagastab dropdowni olemasolevate tegevusvaldkondadega.")
+    public List<ExistingActivityTypes> getActivityTypes() {
+        List<ExistingActivityTypes> activityTypes = eventsService.getActivityTypes();
+        return activityTypes;
+    }
+
+    @PostMapping("/activitytype")
+    @Operation(summary = "Uue tegevusvaldkonna lisamine",
+            description = """
+                    Võimaldab olemasolevate hulka lisada uusi asjakohaseid tegevusvaldkondi.
+                    Uue tegevusvaldkonna lisamisel kontrollitakse, kas lisatav variant on juhtumisi juba olemas.
+                    """)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "403", description = "Sellise nimega tegevusvaldkond on nimekirjas juba olemas.", content = @Content(schema = @Schema(implementation = ApiError.class)))})
+    public ExistingActivityTypes addActivityType(@RequestParam String newActivityTypeName) {
+        return eventsService.addActivityType(newActivityTypeName);
     }
 }
