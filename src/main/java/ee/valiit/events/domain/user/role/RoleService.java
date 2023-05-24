@@ -1,6 +1,6 @@
 package ee.valiit.events.domain.user.role;
 
-import ee.valiit.events.business.UserRoleType;
+import ee.valiit.events.business.enums.UserRoleType;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
