@@ -13,8 +13,8 @@ CREATE TABLE activity_type (
 CREATE TABLE address (
     id serial  NOT NULL,
     description varchar(255)  NOT NULL,
-    addressXcoordinate decimal(2,6)  NULL,
-    addressYcoordinate decimal(2,6)  NULL,
+    addressXcoordinate decimal(6,4)  NULL,
+    addressYcoordinate decimal(6,4)  NULL,
     CONSTRAINT address_pk PRIMARY KEY (id)
 );
 

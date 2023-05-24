@@ -23,10 +23,10 @@ public class Address {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "addressxcoordinate", precision = 2, scale = 6)
+    @Column(name = "addressxcoordinate", precision = 6, scale = 4)
     private BigDecimal addressxcoordinate;
 
-    @Column(name = "addressycoordinate", precision = 2, scale = 6)
+    @Column(name = "addressycoordinate", precision = 6, scale = 4)
     private BigDecimal addressycoordinate;
 
 }
