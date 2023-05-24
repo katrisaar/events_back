@@ -49,4 +49,8 @@ public class EventService {
         ValidationService.validateEventListExists(events);
         return events;
     }
+
+    public Event getEventBy(Integer eventId) {
+        return eventRepository.findById(eventId).get();
+    }
 }

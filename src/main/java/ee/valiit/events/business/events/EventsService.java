@@ -7,6 +7,7 @@ import ee.valiit.events.business.eventuser.OrganisedEvent;
 import ee.valiit.events.business.eventuser.ParticipatingEvent;
 import ee.valiit.events.business.location.LocationDto;
 import ee.valiit.events.domain.event.Event;
+import ee.valiit.events.domain.event.EventInfo;
 import ee.valiit.events.domain.event.EventMapper;
 import ee.valiit.events.domain.event.EventService;
 import ee.valiit.events.domain.eventuser.EventUser;
@@ -16,7 +17,6 @@ import ee.valiit.events.domain.activitytype.ActivityType;
 import ee.valiit.events.domain.activitytype.ActivityTypeMapper;
 import ee.valiit.events.domain.activitytype.ActivityTypeService;
 import ee.valiit.events.domain.activitytype.ExistingActivityTypes;
-import ee.valiit.events.domain.location.Location;
 import ee.valiit.events.domain.location.Location;
 import ee.valiit.events.domain.location.LocationMapper;
 import ee.valiit.events.domain.location.LocationService;
@@ -110,5 +110,10 @@ public class EventsService {
     public List<EventShorty> findMostRecentEvents() {
         List<Event> events = eventService.findMostRecentEvents();
         return eventMapper.toEventShortys(events);
+    }
+
+    public EventInfo getEvent(Integer eventId) {
+        Event event = eventService.getEventBy(eventId);
+        return eventMapper.toEventInfo(event);
     }
 }

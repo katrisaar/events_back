@@ -7,6 +7,7 @@ import ee.valiit.events.business.eventuser.OrganisedEvent;
 import ee.valiit.events.business.eventuser.ParticipatingEvent;
 import ee.valiit.events.business.location.LocationDto;
 import ee.valiit.events.domain.activitytype.ExistingActivityTypes;
+import ee.valiit.events.domain.event.EventInfo;
 import ee.valiit.events.infrastructure.error.ApiError;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -130,5 +131,11 @@ public class EventsController {
             @ApiResponse(responseCode = "404", description = "Ei leitud ühtegi üritust", content = @Content(schema = @Schema(implementation = ApiError.class)))})
     public List<EventShorty> findMostRecentEvents() {
         return eventsService.findMostRecentEvents();
+    }
+
+    @GetMapping("/event")
+    @Operation(summary = "Tagastab eventId alusel vastava ürituse detailse informatsiooni")
+    public EventInfo getEvent(@RequestParam Integer eventId) {
+        return eventsService.getEvent(eventId);
     }
 }
