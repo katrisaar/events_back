@@ -1,10 +1,12 @@
 package ee.valiit.events.business.events;
 
 import ee.valiit.events.business.events.dto.EventDto;
+import ee.valiit.events.business.events.dto.EventShorty;
 import ee.valiit.events.business.eventuser.InterestedEvent;
 import ee.valiit.events.business.eventuser.OrganisedEvent;
 import ee.valiit.events.business.eventuser.ParticipatingEvent;
 import ee.valiit.events.business.location.LocationDto;
+import ee.valiit.events.domain.event.Event;
 import ee.valiit.events.domain.event.EventMapper;
 import ee.valiit.events.domain.event.EventService;
 import ee.valiit.events.domain.eventuser.EventUser;
@@ -84,10 +86,8 @@ public class EventsService {
 
     public List<ExistingActivityTypes> getActivityTypes() {
         List<ActivityType> activityTypes = activityTypeService.getActivityTypes();
-
-        List<ExistingActivityTypes> dtos = activityTypeMapper.toDtos(activityTypes);
-
-        return dtos;
+        List<ExistingActivityTypes> existingActivityTypes = activityTypeMapper.toDtos(activityTypes);
+        return existingActivityTypes;
     }
 
     public ExistingActivityTypes addActivityType(String activityTypeName) {
@@ -95,5 +95,20 @@ public class EventsService {
         ActivityType activityType = new ActivityType(activityTypeName);
         activityTypeService.addActivityType(activityType);
         return activityTypeMapper.toActivityTypeDto(activityType);
+    }
+
+    public List<EventShorty> findSoonToEndEvents() {
+        List<Event> events = eventService.findSoonToEndEvents();
+        return eventMapper.toEventShortys(events);
+    }
+
+    public List<EventShorty> findSoonToFillEvents() {
+        List<Event> events = eventService.findSoonToFillEvents();
+        return eventMapper.toEventShortys(events);
+    }
+
+    public List<EventShorty> findMostRecentEvents() {
+        List<Event> events = eventService.findMostRecentEvents();
+        return eventMapper.toEventShortys(events);
     }
 }

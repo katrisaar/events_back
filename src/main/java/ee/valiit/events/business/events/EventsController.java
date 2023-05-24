@@ -1,6 +1,7 @@
 package ee.valiit.events.business.events;
 
 import ee.valiit.events.business.events.dto.EventDto;
+import ee.valiit.events.business.events.dto.EventShorty;
 import ee.valiit.events.business.eventuser.InterestedEvent;
 import ee.valiit.events.business.eventuser.OrganisedEvent;
 import ee.valiit.events.business.eventuser.ParticipatingEvent;
@@ -53,7 +54,7 @@ public class EventsController {
 
     @GetMapping("/organisedevents")
     @Operation(summary = "Tagastab userId alusel kõikide kasutaja poolt korraldatavate tulevaste (aktiivsete) ürituste nimekirja.",
-                description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea 555")
+            description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea 555")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "404", description = "Ei leitud ühtegi üritust", content = @Content(schema = @Schema(implementation = ApiError.class)))})
@@ -70,6 +71,7 @@ public class EventsController {
     public List<ParticipatingEvent> findParticipatingEvents(@RequestParam Integer userId) {
         return eventsService.findParticipatingEvents(userId);
     }
+
     @GetMapping("/interestedevents")
     @Operation(summary = "Tagastab userId alusel kõikide tulevaste (aktiivsete) ürituste nimekirja, mille kasutaja on enda jaoks huvipakkuvaks märkinud.",
             description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea 555")
@@ -80,7 +82,7 @@ public class EventsController {
         return eventsService.findInterestedEvents(userId);
     }
 
-        @GetMapping("/activitytype")
+    @GetMapping("/activitytype")
     @Operation(summary = "Leiab ja tagastab dropdowni olemasolevate tegevusvaldkondadega.")
     public List<ExistingActivityTypes> getActivityTypes() {
         List<ExistingActivityTypes> activityTypes = eventsService.getActivityTypes();
@@ -98,5 +100,35 @@ public class EventsController {
             @ApiResponse(responseCode = "403", description = "Sellise nimega tegevusvaldkond on nimekirjas juba olemas.", content = @Content(schema = @Schema(implementation = ApiError.class)))})
     public ExistingActivityTypes addActivityType(@RequestParam String newActivityTypeName) {
         return eventsService.addActivityType(newActivityTypeName);
+    }
+
+    @GetMapping("/soontoendevents")
+    @Operation(summary = "Tagastab kolm üritust, mille registreerimise tähtaeg on kõige peatsemalt saabumas.",
+            description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea 555")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "Ei leitud ühtegi üritust", content = @Content(schema = @Schema(implementation = ApiError.class)))})
+    public List<EventShorty> findSoonToEndEvents() {
+        return eventsService.findSoonToEndEvents();
+    }
+
+    @GetMapping("/soontofillevents")
+    @Operation(summary = "Tagastab kolm üritust, kus on kõige vähem vabasid kohti.",
+            description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea 555")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "Ei leitud ühtegi üritust", content = @Content(schema = @Schema(implementation = ApiError.class)))})
+    public List<EventShorty> findSoonToFillEvents() {
+        return eventsService.findSoonToFillEvents();
+    }
+
+    @GetMapping("/mostrecentevents")
+    @Operation(summary = "Tagastab kolm kõige viimasena loodud üritust.",
+            description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea 555")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "Ei leitud ühtegi üritust", content = @Content(schema = @Schema(implementation = ApiError.class)))})
+    public List<EventShorty> findMostRecentEvents() {
+        return eventsService.findMostRecentEvents();
     }
 }

@@ -1,6 +1,10 @@
 package ee.valiit.events.domain.event;
 
 import ee.valiit.events.business.events.dto.EventDto;
+import ee.valiit.events.business.events.dto.EventShorty;
+import ee.valiit.events.domain.image.Image;
+import ee.valiit.events.domain.user.contact.Contact;
+import ee.valiit.events.domain.util.ImageUtil;
 import org.mapstruct.*;
 import ee.valiit.events.business.events.dto.EventDto;
 import org.mapstruct.Mapper;
@@ -24,5 +28,19 @@ public interface EventMapper {
 
     List<EventDto> eventDtos(List<Event> events);
 
+    @Mapping(source = "id", target = "eventId")
+    @Mapping(source = "name", target = "eventName")
+    @Mapping(source = "location.name", target = "locationName")
+    @Mapping(source = "image", target = "imageData", qualifiedByName = "imageToImageData")
+    EventShorty toEventShorty(Event event);
+    List<EventShorty> toEventShortys(List<Event> event);
+
+    @Named("imageToImageData")
+    static String contactImageToImageData(Image image) {
+        if (image == null) {
+            return "";
+        }
+        return ImageUtil.byteArrayToBase64ImageData(image.getData());
+    }
 
 }
