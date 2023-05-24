@@ -1,10 +1,10 @@
 package ee.valiit.events.business.events;
 
 import ee.valiit.events.business.events.dto.EventDto;
+import ee.valiit.events.business.eventuser.InterestedEvent;
+import ee.valiit.events.business.eventuser.OrganisedEvent;
+import ee.valiit.events.business.eventuser.ParticipatingEvent;
 import ee.valiit.events.business.location.LocationDto;
-import ee.valiit.events.domain.location.LocationMapper;
-import ee.valiit.events.domain.location.LocationService;
-import ee.valiit.events.business.eventuser.OrganizedEvent;
 import ee.valiit.events.domain.event.EventMapper;
 import ee.valiit.events.domain.event.EventService;
 import ee.valiit.events.domain.eventuser.EventUser;
@@ -15,6 +15,9 @@ import ee.valiit.events.domain.activitytype.ActivityTypeMapper;
 import ee.valiit.events.domain.activitytype.ActivityTypeService;
 import ee.valiit.events.domain.activitytype.ExistingActivityTypes;
 import ee.valiit.events.domain.location.Location;
+import ee.valiit.events.domain.location.Location;
+import ee.valiit.events.domain.location.LocationMapper;
+import ee.valiit.events.domain.location.LocationService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -64,9 +67,19 @@ public class EventsService {
         return locationMapper.toLocationDto(location);
     }
 
-    public List<OrganizedEvent> findOrganizedEvents(Integer userId) {
-        List<EventUser> eventUsers = eventUserService.findActiveOrganizedEventUsers(userId);
-        return eventUserMapper.toOrganizedEvents(eventUsers);
+    public List<OrganisedEvent> findOrganisedEvents(Integer userId) {
+        List<EventUser> eventUsers = eventUserService.findActiveOrganisedEventUsers(userId);
+        return eventUserMapper.toOrganisedEvents(eventUsers);
+    }
+
+    public List<ParticipatingEvent> findParticipatingEvents(Integer userId) {
+        List<EventUser> eventUsers = eventUserService.findActiveParticipatingEventUsers(userId);
+        return eventUserMapper.toParticipatingEvents(eventUsers);
+    }
+
+    public List<InterestedEvent> findInterestedEvents(Integer userId) {
+        List<EventUser> eventUsers = eventUserService.findActiveInterestedEventUsers(userId);
+        return eventUserMapper.toInterestedEvents(eventUsers);
     }
 
     public List<ExistingActivityTypes> getActivityTypes() {
