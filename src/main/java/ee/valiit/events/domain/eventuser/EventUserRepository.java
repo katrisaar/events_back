@@ -13,15 +13,24 @@ public interface EventUserRepository extends JpaRepository<EventUser, Integer> {
             select e from EventUser e
             where e.user.id = ?1 and e.connectionType.name = ?2 and e.status = ?3
             order by e.event.time.startDate""")
-    List<EventUser> findAllActiveParticipatingEventUsersBy(Integer id, String name, String status);
+    List<EventUser> findAllActiveParticipatingEventUsersBy(Integer userId, String ConnectionTypeName, String status);
 
     @Query("""
             select e from EventUser e
             where e.user.id = ?1 and e.connectionType.name = ?2 and e.status = ?3
             order by e.event.time.startDate""")
-    List<EventUser> findAllActiveInterestedEventUsersBy(Integer id, String name, String status);
+    List<EventUser> findAllActiveInterestedEventUsersBy(Integer userId, String ConnectionTypeName, String status);
 
+    @Query("""
+            select e from EventUser e
+            where e.event.id = ?1 and e.connectionType.name = ?2 and e.status = ?3
+            order by e.user.contact.lastName, e.user.contact.firstName""")
+    List<EventUser> getActiveEventOrganisersBy(Integer eventId, String ConnectionTypeName, String status);
 
-
+    @Query("""
+            select e from EventUser e
+            where e.event.id = ?1 and e.connectionType.name = ?2 and e.status = ?3
+            order by e.user.contact.lastName, e.user.contact.firstName""")
+    List<EventUser> findActiveEventParticipantsBy(Integer eventId, String ConnectionTypeName, String status);
 
 }

@@ -31,4 +31,14 @@ public class EventUserService {
         ValidationService.validateEventUserListExists(eventUsers);
         return eventUsers;
     }
+
+    public List<EventUser> getActiveEventOrganisers(Integer eventId) {
+        return eventUserRepository.getActiveEventOrganisersBy(eventId, EventUserConnectionType.ORGANIZING.getTypeName(), Status.ACTIVE.getStatus());
+    }
+
+    public List<EventUser> findActiveEventParticipants(Integer eventId) {
+        List<EventUser> eventUsers = eventUserRepository.findActiveEventParticipantsBy(eventId, EventUserConnectionType.PARTICIPATING.getTypeName(), Status.ACTIVE.getStatus());
+        ValidationService.validateEventHasParticipants(eventUsers);
+        return eventUsers;
+    }
 }

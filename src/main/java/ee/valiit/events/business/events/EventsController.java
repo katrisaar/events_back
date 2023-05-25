@@ -2,6 +2,7 @@ package ee.valiit.events.business.events;
 
 import ee.valiit.events.business.events.dto.EventDto;
 import ee.valiit.events.business.events.dto.EventShorty;
+import ee.valiit.events.business.eventuser.EventUserProfileName;
 import ee.valiit.events.business.eventuser.InterestedEvent;
 import ee.valiit.events.business.eventuser.OrganisedEvent;
 import ee.valiit.events.business.eventuser.ParticipatingEvent;
@@ -137,5 +138,21 @@ public class EventsController {
     @Operation(summary = "Tagastab eventId alusel vastava ürituse detailse informatsiooni")
     public EventInfo getEvent(@RequestParam Integer eventId) {
         return eventsService.getEvent(eventId);
+    }
+
+    @GetMapping("/organisers")
+    @Operation(summary = "Toob eventId alusel ära kõik selle ürituse korraldajad")
+    public List<EventUserProfileName> getOrganisers(@RequestParam Integer eventId) {
+        return eventsService.getOrganisers(eventId);
+    }
+
+    @GetMapping("/participants")
+    @Operation(summary = "Toob eventId alusel ära kõik sellel üritusel osalejad.",
+            description = "Kui ühtegi osalejat ei leita, siis tagastab vea 666")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "Ei leitud ühtegi osalejat", content = @Content(schema = @Schema(implementation = ApiError.class)))})
+    public List<EventUserProfileName> getParticipants(@RequestParam Integer eventId) {
+        return eventsService.getParticipants(eventId);
     }
 }

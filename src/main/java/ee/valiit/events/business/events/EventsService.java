@@ -2,6 +2,7 @@ package ee.valiit.events.business.events;
 
 import ee.valiit.events.business.events.dto.EventDto;
 import ee.valiit.events.business.events.dto.EventShorty;
+import ee.valiit.events.business.eventuser.EventUserProfileName;
 import ee.valiit.events.business.eventuser.InterestedEvent;
 import ee.valiit.events.business.eventuser.OrganisedEvent;
 import ee.valiit.events.business.eventuser.ParticipatingEvent;
@@ -115,5 +116,15 @@ public class EventsService {
     public EventInfo getEvent(Integer eventId) {
         Event event = eventService.getEventBy(eventId);
         return eventMapper.toEventInfo(event);
+    }
+
+    public List<EventUserProfileName> getOrganisers(Integer eventId) {
+        List<EventUser> eventUsers = eventUserService.getActiveEventOrganisers(eventId);
+        return eventUserMapper.toEventUserProfileNames(eventUsers);
+    }
+
+    public List<EventUserProfileName> getParticipants(Integer eventId) {
+        List<EventUser> eventUsers = eventUserService.findActiveEventParticipants(eventId);
+        return eventUserMapper.toEventUserProfileNames(eventUsers);
     }
 }
