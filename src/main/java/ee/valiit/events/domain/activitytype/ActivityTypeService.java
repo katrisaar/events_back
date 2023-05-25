@@ -29,4 +29,8 @@ public class ActivityTypeService {
     public void addActivityType(ActivityType activityType) {
         activityTypeRepository.save(activityType);
     }
+
+    public ActivityType getActivityTypeBy(String activityTypeName) {
+        return activityTypeRepository.findActivityTypeBy(activityTypeName);
+    }
 }

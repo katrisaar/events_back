@@ -17,4 +17,7 @@ public class LocationService {
 
     public void addLocation(Location location) { locationRepository.save(location); }
 
+    public Location getLocationBy(String locationName) {
+        return locationRepository.findLocationBy(locationName);
+    }
 }

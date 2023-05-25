@@ -6,6 +6,9 @@ import ee.valiit.events.business.eventuser.InterestedEvent;
 import ee.valiit.events.business.eventuser.OrganisedEvent;
 import ee.valiit.events.business.eventuser.ParticipatingEvent;
 import ee.valiit.events.business.location.LocationDto;
+import ee.valiit.events.domain.address.Address;
+import ee.valiit.events.domain.address.AddressMapper;
+import ee.valiit.events.domain.address.AddressService;
 import ee.valiit.events.domain.event.Event;
 import ee.valiit.events.domain.event.EventInfo;
 import ee.valiit.events.domain.event.EventMapper;
@@ -20,6 +23,11 @@ import ee.valiit.events.domain.activitytype.ExistingActivityTypes;
 import ee.valiit.events.domain.location.Location;
 import ee.valiit.events.domain.location.LocationMapper;
 import ee.valiit.events.domain.location.LocationService;
+import ee.valiit.events.domain.spot.Spot;
+import ee.valiit.events.domain.spot.SpotMapper;
+import ee.valiit.events.domain.time.Time;
+import ee.valiit.events.domain.time.TimeMapper;
+import ee.valiit.events.domain.time.TimeService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +59,19 @@ public class EventsService {
 
     @Resource
     ActivityTypeMapper activityTypeMapper;
+
+    @Resource
+    TimeMapper timeMapper;
+    @Resource
+    TimeService timeService;
+    @Resource
+    AddressMapper addressMapper;
+    @Resource
+    AddressService addressService;
+    @Resource
+    SpotMapper spotMapper;
+    @Resource
+    SpotService spotService;
 
     public List<EventDto> getActiveEvents() {
 
@@ -115,5 +136,24 @@ public class EventsService {
     public EventInfo getEvent(Integer eventId) {
         Event event = eventService.getEventBy(eventId);
         return eventMapper.toEventInfo(event);
+    }
+
+    public void addNewEvent(EventInfo eventInfo, Integer userId) {
+        ActivityType activityType = activityTypeService.getActivityTypeBy(eventInfo.getActivityTypeName());
+        Location location = locationService.getLocationBy(eventInfo.getLocationName());
+        Time time = timeMapper.toTime(eventInfo);
+        timeService.addTime(time);
+        Address address = addressMapper.toAddress(eventInfo);
+        addressService.addAddress(address);
+        Spot spot = spotMapper.toSpot(eventInfo);
+        spotService.addSpot(spot);
+        Event event = eventMapper.toEvent(eventInfo);
+        event.setActivityType(activityType);
+        event.setLocation(location);
+        event.setTime(time);
+        event.setAddress(address);
+        event.setSpots(spot);
+        eventService.addEvent(event);
+
     }
 }

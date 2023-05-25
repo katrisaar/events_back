@@ -1,5 +1,6 @@
 package ee.valiit.events.domain.event;
 
+import ee.valiit.events.business.enums.Status;
 import ee.valiit.events.business.events.dto.EventDto;
 import ee.valiit.events.business.events.dto.EventShorty;
 import ee.valiit.events.domain.image.Image;
@@ -12,7 +13,7 @@ import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING, imports = {Status.class})
 public interface EventMapper {
     @Mapping(source = "time.startDate", target = "startDate")
     @Mapping(source = "id", target = "eventId")
@@ -51,6 +52,12 @@ public interface EventMapper {
    @Mapping(source = "spots.taken", target = "spotsTaken")
    @Mapping(source = "spots.available", target = "spotsAvailable")
     EventInfo toEventInfo(Event event);
+
+    @Mapping(expression = "java(Status.ACTIVE.getStatus())", target = "status")
+    @Mapping(source = "eventName", target = "name")
+    @Mapping(source = "description", target = "description")
+    @Mapping(source = "fee", target = "fee")
+   Event toEvent(EventInfo eventInfo);
 
 
     @Named("imageToImageData")

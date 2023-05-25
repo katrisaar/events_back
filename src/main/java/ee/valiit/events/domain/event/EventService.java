@@ -53,4 +53,8 @@ public class EventService {
     public Event getEventBy(Integer eventId) {
         return eventRepository.findById(eventId).get();
     }
+
+    public void addEvent(Event event) {
+        eventRepository.save(event);
+    }
 }

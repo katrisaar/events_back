@@ -15,10 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -137,5 +134,10 @@ public class EventsController {
     @Operation(summary = "Tagastab eventId alusel vastava ürituse detailse informatsiooni")
     public EventInfo getEvent(@RequestParam Integer eventId) {
         return eventsService.getEvent(eventId);
+    }
+    @PostMapping("/event")
+    @Operation(summary = "Uue ürituse lisamine.")
+    public void addNewEvent(@RequestBody EventInfo eventInfo, @RequestParam Integer userId) {
+        eventsService.addNewEvent(eventInfo, userId);
     }
 }
