@@ -1,9 +1,13 @@
 package ee.valiit.events.business.events;
 
 import ee.valiit.events.business.events.dto.EventDto;
+import ee.valiit.events.business.events.dto.EventShorty;
+import ee.valiit.events.business.eventuser.InterestedEvent;
+import ee.valiit.events.business.eventuser.OrganisedEvent;
+import ee.valiit.events.business.eventuser.ParticipatingEvent;
 import ee.valiit.events.business.location.LocationDto;
-import ee.valiit.events.business.eventuser.OrganizedEvent;
 import ee.valiit.events.domain.activitytype.ExistingActivityTypes;
+import ee.valiit.events.domain.event.EventInfo;
 import ee.valiit.events.infrastructure.error.ApiError;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -12,9 +16,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -24,7 +28,7 @@ public class EventsController {
     @Resource
     EventsService eventsService;
 
-    @GetMapping("/events")
+    @GetMapping("/events/all")
     @Operation(summary = "Tagastab aktiivsete ürituste nimekirja.")
     public List<EventDto> getActiveEvents() {
         return eventsService.getActiveEvents();
@@ -49,17 +53,37 @@ public class EventsController {
         return eventsService.addLocation(newLocationName);
     }
 
-    @GetMapping("/organizedevents")
-    @Operation(summary = "Tagastab kõikide kasutaja poolt korraldatavate tulevaste (aktiivsete) ürituste nimekirja.",
-                description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea")
+    @GetMapping("/events/organised")
+    @Operation(summary = "Tagastab userId alusel kõikide kasutaja poolt korraldatavate tulevaste (aktiivsete) ürituste nimekirja.",
+            description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea 555")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "404", description = "Ei leitud ühtegi üritust", content = @Content(schema = @Schema(implementation = ApiError.class)))})
-    public List<OrganizedEvent> findOrganizedEvents(@RequestParam Integer userId) {
-        return eventsService.findOrganizedEvents(userId);
+    public List<OrganisedEvent> findOrganisedEvents(@RequestParam Integer userId) {
+        return eventsService.findOrganisedEvents(userId);
     }
 
-        @GetMapping("/activitytype")
+    @GetMapping("/events/participating")
+    @Operation(summary = "Tagastab userId alusel kõikide tulevaste (aktiivsete) ürituste nimekirja, kuhu kasutaja on osalejana registreerunud.",
+            description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea 555")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "Ei leitud ühtegi üritust", content = @Content(schema = @Schema(implementation = ApiError.class)))})
+    public List<ParticipatingEvent> findParticipatingEvents(@RequestParam Integer userId) {
+        return eventsService.findParticipatingEvents(userId);
+    }
+
+    @GetMapping("/events/interested")
+    @Operation(summary = "Tagastab userId alusel kõikide tulevaste (aktiivsete) ürituste nimekirja, mille kasutaja on enda jaoks huvipakkuvaks märkinud.",
+            description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea 555")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "Ei leitud ühtegi üritust", content = @Content(schema = @Schema(implementation = ApiError.class)))})
+    public List<InterestedEvent> findInterestedEvents(@RequestParam Integer userId) {
+        return eventsService.findInterestedEvents(userId);
+    }
+
+    @GetMapping("/activitytype")
     @Operation(summary = "Leiab ja tagastab dropdowni olemasolevate tegevusvaldkondadega.")
     public List<ExistingActivityTypes> getActivityTypes() {
         List<ExistingActivityTypes> activityTypes = eventsService.getActivityTypes();
@@ -77,5 +101,41 @@ public class EventsController {
             @ApiResponse(responseCode = "403", description = "Sellise nimega tegevusvaldkond on nimekirjas juba olemas.", content = @Content(schema = @Schema(implementation = ApiError.class)))})
     public ExistingActivityTypes addActivityType(@RequestParam String newActivityTypeName) {
         return eventsService.addActivityType(newActivityTypeName);
+    }
+
+    @GetMapping("/events/soontoend")
+    @Operation(summary = "Tagastab kolm üritust, mille registreerimise tähtaeg on kõige peatsemalt saabumas.",
+            description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea 555")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "Ei leitud ühtegi üritust", content = @Content(schema = @Schema(implementation = ApiError.class)))})
+    public List<EventShorty> findSoonToEndEvents() {
+        return eventsService.findSoonToEndEvents();
+    }
+
+    @GetMapping("/events/soontofill")
+    @Operation(summary = "Tagastab kolm üritust, kus on kõige vähem vabasid kohti.",
+            description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea 555")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "Ei leitud ühtegi üritust", content = @Content(schema = @Schema(implementation = ApiError.class)))})
+    public List<EventShorty> findSoonToFillEvents() {
+        return eventsService.findSoonToFillEvents();
+    }
+
+    @GetMapping("/events/recent")
+    @Operation(summary = "Tagastab kolm kõige viimasena loodud üritust.",
+            description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea 555")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "Ei leitud ühtegi üritust", content = @Content(schema = @Schema(implementation = ApiError.class)))})
+    public List<EventShorty> findMostRecentEvents() {
+        return eventsService.findMostRecentEvents();
+    }
+
+    @GetMapping("/event")
+    @Operation(summary = "Tagastab eventId alusel vastava ürituse detailse informatsiooni")
+    public EventInfo getEvent(@RequestParam Integer eventId) {
+        return eventsService.getEvent(eventId);
     }
 }

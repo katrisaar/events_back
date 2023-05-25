@@ -26,6 +26,5 @@ public class ActivityType {
     }
 
     public ActivityType() {
-
     }
 }
