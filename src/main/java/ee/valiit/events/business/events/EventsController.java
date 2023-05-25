@@ -34,7 +34,7 @@ public class EventsController {
         return eventsService.getActiveEvents();
     }
 
-    @GetMapping("/createevent")
+    @GetMapping("/location")
     @Operation(summary = "Tagastab frondi rippmenüü jaoks kõik olemasolevad piirkonnad.")
     public List<LocationDto> getLocations() {
         return eventsService.getLocations();

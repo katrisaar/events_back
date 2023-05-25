@@ -1,14 +1,21 @@
 package ee.valiit.events.domain.event;
 
 import ee.valiit.events.business.events.dto.EventDto;
+<<<<<<< HEAD
 import ee.valiit.events.business.events.dto.EventShorty;
 import ee.valiit.events.domain.activitytype.ActivityType;
 import ee.valiit.events.domain.address.Address;
+=======
+import ee.valiit.events.domain.activitytype.ActivityType;
+>>>>>>> ILONA
 import ee.valiit.events.domain.location.Location;
 import ee.valiit.events.domain.spot.Spot;
 import ee.valiit.events.domain.time.Time;
 import java.time.LocalDate;
+<<<<<<< HEAD
 import java.time.LocalTime;
+=======
+>>>>>>> ILONA
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -16,7 +23,11 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
+<<<<<<< HEAD
     date = "2023-05-25T09:37:04+0300",
+=======
+    date = "2023-05-24T13:50:26+0300",
+>>>>>>> ILONA
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Eclipse Adoptium)"
 )
 @Component
@@ -56,6 +67,7 @@ public class EventMapperImpl implements EventMapper {
         return list;
     }
 
+<<<<<<< HEAD
     @Override
     public EventShorty toEventShorty(Event event) {
         if ( event == null ) {
@@ -114,6 +126,8 @@ public class EventMapperImpl implements EventMapper {
         return eventInfo;
     }
 
+=======
+>>>>>>> ILONA
     private LocalDate eventTimeStartDate(Event event) {
         if ( event == null ) {
             return null;
@@ -188,6 +202,7 @@ public class EventMapperImpl implements EventMapper {
         }
         return available;
     }
+<<<<<<< HEAD
 
     private LocalTime eventTimeStartTime(Event event) {
         if ( event == null ) {
@@ -293,4 +308,6 @@ public class EventMapperImpl implements EventMapper {
         }
         return taken;
     }
+=======
+>>>>>>> ILONA
 }

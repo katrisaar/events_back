@@ -1,10 +1,15 @@
 package ee.valiit.events.domain.eventuser;
 
+<<<<<<< HEAD
 import ee.valiit.events.business.eventuser.InterestedEvent;
 import ee.valiit.events.business.eventuser.OrganisedEvent;
 import ee.valiit.events.business.eventuser.ParticipatingEvent;
 import ee.valiit.events.domain.event.Event;
 import ee.valiit.events.domain.location.Location;
+=======
+import ee.valiit.events.business.eventuser.OrganizedEvent;
+import ee.valiit.events.domain.event.Event;
+>>>>>>> ILONA
 import ee.valiit.events.domain.spot.Spot;
 import ee.valiit.events.domain.time.Time;
 import java.time.LocalDate;
@@ -15,18 +20,27 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
+<<<<<<< HEAD
     date = "2023-05-25T09:37:04+0300",
+=======
+    date = "2023-05-24T13:50:26+0300",
+>>>>>>> ILONA
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Eclipse Adoptium)"
 )
 @Component
 public class EventUserMapperImpl implements EventUserMapper {
 
     @Override
+<<<<<<< HEAD
     public OrganisedEvent toOrganisedEvent(EventUser eventUser) {
+=======
+    public OrganizedEvent toOrganizedEvent(EventUser eventUser) {
+>>>>>>> ILONA
         if ( eventUser == null ) {
             return null;
         }
 
+<<<<<<< HEAD
         OrganisedEvent organisedEvent = new OrganisedEvent();
 
         organisedEvent.setEventId( eventUserEventId( eventUser ) );
@@ -41,10 +55,27 @@ public class EventUserMapperImpl implements EventUserMapper {
 
     @Override
     public List<OrganisedEvent> toOrganisedEvents(List<EventUser> eventUsers) {
+=======
+        OrganizedEvent organizedEvent = new OrganizedEvent();
+
+        organizedEvent.setEventId( eventUserEventId( eventUser ) );
+        organizedEvent.setEventName( eventUserEventName( eventUser ) );
+        organizedEvent.setRegistrationDate( eventUserEventTimeRegistrationDate( eventUser ) );
+        organizedEvent.setStartDate( eventUserEventTimeStartDate( eventUser ) );
+        organizedEvent.setSpotsAvailable( eventUserEventSpotsAvailable( eventUser ) );
+        organizedEvent.setSpotsTaken( eventUserEventSpotsTaken( eventUser ) );
+
+        return organizedEvent;
+    }
+
+    @Override
+    public List<OrganizedEvent> toOrganizedEvents(List<EventUser> eventUsers) {
+>>>>>>> ILONA
         if ( eventUsers == null ) {
             return null;
         }
 
+<<<<<<< HEAD
         List<OrganisedEvent> list = new ArrayList<OrganisedEvent>( eventUsers.size() );
         for ( EventUser eventUser : eventUsers ) {
             list.add( toOrganisedEvent( eventUser ) );
@@ -111,6 +142,11 @@ public class EventUserMapperImpl implements EventUserMapper {
         List<InterestedEvent> list = new ArrayList<InterestedEvent>( eventUsers.size() );
         for ( EventUser eventUser : eventUsers ) {
             list.add( toInterestedEvent( eventUser ) );
+=======
+        List<OrganizedEvent> list = new ArrayList<OrganizedEvent>( eventUsers.size() );
+        for ( EventUser eventUser : eventUsers ) {
+            list.add( toOrganizedEvent( eventUser ) );
+>>>>>>> ILONA
         }
 
         return list;
@@ -221,6 +257,7 @@ public class EventUserMapperImpl implements EventUserMapper {
         }
         return taken;
     }
+<<<<<<< HEAD
 
     private String eventUserEventLocationName(EventUser eventUser) {
         if ( eventUser == null ) {
@@ -255,4 +292,6 @@ public class EventUserMapperImpl implements EventUserMapper {
         }
         return fee;
     }
+=======
+>>>>>>> ILONA
 }
