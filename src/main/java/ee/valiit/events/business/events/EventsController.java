@@ -28,7 +28,7 @@ public class EventsController {
     @Resource
     EventsService eventsService;
 
-    @GetMapping("/events")
+    @GetMapping("/events/all")
     @Operation(summary = "Tagastab aktiivsete ürituste nimekirja.")
     public List<EventDto> getActiveEvents() {
         return eventsService.getActiveEvents();
@@ -53,7 +53,7 @@ public class EventsController {
         return eventsService.addLocation(newLocationName);
     }
 
-    @GetMapping("/organisedevents")
+    @GetMapping("/events/organised")
     @Operation(summary = "Tagastab userId alusel kõikide kasutaja poolt korraldatavate tulevaste (aktiivsete) ürituste nimekirja.",
             description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea 555")
     @ApiResponses(value = {
@@ -63,7 +63,7 @@ public class EventsController {
         return eventsService.findOrganisedEvents(userId);
     }
 
-    @GetMapping("/participatingevents")
+    @GetMapping("/events/participating")
     @Operation(summary = "Tagastab userId alusel kõikide tulevaste (aktiivsete) ürituste nimekirja, kuhu kasutaja on osalejana registreerunud.",
             description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea 555")
     @ApiResponses(value = {
@@ -73,7 +73,7 @@ public class EventsController {
         return eventsService.findParticipatingEvents(userId);
     }
 
-    @GetMapping("/interestedevents")
+    @GetMapping("/events/interested")
     @Operation(summary = "Tagastab userId alusel kõikide tulevaste (aktiivsete) ürituste nimekirja, mille kasutaja on enda jaoks huvipakkuvaks märkinud.",
             description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea 555")
     @ApiResponses(value = {
@@ -103,7 +103,7 @@ public class EventsController {
         return eventsService.addActivityType(newActivityTypeName);
     }
 
-    @GetMapping("/soontoendevents")
+    @GetMapping("/events/soontoend")
     @Operation(summary = "Tagastab kolm üritust, mille registreerimise tähtaeg on kõige peatsemalt saabumas.",
             description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea 555")
     @ApiResponses(value = {
@@ -113,7 +113,7 @@ public class EventsController {
         return eventsService.findSoonToEndEvents();
     }
 
-    @GetMapping("/soontofillevents")
+    @GetMapping("/events/soontofill")
     @Operation(summary = "Tagastab kolm üritust, kus on kõige vähem vabasid kohti.",
             description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea 555")
     @ApiResponses(value = {
@@ -123,7 +123,7 @@ public class EventsController {
         return eventsService.findSoonToFillEvents();
     }
 
-    @GetMapping("/mostrecentevents")
+    @GetMapping("/events/recent")
     @Operation(summary = "Tagastab kolm kõige viimasena loodud üritust.",
             description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea 555")
     @ApiResponses(value = {
