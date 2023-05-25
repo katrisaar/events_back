@@ -1,5 +1,6 @@
 package ee.valiit.events.validation;
 
+import ee.valiit.events.domain.event.Event;
 import ee.valiit.events.domain.eventuser.EventUser;
 import ee.valiit.events.domain.user.User;
 import ee.valiit.events.infrastructure.exception.BusinessException;
@@ -34,6 +35,11 @@ public class ValidationService {
         }
     }
 
+    public static void validateEventListExists(List<Event> events) {
+        if (events.isEmpty()) {
+            throw new DataNotFoundException(Error.EVENT_LIST_IS_EMPTY.getMessage(), Error.EVENT_LIST_IS_EMPTY.getErrorCode());
+        }
+    }
     public static void validateActivityTypeAlreadyExists(boolean activityTypeExists) {
         if (activityTypeExists) {
             throw new BusinessException(Error.ACTIVITY_TYPE_ALREADY_EXISTS.getMessage(), Error.ACTIVITY_TYPE_ALREADY_EXISTS.getErrorCode());
