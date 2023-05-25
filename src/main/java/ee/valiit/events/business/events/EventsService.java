@@ -1,12 +1,12 @@
 package ee.valiit.events.business.events;
 
+import ee.valiit.events.business.enums.EventUserConnectionType;
 import ee.valiit.events.business.events.dto.EventDto;
 import ee.valiit.events.business.events.dto.EventShorty;
-import ee.valiit.events.business.eventuser.EventUserProfileName;
-import ee.valiit.events.business.eventuser.InterestedEvent;
-import ee.valiit.events.business.eventuser.OrganisedEvent;
-import ee.valiit.events.business.eventuser.ParticipatingEvent;
+import ee.valiit.events.business.eventuser.*;
 import ee.valiit.events.business.location.LocationDto;
+import ee.valiit.events.domain.connectiontype.ConnectionType;
+import ee.valiit.events.domain.connectiontype.ConnectionTypeService;
 import ee.valiit.events.domain.event.Event;
 import ee.valiit.events.domain.event.EventInfo;
 import ee.valiit.events.domain.event.EventMapper;
@@ -21,10 +21,16 @@ import ee.valiit.events.domain.activitytype.ExistingActivityTypes;
 import ee.valiit.events.domain.location.Location;
 import ee.valiit.events.domain.location.LocationMapper;
 import ee.valiit.events.domain.location.LocationService;
+import ee.valiit.events.domain.spot.Spot;
+import ee.valiit.events.domain.spot.SpotService;
+import ee.valiit.events.domain.user.User;
+import ee.valiit.events.domain.user.UserService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EventsService {
@@ -40,6 +46,14 @@ public class EventsService {
 
     @Resource
     EventUserService eventUserService;
+    @Resource
+    UserService userService;
+
+    @Resource
+    ConnectionTypeService connectionTypeService;
+
+    @Resource
+    SpotService spotService;
 
     @Resource
     EventMapper eventMapper;
@@ -126,5 +140,29 @@ public class EventsService {
     public List<EventUserProfileName> getParticipants(Integer eventId) {
         List<EventUser> eventUsers = eventUserService.findActiveEventParticipants(eventId);
         return eventUserMapper.toEventUserProfileNames(eventUsers);
+    }
+
+    public ConnectionTypeName getUserConnectionToEvent(Integer eventId, Integer userId) {
+        Optional<EventUser> connection = eventUserService.findActiveUserConnectionToEvent(eventId, userId);
+        ConnectionTypeName connectionTypeName = new ConnectionTypeName();
+        if (connection.isEmpty()) {
+            connectionTypeName.setName(EventUserConnectionType.NONE.getTypeName());
+        } else {
+            connectionTypeName.setName(connection.get().getConnectionType().getName());
+        }
+        return connectionTypeName;
+    }
+
+    @Transactional
+    public void addParticipant(Integer eventId, Integer userId) {
+        eventUserService.deleteInterestedConnectionIfExists(eventId, userId);
+        Event event = eventService.getEventBy(eventId);
+        User user = userService.getUserBy(userId);
+        ConnectionType connectionType = connectionTypeService.getConnectionTypeBy(EventUserConnectionType.PARTICIPATING.getTypeName());
+        eventUserService.addParticipatingConnection(event, user, connectionType);
+        Spot spot = event.getSpots();
+        spot.setTaken(spot.getTaken()+1);
+        spot.setAvailable(spot.getAvailable()-1);
+        spotService.update(spot);
     }
 }

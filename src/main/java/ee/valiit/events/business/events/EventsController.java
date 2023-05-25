@@ -2,10 +2,7 @@ package ee.valiit.events.business.events;
 
 import ee.valiit.events.business.events.dto.EventDto;
 import ee.valiit.events.business.events.dto.EventShorty;
-import ee.valiit.events.business.eventuser.EventUserProfileName;
-import ee.valiit.events.business.eventuser.InterestedEvent;
-import ee.valiit.events.business.eventuser.OrganisedEvent;
-import ee.valiit.events.business.eventuser.ParticipatingEvent;
+import ee.valiit.events.business.eventuser.*;
 import ee.valiit.events.business.location.LocationDto;
 import ee.valiit.events.domain.activitytype.ExistingActivityTypes;
 import ee.valiit.events.domain.event.EventInfo;
@@ -140,13 +137,13 @@ public class EventsController {
         return eventsService.getEvent(eventId);
     }
 
-    @GetMapping("/organisers")
+    @GetMapping("/connection/organisers")
     @Operation(summary = "Toob eventId alusel ära kõik selle ürituse korraldajad")
     public List<EventUserProfileName> getOrganisers(@RequestParam Integer eventId) {
         return eventsService.getOrganisers(eventId);
     }
 
-    @GetMapping("/participants")
+    @GetMapping("/connection/participants")
     @Operation(summary = "Toob eventId alusel ära kõik sellel üritusel osalejad.",
             description = "Kui ühtegi osalejat ei leita, siis tagastab vea 666")
     @ApiResponses(value = {
@@ -154,5 +151,17 @@ public class EventsController {
             @ApiResponse(responseCode = "404", description = "Ei leitud ühtegi osalejat", content = @Content(schema = @Schema(implementation = ApiError.class)))})
     public List<EventUserProfileName> getParticipants(@RequestParam Integer eventId) {
         return eventsService.getParticipants(eventId);
+    }
+
+    @GetMapping("/connection/type")
+    @Operation(summary = "Tagastab userId ja eventId alusel kasutaja seoseliigi antud sündmusega. Kui seost ei ole, siis tagastab liigiks 'none'.")
+    public ConnectionTypeName getUserConnectionToEvent(@RequestParam Integer eventId, @RequestParam Integer userId) {
+        return eventsService.getUserConnectionToEvent(eventId, userId);
+    }
+
+    @PostMapping("/connection/participant")
+    @Operation(summary = "Loob uue osaleja tüüpi seose kasutaja ja ürituse vahel etteantud userId ja eventId alusel.")
+    public void addParticipant(@RequestParam Integer eventId, @RequestParam Integer userId) {
+        eventsService.addParticipant(eventId, userId);
     }
 }
