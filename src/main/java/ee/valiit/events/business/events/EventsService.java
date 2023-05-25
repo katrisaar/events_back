@@ -30,6 +30,7 @@ import ee.valiit.events.domain.time.TimeMapper;
 import ee.valiit.events.domain.time.TimeService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -138,6 +139,7 @@ public class EventsService {
         return eventMapper.toEventInfo(event);
     }
 
+    @Transactional
     public void addNewEvent(EventInfo eventInfo, Integer userId) {
         ActivityType activityType = activityTypeService.getActivityTypeBy(eventInfo.getActivityTypeName());
         Location location = locationService.getLocationBy(eventInfo.getLocationName());
