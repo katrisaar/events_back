@@ -85,8 +85,6 @@ public class EventsService {
     AddressService addressService;
     @Resource
     SpotMapper spotMapper;
-    @Resource
-    SpotService spotService;
 
     public List<EventDto> getActiveEvents() {
 
