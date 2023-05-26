@@ -3,6 +3,8 @@ package ee.valiit.events.domain.activitytype;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
+
+import ee.valiit.events.business.events.dto.ExistingActivityTypes;
 import org.springframework.stereotype.Component;
 
 @Generated(

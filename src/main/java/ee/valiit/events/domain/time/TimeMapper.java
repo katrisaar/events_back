@@ -1,6 +1,6 @@
 package ee.valiit.events.domain.time;
 
-import ee.valiit.events.domain.event.EventInfo;
+import ee.valiit.events.business.events.dto.EventInfo;
 import ee.valiit.events.domain.util.TimeUtil;
 import org.mapstruct.*;
 

@@ -2,6 +2,7 @@ package ee.valiit.events.domain.event;
 
 import ee.valiit.events.business.enums.Status;
 import ee.valiit.events.business.events.dto.EventDto;
+import ee.valiit.events.business.events.dto.EventInfo;
 import ee.valiit.events.business.events.dto.EventShorty;
 import ee.valiit.events.domain.image.Image;
 import ee.valiit.events.domain.util.ImageUtil;

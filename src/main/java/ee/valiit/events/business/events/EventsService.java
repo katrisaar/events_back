@@ -10,7 +10,7 @@ import ee.valiit.events.domain.address.Address;
 import ee.valiit.events.domain.address.AddressMapper;
 import ee.valiit.events.domain.address.AddressService;
 import ee.valiit.events.domain.event.Event;
-import ee.valiit.events.domain.event.EventInfo;
+import ee.valiit.events.business.events.dto.EventInfo;
 import ee.valiit.events.domain.event.EventMapper;
 import ee.valiit.events.domain.event.EventService;
 import ee.valiit.events.domain.eventuser.EventUser;
@@ -19,7 +19,7 @@ import ee.valiit.events.domain.eventuser.EventUserService;
 import ee.valiit.events.domain.activitytype.ActivityType;
 import ee.valiit.events.domain.activitytype.ActivityTypeMapper;
 import ee.valiit.events.domain.activitytype.ActivityTypeService;
-import ee.valiit.events.domain.activitytype.ExistingActivityTypes;
+import ee.valiit.events.business.events.dto.ExistingActivityTypes;
 import ee.valiit.events.domain.location.Location;
 import ee.valiit.events.domain.location.LocationMapper;
 import ee.valiit.events.domain.location.LocationService;
@@ -32,7 +32,6 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalTime;
 import java.util.List;
 
 @Service

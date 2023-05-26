@@ -1,6 +1,6 @@
 package ee.valiit.events.domain.spot;
 
-import ee.valiit.events.domain.event.EventInfo;
+import ee.valiit.events.business.events.dto.EventInfo;
 import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)

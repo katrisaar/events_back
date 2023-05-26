@@ -1,5 +1,6 @@
-package ee.valiit.events.domain.event;
+package ee.valiit.events.business.events.dto;
 
+import ee.valiit.events.domain.event.Event;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
