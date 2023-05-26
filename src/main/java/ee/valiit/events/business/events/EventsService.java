@@ -21,6 +21,8 @@ import ee.valiit.events.domain.activitytype.ActivityType;
 import ee.valiit.events.domain.activitytype.ActivityTypeMapper;
 import ee.valiit.events.domain.activitytype.ActivityTypeService;
 import ee.valiit.events.business.events.dto.ExistingActivityTypes;
+import ee.valiit.events.domain.image.Image;
+import ee.valiit.events.domain.image.ImageService;
 import ee.valiit.events.domain.location.Location;
 import ee.valiit.events.domain.location.LocationMapper;
 import ee.valiit.events.domain.location.LocationService;
@@ -28,11 +30,11 @@ import ee.valiit.events.domain.spot.Spot;
 import ee.valiit.events.domain.spot.SpotService;
 import ee.valiit.events.domain.user.User;
 import ee.valiit.events.domain.user.UserService;
-import ee.valiit.events.domain.spot.Spot;
 import ee.valiit.events.domain.spot.SpotMapper;
 import ee.valiit.events.domain.time.Time;
 import ee.valiit.events.domain.time.TimeMapper;
 import ee.valiit.events.domain.time.TimeService;
+import ee.valiit.events.domain.util.ImageUtil;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,6 +87,8 @@ public class EventsService {
     AddressService addressService;
     @Resource
     SpotMapper spotMapper;
+    @Resource
+    ImageService imageService;
 
     public List<EventDto> getActiveEvents() {
 
@@ -178,7 +182,7 @@ public class EventsService {
         Event event = eventService.getEventBy(eventId);
         User user = userService.getUserBy(userId);
         ConnectionType connectionType = connectionTypeService.getConnectionTypeBy(EventUserConnectionType.PARTICIPATING.getTypeName());
-        eventUserService.addParticipatingConnection(event, user, connectionType);
+        eventUserService.addConnection(event, user, connectionType);
         Spot spot = event.getSpots();
         spot.setTaken(spot.getTaken()+1);
         spot.setAvailable(spot.getAvailable()-1);
@@ -196,13 +200,18 @@ public class EventsService {
         addressService.addAddress(address);
         Spot spot = spotMapper.toSpot(eventInfo);
         spotService.addSpot(spot);
+        Image image = imageService.addImage(eventInfo.getImageData());
         Event event = eventMapper.toEvent(eventInfo);
         event.setActivityType(activityType);
         event.setLocation(location);
         event.setTime(time);
         event.setAddress(address);
         event.setSpots(spot);
+        event.setImage(image);
         eventService.addEvent(event);
+        User user = userService.getUserBy(userId);
+        ConnectionType connectionType = connectionTypeService.getConnectionTypeBy(EventUserConnectionType.ORGANIZING.getTypeName());
+        eventUserService.addConnection(event, user, connectionType);
 
     }
 }

@@ -61,7 +61,7 @@ public class EventUserService {
         }
     }
 
-    public void addParticipatingConnection(Event event, User user, ConnectionType connectionType) {
+    public void addConnection(Event event, User user, ConnectionType connectionType) {
         EventUser eventUser = new EventUser();
         eventUser.setEvent(event);
         eventUser.setUser(user);
