@@ -1,6 +1,7 @@
 package ee.valiit.events.business.events;
 
 import ee.valiit.events.business.enums.EventUserConnectionType;
+import ee.valiit.events.business.enums.Status;
 import ee.valiit.events.business.events.dto.EventDto;
 import ee.valiit.events.business.events.dto.EventShorty;
 import ee.valiit.events.business.eventuser.*;
@@ -159,10 +160,26 @@ public class EventsService {
         Event event = eventService.getEventBy(eventId);
         User user = userService.getUserBy(userId);
         ConnectionType connectionType = connectionTypeService.getConnectionTypeBy(EventUserConnectionType.PARTICIPATING.getTypeName());
-        eventUserService.addParticipatingConnection(event, user, connectionType);
+        eventUserService.addConnection(event, user, connectionType);
         Spot spot = event.getSpots();
         spot.setTaken(spot.getTaken()+1);
         spot.setAvailable(spot.getAvailable()-1);
         spotService.update(spot);
+    }
+
+    public void addOrganiser(Integer eventId, String username) {
+        User user = userService.findActiveUser(username);
+        eventUserService.validateUserIsNotAlreadyEventOrganiser(user.getId(), eventId);
+        eventUserService.deleteInterestedConnectionIfExists(eventId, user.getId());
+        boolean participationConnectionExists = eventUserService.deleteParticipationConnectionIfExists(eventId, user.getId());
+        Event event = eventService.getEventBy(eventId);
+        ConnectionType connectionType = connectionTypeService.getConnectionTypeBy(EventUserConnectionType.ORGANIZING.getTypeName());
+        eventUserService.addConnection(event, user, connectionType);
+        if (participationConnectionExists) {
+            Spot spot = event.getSpots();
+            spot.setTaken(spot.getTaken()-1);
+            spot.setAvailable(spot.getAvailable()+1);
+            spotService.update(spot);
+        }
     }
 }
