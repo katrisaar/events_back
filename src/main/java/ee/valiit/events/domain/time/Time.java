@@ -19,8 +19,8 @@ public class Time {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @NotNull
-    @Column(name = "date_created", nullable = false)
+
+    @Column(name = "date_created")
     private Instant dateCreated;
 
     @NotNull

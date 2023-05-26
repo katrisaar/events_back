@@ -28,7 +28,7 @@ public class EventInfo implements Serializable {
     private String addressDescription;
     private LocalDate registrationDate;
     private LocalDate startDate;
-    private LocalTime startTime;
+    private String startTime;
     private LocalDate endDate;
-    private LocalTime endTime;
+    private String endTime;
 }

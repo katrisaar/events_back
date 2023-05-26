@@ -32,6 +32,7 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -141,6 +142,7 @@ public class EventsService {
 
     @Transactional
     public void addNewEvent(EventInfo eventInfo, Integer userId) {
+
         ActivityType activityType = activityTypeService.getActivityTypeBy(eventInfo.getActivityTypeName());
         Location location = locationService.getLocationBy(eventInfo.getLocationName());
         Time time = timeMapper.toTime(eventInfo);
