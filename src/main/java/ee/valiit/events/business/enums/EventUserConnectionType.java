@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum EventUserConnectionType {
     ORGANIZING("korraldaja"),
     PARTICIPATING("osaleja"),
-    INTERESTED("huvitatud");
+    INTERESTED("huvitatud"),
+    NONE("none");
 
     private final String typeName;
 

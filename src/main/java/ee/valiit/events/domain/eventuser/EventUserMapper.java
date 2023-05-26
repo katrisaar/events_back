@@ -1,5 +1,6 @@
 package ee.valiit.events.domain.eventuser;
 
+import ee.valiit.events.business.eventuser.EventUserProfileName;
 import ee.valiit.events.business.eventuser.InterestedEvent;
 import ee.valiit.events.business.eventuser.OrganisedEvent;
 import ee.valiit.events.business.eventuser.ParticipatingEvent;
@@ -39,5 +40,11 @@ public interface EventUserMapper {
     InterestedEvent toInterestedEvent(EventUser eventUser);
 
     List<InterestedEvent> toInterestedEvents(List<EventUser> eventUsers);
+
+    @Mapping(source = "user.contact.firstName", target = "firstName")
+    @Mapping(source = "user.contact.lastName", target = "lastName")
+    EventUserProfileName toEventUserProfileNames(EventUser eventUser);
+
+    List<EventUserProfileName> toEventUserProfileNames(List<EventUser> eventUsers);
 
 }

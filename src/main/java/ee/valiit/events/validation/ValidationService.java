@@ -45,4 +45,10 @@ public class ValidationService {
             throw new BusinessException(Error.ACTIVITY_TYPE_ALREADY_EXISTS.getMessage(), Error.ACTIVITY_TYPE_ALREADY_EXISTS.getErrorCode());
         }
     }
+
+    public static void validateEventHasParticipants(List<EventUser> eventUsers) {
+        if (eventUsers.isEmpty()) {
+            throw new DataNotFoundException(Error.PARTICIPANTS_LIST_IS_EMPTY.getMessage(), Error.PARTICIPANTS_LIST_IS_EMPTY.getErrorCode());
+        }
+    }
 }
