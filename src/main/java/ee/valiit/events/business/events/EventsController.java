@@ -166,4 +166,5 @@ public class EventsController {
     public void addParticipant(@RequestParam Integer eventId, @RequestParam Integer userId) {
         eventsService.addParticipant(eventId, userId);
     }
+
 }
