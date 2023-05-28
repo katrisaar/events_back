@@ -95,7 +95,11 @@ public class EventsService {
     public List<EventDto> getActiveEvents(Integer userId) {
         List<EventDto> allActiveEvents = eventService.findAllActiveEvents(userId);
         for (EventDto event : allActiveEvents) {
-            event.setConnectionTypeName(getUserConnectionToEvent(event.getEventId(), userId).getName());
+            if (getUserConnectionToEvent(event.getEventId(), userId).getName().equals("none")) {
+                event.setConnectionTypeName("");
+            } else {
+                event.setConnectionTypeName(getUserConnectionToEvent(event.getEventId(), userId).getName());
+            }
         }
         return allActiveEvents;
     }
