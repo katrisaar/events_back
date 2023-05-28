@@ -16,6 +16,7 @@ import ee.valiit.events.domain.event.EventMapper;
 import ee.valiit.events.domain.event.EventService;
 import ee.valiit.events.domain.eventuser.EventUser;
 import ee.valiit.events.domain.eventuser.EventUserMapper;
+import ee.valiit.events.domain.eventuser.EventUserRepository;
 import ee.valiit.events.domain.eventuser.EventUserService;
 import ee.valiit.events.domain.activitytype.ActivityType;
 import ee.valiit.events.domain.activitytype.ActivityTypeMapper;
@@ -32,6 +33,7 @@ import ee.valiit.events.domain.user.User;
 import ee.valiit.events.domain.user.UserService;
 import ee.valiit.events.domain.spot.SpotMapper;
 import ee.valiit.events.domain.time.Time;
+import ee.valiit.events.business.enums.Status;
 import ee.valiit.events.domain.time.TimeMapper;
 import ee.valiit.events.domain.time.TimeService;
 import ee.valiit.events.domain.util.ImageUtil;
@@ -90,9 +92,12 @@ public class EventsService {
     @Resource
     ImageService imageService;
 
-    public List<EventDto> getActiveEvents() {
-
-        return eventService.findAllActiveEvents();
+    public List<EventDto> getActiveEvents(Integer userId) {
+        List<EventDto> allActiveEvents = eventService.findAllActiveEvents(userId);
+        for (EventDto event : allActiveEvents) {
+            event.setConnectionTypeName(getUserConnectionToEvent(event.getEventId(), userId).getName());
+        }
+        return allActiveEvents;
     }
 
     public List<LocationDto> getLocations() {
@@ -184,8 +189,8 @@ public class EventsService {
         ConnectionType connectionType = connectionTypeService.getConnectionTypeBy(EventUserConnectionType.PARTICIPATING.getTypeName());
         eventUserService.addConnection(event, user, connectionType);
         Spot spot = event.getSpots();
-        spot.setTaken(spot.getTaken()+1);
-        spot.setAvailable(spot.getAvailable()-1);
+        spot.setTaken(spot.getTaken() + 1);
+        spot.setAvailable(spot.getAvailable() - 1);
         spotService.update(spot);
     }
 

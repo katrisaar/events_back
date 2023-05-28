@@ -26,4 +26,5 @@ public class EventDto implements Serializable {
     private Integer spotsAvailable;
     private LocalDate registrationDate;
     private LocalDate startDate;
+    private String connectionTypeName;
 }

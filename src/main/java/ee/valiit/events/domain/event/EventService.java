@@ -6,6 +6,7 @@ import ee.valiit.events.business.events.EventsService;
 import ee.valiit.events.business.events.dto.EventDto;
 import ee.valiit.events.business.eventuser.ConnectionTypeName;
 import ee.valiit.events.domain.eventuser.EventUser;
+import ee.valiit.events.domain.eventuser.EventUserMapper;
 import ee.valiit.events.domain.eventuser.EventUserRepository;
 import ee.valiit.events.domain.eventuser.EventUserService;
 import ee.valiit.events.domain.location.Location;
@@ -14,6 +15,7 @@ import ee.valiit.events.validation.ValidationService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +32,7 @@ public class EventService {
     @Resource
     EventUserRepository eventUserRepository;
 
-    public List<EventDto> findAllActiveEvents() {
+    public List<EventDto> findAllActiveEvents(Integer userId) {
         List<Event> activeEvents = eventRepository.findActiveEventsBy(Status.ACTIVE.getStatus());
         return eventMapper.eventDtos(activeEvents);
     }

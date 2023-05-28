@@ -18,4 +18,5 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
     @Query("select e from Event e where e.status = ?1 order by e.time.dateCreated DESC limit 3")
     List<Event> findThreeActiveMostRecentEventsBy(String status);
 
+
 }

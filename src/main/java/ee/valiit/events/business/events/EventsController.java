@@ -25,8 +25,8 @@ public class EventsController {
 
     @GetMapping("/events/all")
     @Operation(summary = "Tagastab aktiivsete ürituste nimekirja.")
-    public List<EventDto> getActiveEvents() {
-        return eventsService.getActiveEvents();
+    public List<EventDto> getActiveEvents(@RequestParam Integer userId) {
+        return eventsService.getActiveEvents(userId);
     }
 
     @GetMapping("/location")
