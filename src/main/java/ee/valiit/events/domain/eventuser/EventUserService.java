@@ -91,10 +91,6 @@ public class EventUserService {
         ValidationService.validateUserAlreadyIsEventOrganiser(eventUserOptional);
     }
 
-    public void addConnection(Event event, User user, ConnectionType connectionType) {
-
-    }
-
     public void deleteParticipatingConnection(Integer eventId, Integer userId, String connectionType) {
         Optional<EventUser> optionalEventUser = eventUserRepository.findActiveConnectionBy(eventId, userId, connectionType, Status.ACTIVE.getStatus());
         EventUser eventUser = optionalEventUser.get();
