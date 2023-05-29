@@ -43,6 +43,4 @@ public interface EventUserRepository extends JpaRepository<EventUser, Integer> {
     Optional<EventUser> findActiveConnectionBy(Integer eventId, Integer userId, String connectionTypeName, String status);
 
 
-
-
 }

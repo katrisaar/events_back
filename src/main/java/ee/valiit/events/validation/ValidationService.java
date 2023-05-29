@@ -51,4 +51,16 @@ public class ValidationService {
             throw new DataNotFoundException(Error.PARTICIPANTS_LIST_IS_EMPTY.getMessage(), Error.PARTICIPANTS_LIST_IS_EMPTY.getErrorCode());
         }
     }
+
+    public static void validateUserExists(Optional<User> userOptional) {
+        if (userOptional.isEmpty()) {
+            throw new DataNotFoundException(Error.USERNAME_DOES_NOT_EXIST.getMessage(), Error.USERNAME_DOES_NOT_EXIST.getErrorCode());
+        }
+    }
+
+    public static void validateUserAlreadyIsEventOrganiser(Optional<EventUser> eventUserOptional) {
+        if (eventUserOptional.isPresent()) {
+            throw new BusinessException(Error.USER_ALREADY_IS_ORGANISER.getMessage(), Error.USER_ALREADY_IS_ORGANISER.getErrorCode());
+        }
+    }
 }

@@ -25,8 +25,8 @@ public class EventsController {
 
     @GetMapping("/events/all")
     @Operation(summary = "Tagastab aktiivsete ürituste nimekirja.")
-    public List<EventDto> getActiveEvents() {
-        return eventsService.getActiveEvents();
+    public List<EventDto> getActiveEvents(@RequestParam Integer userId) {
+        return eventsService.getActiveEvents(userId);
     }
 
     @GetMapping("/location")
@@ -166,6 +166,17 @@ public class EventsController {
     public void addParticipant(@RequestParam Integer eventId, @RequestParam Integer userId) {
         eventsService.addParticipant(eventId, userId);
     }
+
+    @PostMapping("/connection/organiser")
+    @Operation(summary = "Lisab üritusele uue korraldaja sissetulnud kasutajanime ja eventId alusel.",
+            description = "Kui sellise kasutajanimega aktiivset kasutajat süsteemis ei ole, siis tagastab vea 224.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "Ei ole sellise kasutajanimega kasutajat", content = @Content(schema = @Schema(implementation = ApiError.class)))})
+    public void addOrganiser(@RequestParam Integer eventId, @RequestParam String username) {
+        eventsService.addOrganiser(eventId, username);
+    }
+
 
     @DeleteMapping("/connection/participant")
     @Operation (summary = "Kustutab osaleja tüüpi seose kasutaja ja ürituse vahel etteantud userId ja eventId alusel.")

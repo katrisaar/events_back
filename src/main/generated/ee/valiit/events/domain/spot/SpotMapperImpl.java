@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-05-26T10:42:52+0300",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Eclipse Adoptium)"
+    date = "2023-05-29T10:04:44+0300",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (JetBrains s.r.o.)"
 )
 @Component
 public class SpotMapperImpl implements SpotMapper {
@@ -20,7 +20,7 @@ public class SpotMapperImpl implements SpotMapper {
 
         Spot spot = new Spot();
 
-        spot.setAvailable( eventInfo.getSpotsAvailable() );
+        spot.setAvailable( eventInfo.getSpotsMax() );
         spot.setMax( eventInfo.getSpotsMax() );
         spot.setMin( eventInfo.getSpotsMin() );
         spot.setTaken( eventInfo.getSpotsTaken() );

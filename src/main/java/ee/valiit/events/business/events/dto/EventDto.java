@@ -17,21 +17,14 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EventDto implements Serializable {
-    @Size(max = 255)
-    @NotNull
+
     private String name;
     private Integer fee;
     private Integer eventId;
-    @Size(max = 255)
-    @NotNull
     private String activityTypeName;
-    @Size(max = 255)
-    @NotNull
     private String locationName;
-    @NotNull
     private Integer spotsAvailable;
-    @NotNull
     private LocalDate registrationDate;
-    @NotNull
     private LocalDate startDate;
+    private String connectionTypeName;
 }

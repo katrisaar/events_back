@@ -67,13 +67,28 @@ public class EventUserService {
         }
     }
 
-    public void addParticipatingConnection(Event event, User user, ConnectionType connectionType) {
+    public void addConnection(Event event, User user, ConnectionType connectionType) {
         EventUser eventUser = new EventUser();
         eventUser.setEvent(event);
         eventUser.setUser(user);
         eventUser.setConnectionType(connectionType);
         eventUser.setStatus(Status.ACTIVE.getStatus());
         eventUserRepository.save(eventUser);
+    }
+
+    public boolean deleteParticipationConnectionIfExists(Integer eventId, Integer userId) {
+        Optional<EventUser> participatingConnection = eventUserRepository.findActiveConnectionBy(eventId, userId, EventUserConnectionType.PARTICIPATING.getTypeName(), Status.ACTIVE.getStatus());
+        if (participatingConnection.isPresent()) {
+            EventUser eventUser = participatingConnection.get();
+            eventUser.setStatus(Status.DELETED.getStatus());
+            eventUserRepository.save(eventUser);
+        }
+        return participatingConnection.isPresent();
+    }
+
+    public void validateUserIsNotAlreadyEventOrganiser(Integer userId, Integer eventId) {
+        Optional<EventUser> eventUserOptional = eventUserRepository.findActiveConnectionBy(eventId, userId, EventUserConnectionType.ORGANIZING.getTypeName(), Status.ACTIVE.getStatus());
+        ValidationService.validateUserAlreadyIsEventOrganiser(eventUserOptional);
     }
 
     public void addConnection(Event event, User user, ConnectionType connectionType) {

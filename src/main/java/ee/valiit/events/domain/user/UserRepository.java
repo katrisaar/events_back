@@ -19,4 +19,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("select (count(u) > 0) from User u where u.id <> ?1 and u.username = ?2")
     boolean editedUsernameAlreadyExistsBy(Integer id, String username);
 
+    @Query("select u from User u where u.username = ?1 and u.status = ?2")
+    Optional<User> findUserBy(String username, String status);
+
+
+
 }
