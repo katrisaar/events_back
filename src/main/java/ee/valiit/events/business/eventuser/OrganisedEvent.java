@@ -21,4 +21,5 @@ public class OrganisedEvent implements Serializable {
     private Integer spotsTaken;
     private LocalDate registrationDate;
     private LocalDate startDate;
+    private String status;
 }

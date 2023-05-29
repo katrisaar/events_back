@@ -1,9 +1,11 @@
 package ee.valiit.events.domain.eventuser;
 
 import ee.valiit.events.business.eventuser.EventUserProfileName;
+import ee.valiit.events.business.eventuser.HistoryEvent;
 import ee.valiit.events.business.eventuser.InterestedEvent;
 import ee.valiit.events.business.eventuser.OrganisedEvent;
 import ee.valiit.events.business.eventuser.ParticipatingEvent;
+import ee.valiit.events.domain.connectiontype.ConnectionType;
 import ee.valiit.events.domain.event.Event;
 import ee.valiit.events.domain.location.Location;
 import ee.valiit.events.domain.spot.Spot;
@@ -18,8 +20,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-05-26T10:42:52+0300",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Eclipse Adoptium)"
+    date = "2023-05-29T16:34:48+0300",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (JetBrains s.r.o.)"
 )
 @Component
 public class EventUserMapperImpl implements EventUserMapper {
@@ -38,6 +40,7 @@ public class EventUserMapperImpl implements EventUserMapper {
         organisedEvent.setStartDate( eventUserEventTimeStartDate( eventUser ) );
         organisedEvent.setSpotsAvailable( eventUserEventSpotsAvailable( eventUser ) );
         organisedEvent.setSpotsTaken( eventUserEventSpotsTaken( eventUser ) );
+        organisedEvent.setStatus( eventUser.getStatus() );
 
         return organisedEvent;
     }
@@ -69,6 +72,7 @@ public class EventUserMapperImpl implements EventUserMapper {
         participatingEvent.setStartDate( eventUserEventTimeStartDate( eventUser ) );
         participatingEvent.setLocationName( eventUserEventLocationName( eventUser ) );
         participatingEvent.setFee( eventUserEventFee( eventUser ) );
+        participatingEvent.setStatus( eventUser.getStatus() );
 
         return participatingEvent;
     }
@@ -142,6 +146,38 @@ public class EventUserMapperImpl implements EventUserMapper {
         List<EventUserProfileName> list = new ArrayList<EventUserProfileName>( eventUsers.size() );
         for ( EventUser eventUser : eventUsers ) {
             list.add( toEventUserProfileNames( eventUser ) );
+        }
+
+        return list;
+    }
+
+    @Override
+    public HistoryEvent toHistoryEvent(EventUser eventUser) {
+        if ( eventUser == null ) {
+            return null;
+        }
+
+        HistoryEvent historyEvent = new HistoryEvent();
+
+        historyEvent.setEventId( eventUserEventId( eventUser ) );
+        historyEvent.setEventName( eventUserEventName( eventUser ) );
+        historyEvent.setStartDate( eventUserEventTimeStartDate( eventUser ) );
+        historyEvent.setLocationName( eventUserEventLocationName( eventUser ) );
+        historyEvent.setSpotsTaken( eventUserEventSpotsTaken( eventUser ) );
+        historyEvent.setConnectionTypeName( eventUserConnectionTypeName( eventUser ) );
+
+        return historyEvent;
+    }
+
+    @Override
+    public List<HistoryEvent> toHistoryEvents(List<EventUser> eventUsers) {
+        if ( eventUsers == null ) {
+            return null;
+        }
+
+        List<HistoryEvent> list = new ArrayList<HistoryEvent>( eventUsers.size() );
+        for ( EventUser eventUser : eventUsers ) {
+            list.add( toHistoryEvent( eventUser ) );
         }
 
         return list;
@@ -323,5 +359,20 @@ public class EventUserMapperImpl implements EventUserMapper {
             return null;
         }
         return lastName;
+    }
+
+    private String eventUserConnectionTypeName(EventUser eventUser) {
+        if ( eventUser == null ) {
+            return null;
+        }
+        ConnectionType connectionType = eventUser.getConnectionType();
+        if ( connectionType == null ) {
+            return null;
+        }
+        String name = connectionType.getName();
+        if ( name == null ) {
+            return null;
+        }
+        return name;
     }
 }

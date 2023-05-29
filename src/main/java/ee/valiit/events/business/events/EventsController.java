@@ -49,8 +49,8 @@ public class EventsController {
     }
 
     @GetMapping("/events/organised")
-    @Operation(summary = "Tagastab userId alusel kõikide kasutaja poolt korraldatavate tulevaste (aktiivsete) ürituste nimekirja.",
-            description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea 555")
+    @Operation(summary = "Tagastab userId alusel kõikide kasutaja poolt korraldatavate tulevaste (aktiivsete ja täitunud) ürituste nimekirja.",
+            description = "Tagastab ka tühistatud üritused, mille planeeritud toimumisaeg pole veel läbi. Kui ühtegi üritust ei leita, siis tagastab vea 555")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "404", description = "Ei leitud ühtegi üritust", content = @Content(schema = @Schema(implementation = ApiError.class)))})
@@ -76,6 +76,16 @@ public class EventsController {
             @ApiResponse(responseCode = "404", description = "Ei leitud ühtegi üritust", content = @Content(schema = @Schema(implementation = ApiError.class)))})
     public List<InterestedEvent> findInterestedEvents(@RequestParam Integer userId) {
         return eventsService.findInterestedEvents(userId);
+    }
+
+    @GetMapping("/events/history")
+    @Operation(summary = "Tagastab userId alusel kõikide toimunud ürituste nimekirja, mida kasutaja on korraldanud või kus ta on osalenud",
+            description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea 555")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "Ei leitud ühtegi üritust", content = @Content(schema = @Schema(implementation = ApiError.class)))})
+    public List<HistoryEvent> findHistoryEvents(@RequestParam Integer userId) {
+        return eventsService.findHistoryEvents(userId);
     }
 
     @GetMapping("/activitytype")

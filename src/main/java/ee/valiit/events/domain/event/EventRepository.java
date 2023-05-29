@@ -20,13 +20,15 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
     List<Event> findThreeActiveMostRecentEventsBy(String status);
 
     @Query("select e from Event e where e.status = ?1 and e.time.registrationDate < ?2")
-    List<Event> FindEventsWithEndedRegistration(String status, LocalDate currentDate);
+    List<Event> findEventsWithEndedRegistration(String status, LocalDate currentDate);
 
     @Query("select e from Event e where (e.status = ?1 or e.status = ?2) and e.time.endDate < ?3")
     List<Event> findEndedActiveOrFilledEventsBy(String status, String status1, LocalDate endDate);
 
     @Query("select e from Event e where e.status = ?1 and e.time.endDate < ?2")
     List<Event> findSpecificStatusEventsWhatHaveEnded(String status, LocalDate endDate);
+
+
 
 
 }

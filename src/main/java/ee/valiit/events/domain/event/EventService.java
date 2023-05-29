@@ -74,7 +74,7 @@ public class EventService {
     }
 
     public void updateRegistrationEndedEventsStatusToFilled() {
-        List<Event> events = eventRepository.FindEventsWithEndedRegistration(Status.ACTIVE.getStatus(), LocalDate.now());
+        List<Event> events = eventRepository.findEventsWithEndedRegistration(Status.ACTIVE.getStatus(), LocalDate.now());
         for (Event event : events) {
             event.setStatus(Status.FILLED.getStatus());
         }

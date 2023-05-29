@@ -19,19 +19,28 @@ public class EventUserService {
     EventUserRepository eventUserRepository;
 
     public List<EventUser> findActiveOrganisedEventUsers(Integer userId) {
-        List<EventUser> eventUsers = eventUserRepository.findAllActiveOrganisedEventUsersBy(userId, EventUserConnectionType.ORGANIZING.getTypeName(), Status.ACTIVE.getStatus());
+        List<EventUser> eventUsers = eventUserRepository.findAllActiveOrCancelledOrganisedEventUsersBy(userId, EventUserConnectionType.ORGANIZING.getTypeName(),
+                Status.ACTIVE.getStatus(), Status.CANCELLED.getStatus());
         ValidationService.validateEventUserListExists(eventUsers);
         return eventUsers;
     }
 
     public List<EventUser> findActiveParticipatingEventUsers(Integer userId) {
-        List<EventUser> eventUsers = eventUserRepository.findAllActiveParticipatingEventUsersBy(userId, EventUserConnectionType.PARTICIPATING.getTypeName(), Status.ACTIVE.getStatus());
+        List<EventUser> eventUsers = eventUserRepository.findAllActiveOrCancelledParticipatingEventUsersBy(userId, EventUserConnectionType.PARTICIPATING.getTypeName(),
+                Status.ACTIVE.getStatus(), Status.CANCELLED.getStatus());
         ValidationService.validateEventUserListExists(eventUsers);
         return eventUsers;
     }
 
     public List<EventUser> findActiveInterestedEventUsers(Integer userId) {
         List<EventUser> eventUsers = eventUserRepository.findAllActiveInterestedEventUsersBy(userId, EventUserConnectionType.INTERESTED.getTypeName(), Status.ACTIVE.getStatus());
+        ValidationService.validateEventUserListExists(eventUsers);
+        return eventUsers;
+    }
+
+
+    public List<EventUser> findHistoryEventsBy(Integer userId) {
+        List<EventUser> eventUsers = eventUserRepository.findHistoryEventsBy(userId, Status.HISTORY.getStatus());
         ValidationService.validateEventUserListExists(eventUsers);
         return eventUsers;
     }
@@ -106,4 +115,5 @@ public class EventUserService {
         }
         eventUserRepository.saveAll(eventConnections);
     }
+
 }

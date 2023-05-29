@@ -128,6 +128,12 @@ public class EventsService {
         return eventUserMapper.toInterestedEvents(eventUsers);
     }
 
+
+    public List<HistoryEvent> findHistoryEvents(Integer userId) {
+        List<EventUser> eventUsers = eventUserService.findHistoryEventsBy(userId);
+        return eventUserMapper.toHistoryEvents(eventUsers);
+    }
+
     public List<ExistingActivityTypes> getActivityTypes() {
         List<ActivityType> activityTypes = activityTypeService.getActivityTypes();
         List<ExistingActivityTypes> existingActivityTypes = activityTypeMapper.toDtos(activityTypes);
@@ -265,4 +271,5 @@ public class EventsService {
         eventService.updateEndedEventsStatusToHistory();
         eventService.updateCancelledEndedEventsStatusToDeleted();
     }
+
 }

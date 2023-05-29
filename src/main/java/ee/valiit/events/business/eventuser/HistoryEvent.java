@@ -14,11 +14,11 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ParticipatingEvent implements Serializable {
+public class HistoryEvent implements Serializable {
     private Integer eventId;
     private String eventName;
-    private String locationName;
-    private Integer fee;
     private LocalDate startDate;
-    private String status;
+    private String locationName;
+    private Integer spotsTaken;
+    private String connectionTypeName;
 }

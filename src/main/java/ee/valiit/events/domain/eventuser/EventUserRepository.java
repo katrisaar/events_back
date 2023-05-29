@@ -7,14 +7,20 @@ import java.util.List;
 import java.util.Optional;
 
 public interface EventUserRepository extends JpaRepository<EventUser, Integer> {
-    @Query("select e from EventUser e where e.user.id = ?1 and e.connectionType.name = ?2 and e.status = ?3")
-    List<EventUser> findAllActiveOrganisedEventUsersBy(Integer userId, String connectionTypeName, String status);
 
     @Query("""
             select e from EventUser e
-            where e.user.id = ?1 and e.connectionType.name = ?2 and e.status = ?3
-            order by e.event.time.startDate""")
-    List<EventUser> findAllActiveParticipatingEventUsersBy(Integer userId, String ConnectionTypeName, String status);
+            where e.user.id = ?1 and e.connectionType.name = ?2 and (e.status = ?3 or e.status = ?4)
+            order by e.status, e.event.time.startDate""")
+    List<EventUser> findAllActiveOrCancelledOrganisedEventUsersBy(Integer id, String name, String statusActive, String statusCancelled);
+
+
+
+    @Query("""
+            select e from EventUser e
+            where e.user.id = ?1 and e.connectionType.name = ?2 and (e.status = ?3 or e.status = ?4)
+            order by e.status, e.event.time.startDate""")
+    List<EventUser> findAllActiveOrCancelledParticipatingEventUsersBy(Integer userId, String ConnectionTypeName, String statusActive, String statusCancelled);
 
     @Query("""
             select e from EventUser e
@@ -48,5 +54,13 @@ public interface EventUserRepository extends JpaRepository<EventUser, Integer> {
 
     @Query("select e from EventUser e where e.event.id = ?1")
     List<EventUser> findAllEventConnectionsToUsersBy(Integer eventId);
+
+    @Query("""
+            select e from EventUser e
+            where e.user.id = ?1 and e.status = ?2
+            order by e.event.time.startDate, e.event.name""")
+    List<EventUser> findHistoryEventsBy(Integer userId, String status);
+
+
 
 }
