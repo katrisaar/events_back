@@ -2,11 +2,9 @@ package ee.valiit.events.domain.event;
 
 import ee.valiit.events.business.enums.Status;
 import ee.valiit.events.business.events.dto.EventSimple;
-import ee.valiit.events.business.events.dto.EventDto;
 import ee.valiit.events.domain.eventuser.EventUserRepository;
 import ee.valiit.events.domain.location.Location;
 import ee.valiit.events.domain.location.LocationRepository;
-import ee.valiit.events.domain.time.Time;
 import ee.valiit.events.validation.ValidationService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -32,9 +30,6 @@ public class EventService {
         return eventMapper.eventDtos(activeEvents);
     }
 
-    public List<Location> getAllLocations() {
-        return locationRepository.findAll();
-    }
 
     public List<Event> findSoonToEndEvents() {
         List<Event> events = eventRepository.findThreeActiveSoonToEndEventsBy(Status.ACTIVE.getStatus());

@@ -1,6 +1,6 @@
 package ee.valiit.events.domain.location;
 
-import ee.valiit.events.business.location.LocationDto;
+import ee.valiit.events.business.locations.LocationDto;
 import org.mapstruct.*;
 
 import java.util.List;

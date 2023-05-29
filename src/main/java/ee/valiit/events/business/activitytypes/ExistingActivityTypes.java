@@ -1,4 +1,4 @@
-package ee.valiit.events.business.events.dto;
+package ee.valiit.events.business.activitytypes;
 
 
 import ee.valiit.events.domain.activitytype.ActivityType;

@@ -1,4 +1,4 @@
-package ee.valiit.events.business.eventuser;
+package ee.valiit.events.business.connection.dto;
 
 import ee.valiit.events.domain.eventuser.EventUser;
 import lombok.AllArgsConstructor;
@@ -14,11 +14,12 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class HistoryEvent implements Serializable {
+public class OrganisedEvent implements Serializable {
     private Integer eventId;
     private String eventName;
-    private LocalDate startDate;
-    private String locationName;
+    private Integer spotsAvailable;
     private Integer spotsTaken;
-    private String connectionTypeName;
+    private LocalDate registrationDate;
+    private LocalDate startDate;
+    private String status;
 }

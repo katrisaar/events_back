@@ -1,6 +1,6 @@
 package ee.valiit.events.domain.eventuser;
 
-import ee.valiit.events.business.eventuser.*;
+import ee.valiit.events.business.connection.dto.*;
 import org.mapstruct.*;
 
 import java.util.List;

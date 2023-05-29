@@ -1,4 +1,4 @@
-package ee.valiit.events.business.eventuser;
+package ee.valiit.events.business.connection.dto;
 
 import ee.valiit.events.domain.eventuser.EventUser;
 import lombok.AllArgsConstructor;

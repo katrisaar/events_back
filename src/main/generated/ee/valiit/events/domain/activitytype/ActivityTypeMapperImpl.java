@@ -1,6 +1,6 @@
 package ee.valiit.events.domain.activitytype;
 
-import ee.valiit.events.business.events.dto.ExistingActivityTypes;
+import ee.valiit.events.business.activitytypes.ExistingActivityTypes;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-05-29T10:04:43+0300",
+    date = "2023-05-29T19:17:29+0300",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (JetBrains s.r.o.)"
 )
 @Component

@@ -1,4 +1,4 @@
-package ee.valiit.events.business.eventuser;
+package ee.valiit.events.business.connection.dto;
 
 import ee.valiit.events.domain.eventuser.EventUser;
 import lombok.AllArgsConstructor;
@@ -13,6 +13,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ConnectionTypeName {
-    private String name;
+public class EventUserProfileName implements Serializable {
+    private String firstName;
+    private String lastName;
 }

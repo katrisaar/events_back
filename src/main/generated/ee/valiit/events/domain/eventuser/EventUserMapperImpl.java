@@ -1,10 +1,10 @@
 package ee.valiit.events.domain.eventuser;
 
-import ee.valiit.events.business.eventuser.EventUserProfileName;
-import ee.valiit.events.business.eventuser.HistoryEvent;
-import ee.valiit.events.business.eventuser.InterestedEvent;
-import ee.valiit.events.business.eventuser.OrganisedEvent;
-import ee.valiit.events.business.eventuser.ParticipatingEvent;
+import ee.valiit.events.business.connection.dto.EventUserProfileName;
+import ee.valiit.events.business.connection.dto.HistoryEvent;
+import ee.valiit.events.business.connection.dto.InterestedEvent;
+import ee.valiit.events.business.connection.dto.OrganisedEvent;
+import ee.valiit.events.business.connection.dto.ParticipatingEvent;
 import ee.valiit.events.domain.connectiontype.ConnectionType;
 import ee.valiit.events.domain.event.Event;
 import ee.valiit.events.domain.location.Location;
@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-05-29T16:34:48+0300",
+    date = "2023-05-29T19:17:29+0300",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (JetBrains s.r.o.)"
 )
 @Component

@@ -1,4 +1,4 @@
-package ee.valiit.events.business.location;
+package ee.valiit.events.business.locations;
 
 import ee.valiit.events.domain.location.Location;
 import jakarta.validation.constraints.NotNull;

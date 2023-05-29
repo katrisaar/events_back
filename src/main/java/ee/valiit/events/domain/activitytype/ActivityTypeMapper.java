@@ -1,6 +1,6 @@
 package ee.valiit.events.domain.activitytype;
 
-import ee.valiit.events.business.events.dto.ExistingActivityTypes;
+import ee.valiit.events.business.activitytypes.ExistingActivityTypes;
 import org.mapstruct.*;
 
 import java.util.List;
