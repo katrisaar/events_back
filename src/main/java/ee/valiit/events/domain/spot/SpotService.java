@@ -12,4 +12,7 @@ public class SpotService {
     public void update(Spot spot) {
         spotRepository.save(spot);
     }
+    public void addSpot(Spot spot) {
+        spotRepository.save(spot);
+    }
 }

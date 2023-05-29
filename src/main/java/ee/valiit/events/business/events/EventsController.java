@@ -4,8 +4,8 @@ import ee.valiit.events.business.events.dto.EventDto;
 import ee.valiit.events.business.events.dto.EventShorty;
 import ee.valiit.events.business.eventuser.*;
 import ee.valiit.events.business.location.LocationDto;
-import ee.valiit.events.domain.activitytype.ExistingActivityTypes;
-import ee.valiit.events.domain.event.EventInfo;
+import ee.valiit.events.business.events.dto.ExistingActivityTypes;
+import ee.valiit.events.business.events.dto.EventInfo;
 import ee.valiit.events.infrastructure.error.ApiError;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -13,10 +13,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,8 +25,8 @@ public class EventsController {
 
     @GetMapping("/events/all")
     @Operation(summary = "Tagastab aktiivsete ürituste nimekirja.")
-    public List<EventDto> getActiveEvents() {
-        return eventsService.getActiveEvents();
+    public List<EventDto> getActiveEvents(@RequestParam Integer userId) {
+        return eventsService.getActiveEvents(userId);
     }
 
     @GetMapping("/location")
@@ -136,6 +133,11 @@ public class EventsController {
     public EventInfo getEvent(@RequestParam Integer eventId) {
         return eventsService.getEvent(eventId);
     }
+    @PostMapping("/event")
+    @Operation(summary = "Uue ürituse lisamine.")
+    public void addNewEvent(@RequestBody EventInfo eventInfo, @RequestParam Integer userId) {
+        eventsService.addNewEvent(eventInfo, userId);
+    }
 
     @GetMapping("/connection/organisers")
     @Operation(summary = "Toob eventId alusel ära kõik selle ürituse korraldajad")
@@ -174,4 +176,5 @@ public class EventsController {
     public void addOrganiser(@RequestParam Integer eventId, @RequestParam String username) {
         eventsService.addOrganiser(eventId, username);
     }
+
 }

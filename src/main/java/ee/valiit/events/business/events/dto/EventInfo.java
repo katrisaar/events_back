@@ -1,5 +1,6 @@
-package ee.valiit.events.domain.event;
+package ee.valiit.events.business.events.dto;
 
+import ee.valiit.events.domain.event.Event;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,7 +29,7 @@ public class EventInfo implements Serializable {
     private String addressDescription;
     private LocalDate registrationDate;
     private LocalDate startDate;
-    private LocalTime startTime;
+    private String startTime;
     private LocalDate endDate;
-    private LocalTime endTime;
+    private String endTime;
 }

@@ -7,4 +7,7 @@ public interface ActivityTypeRepository extends JpaRepository<ActivityType, Inte
     @Query("select (count(a) > 0) from ActivityType a where a.name = ?1")
     boolean activityTypeExistsBy(String activityTypeName);
 
+    @Query("select a from ActivityType a where a.name = ?1")
+    ActivityType findActivityTypeBy(String name);
+
 }
