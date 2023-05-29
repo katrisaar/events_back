@@ -1,9 +1,9 @@
 package ee.valiit.events.domain.event;
 
 import ee.valiit.events.business.enums.Status;
+import ee.valiit.events.business.events.dto.EventDto;
 import ee.valiit.events.business.events.dto.EventInfo;
 import ee.valiit.events.business.events.dto.EventShorty;
-import ee.valiit.events.business.events.dto.EventSimple;
 import ee.valiit.events.domain.activitytype.ActivityType;
 import ee.valiit.events.domain.address.Address;
 import ee.valiit.events.domain.location.Location;
@@ -18,39 +18,39 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-05-29T16:04:55+0300",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Eclipse Adoptium)"
+    date = "2023-05-29T10:04:45+0300",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (JetBrains s.r.o.)"
 )
 @Component
 public class EventMapperImpl implements EventMapper {
 
     @Override
-    public EventSimple toDto(Event event) {
+    public EventDto toDto(Event event) {
         if ( event == null ) {
             return null;
         }
 
-        EventSimple eventSimple = new EventSimple();
+        EventDto eventDto = new EventDto();
 
-        eventSimple.setStartDate( eventTimeStartDate( event ) );
-        eventSimple.setEventId( event.getId() );
-        eventSimple.setRegistrationDate( eventTimeRegistrationDate( event ) );
-        eventSimple.setName( event.getName() );
-        eventSimple.setLocationName( eventLocationName( event ) );
-        eventSimple.setFee( event.getFee() );
-        eventSimple.setActivityTypeName( eventActivityTypeName( event ) );
-        eventSimple.setSpotsAvailable( eventSpotsAvailable( event ) );
+        eventDto.setStartDate( eventTimeStartDate( event ) );
+        eventDto.setEventId( event.getId() );
+        eventDto.setRegistrationDate( eventTimeRegistrationDate( event ) );
+        eventDto.setName( event.getName() );
+        eventDto.setLocationName( eventLocationName( event ) );
+        eventDto.setFee( event.getFee() );
+        eventDto.setActivityTypeName( eventActivityTypeName( event ) );
+        eventDto.setSpotsAvailable( eventSpotsAvailable( event ) );
 
-        return eventSimple;
+        return eventDto;
     }
 
     @Override
-    public List<EventSimple> eventDtos(List<Event> events) {
+    public List<EventDto> eventDtos(List<Event> events) {
         if ( events == null ) {
             return null;
         }
 
-        List<EventSimple> list = new ArrayList<EventSimple>( events.size() );
+        List<EventDto> list = new ArrayList<EventDto>( events.size() );
         for ( Event event : events ) {
             list.add( toDto( event ) );
         }
@@ -100,9 +100,7 @@ public class EventMapperImpl implements EventMapper {
         eventInfo.setDescription( event.getDescription() );
         eventInfo.setImageData( EventMapper.imageToImageData( event.getImage() ) );
         eventInfo.setFee( event.getFee() );
-        eventInfo.setLocationId( eventLocationId( event ) );
         eventInfo.setLocationName( eventLocationName( event ) );
-        eventInfo.setActivityTypeId( eventActivityTypeId( event ) );
         eventInfo.setActivityTypeName( eventActivityTypeName( event ) );
         eventInfo.setRegistrationDate( eventTimeRegistrationDate( event ) );
         eventInfo.setStartDate( eventTimeStartDate( event ) );
@@ -208,36 +206,6 @@ public class EventMapperImpl implements EventMapper {
             return null;
         }
         return available;
-    }
-
-    private Integer eventLocationId(Event event) {
-        if ( event == null ) {
-            return null;
-        }
-        Location location = event.getLocation();
-        if ( location == null ) {
-            return null;
-        }
-        Integer id = location.getId();
-        if ( id == null ) {
-            return null;
-        }
-        return id;
-    }
-
-    private Integer eventActivityTypeId(Event event) {
-        if ( event == null ) {
-            return null;
-        }
-        ActivityType activityType = event.getActivityType();
-        if ( activityType == null ) {
-            return null;
-        }
-        Integer id = activityType.getId();
-        if ( id == null ) {
-            return null;
-        }
-        return id;
     }
 
     private LocalTime eventTimeStartTime(Event event) {

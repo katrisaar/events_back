@@ -187,4 +187,30 @@ public class EventsController {
         eventsService.addOrganiser(eventId, username);
     }
 
+
+    @DeleteMapping("/connection/participant")
+    @Operation (summary = "Kustutab osaleja tüüpi seose kasutaja ja ürituse vahel etteantud userId ja eventId alusel.")
+    public void deleteParticipant(@RequestParam Integer eventId, @RequestParam Integer userId) {
+        eventsService.deleteParticipant(eventId, userId);
+    }
+
+    @DeleteMapping("/event/cancel")
+    @Operation(description = "Tühistab (märgib staatuseks C ehk 'Cancelled' etteantud eventId alusel ürituse ja sellega seotud osalused")
+    public void cancelEvent(@RequestParam Integer eventId) {
+        eventsService.cancelEvent(eventId);
+    }
+
+    @DeleteMapping("/event")
+    @Operation(description = "Kustutab andmebaasist etteantud eventId alusel ürituse ja sellega seotud osalused")
+    public void deleteEvent(@RequestParam Integer eventId) {
+        eventsService.deleteEvent(eventId);
+    }
+
+    @GetMapping("/events/update")
+    @Operation(summary = "Administratiivne protsess,mis muudab kuupäeva järgi sündmuste staatust.",
+            description = "Üritused, mille registreerumise kuupäev on läbi, muutuvad 'Filled'-iks, ehk neile ei saa enam registreeruda. Üritused, mis on ära toimunud (lõpukuupäev on läbi, või selle puudumisel alguskuupäev), muutuvad staatusesse 'History'")
+    public void updateEventStatuses() {
+        eventsService.updateEventStatuses();
+    }
+
 }

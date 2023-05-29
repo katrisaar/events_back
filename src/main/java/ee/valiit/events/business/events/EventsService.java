@@ -2,6 +2,7 @@ package ee.valiit.events.business.events;
 
 import ee.valiit.events.business.enums.EventUserConnectionType;
 import ee.valiit.events.business.events.dto.EventSimple;
+import ee.valiit.events.business.events.dto.EventDto;
 import ee.valiit.events.business.events.dto.EventShorty;
 import ee.valiit.events.business.eventuser.*;
 import ee.valiit.events.business.location.LocationDto;
@@ -235,5 +236,34 @@ public class EventsService {
             spot.setAvailable(spot.getAvailable()+1);
             spotService.update(spot);
         }
+    }
+
+    @Transactional
+    public void deleteParticipant(Integer eventId, Integer userId) {
+        eventUserService.deleteParticipatingConnection(eventId, userId, EventUserConnectionType.PARTICIPATING.getTypeName());
+        Event event = eventService.getEventBy(eventId);
+        Spot spot = event.getSpots();
+        spot.setTaken(spot.getTaken()-1);
+        spot.setAvailable(spot.getAvailable()+1);
+        spotService.update(spot);
+    }
+
+    @Transactional
+    public void cancelEvent(Integer eventId) {
+        eventUserService.cancelAllActiveEventConnectionsToUsersBy(eventId);
+        eventService.cancelEvent(eventId);
+    }
+
+    @Transactional
+    public void deleteEvent(Integer eventId) {
+        eventUserService.deleteAllActiveEventConnectionsToUsersBy(eventId);
+        eventService.deleteEvent(eventId);
+    }
+
+    @Transactional
+    public void updateEventStatuses() {
+        eventService.updateRegistrationEndedEventsStatusToFilled();
+        eventService.updateEndedEventsStatusToHistory();
+        eventService.updateCancelledEndedEventsStatusToDeleted();
     }
 }
