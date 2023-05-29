@@ -48,4 +48,10 @@ public class UserService {
         user.setStatus(Status.DELETED.getStatus());
         userRepository.save(user);
     }
+
+    public User findActiveUser(String username) {
+        Optional<User> userOptional = userRepository.findUserBy(username, Status.ACTIVE.getStatus());
+        ValidationService.validateUserExists(userOptional);
+        return userOptional.get();
+    }
 }

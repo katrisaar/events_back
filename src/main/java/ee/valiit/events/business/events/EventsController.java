@@ -167,4 +167,14 @@ public class EventsController {
         eventsService.addParticipant(eventId, userId);
     }
 
+    @PostMapping("/connection/organiser")
+    @Operation(summary = "Lisab üritusele uue korraldaja sissetulnud kasutajanime ja eventId alusel.",
+            description = "Kui sellise kasutajanimega aktiivset kasutajat süsteemis ei ole, siis tagastab vea 224.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "404", description = "Ei ole sellise kasutajanimega kasutajat", content = @Content(schema = @Schema(implementation = ApiError.class)))})
+    public void addOrganiser(@RequestParam Integer eventId, @RequestParam String username) {
+        eventsService.addOrganiser(eventId, username);
+    }
+
 }
