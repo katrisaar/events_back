@@ -203,7 +203,7 @@ public class EventsService {
     public void addNewEvent(EventInfo eventInfo, Integer userId) {
 
         ActivityType activityType = activityTypeService.getActivityTypeBy(eventInfo.getActivityTypeName());
-        Location location = locationService.getLocationBy(eventInfo.getLocationName());
+        Location location = locationService.getLocationBy(eventInfo.getLocationId());
         Time time = timeMapper.toTime(eventInfo);
         timeService.addTime(time);
         Address address = addressMapper.toAddress(eventInfo);
