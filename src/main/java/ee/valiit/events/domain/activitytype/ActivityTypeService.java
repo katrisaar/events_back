@@ -30,7 +30,7 @@ public class ActivityTypeService {
         activityTypeRepository.save(activityType);
     }
 
-    public ActivityType getActivityTypeBy(String activityTypeName) {
-        return activityTypeRepository.findActivityTypeBy(activityTypeName);
+    public ActivityType getActivityTypeBy(Integer activityTypeId) {
+        return activityTypeRepository.findById(activityTypeId).get();
     }
 }

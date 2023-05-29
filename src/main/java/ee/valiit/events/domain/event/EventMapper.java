@@ -1,11 +1,9 @@
 package ee.valiit.events.domain.event;
 
 import ee.valiit.events.business.enums.Status;
-import ee.valiit.events.business.events.dto.EventDto;
+import ee.valiit.events.business.events.dto.EventSimple;
 import ee.valiit.events.business.events.dto.EventInfo;
 import ee.valiit.events.business.events.dto.EventShorty;
-import ee.valiit.events.domain.connectiontype.ConnectionType;
-import ee.valiit.events.domain.eventuser.EventUser;
 import ee.valiit.events.domain.image.Image;
 import ee.valiit.events.domain.util.ImageUtil;
 import ee.valiit.events.domain.util.TimeUtil;
@@ -28,9 +26,9 @@ public interface EventMapper {
     @Mapping(source = "fee", target = "fee")
     @Mapping(source = "activityType.name", target = "activityTypeName")
     @Mapping(source = "spots.available", target = "spotsAvailable")
-    EventDto toDto(Event event);
+    EventSimple toDto(Event event);
 
-    List<EventDto> eventDtos(List<Event> events);
+    List<EventSimple> eventDtos(List<Event> events);
 
     @Mapping(source = "id", target = "eventId")
     @Mapping(source = "name", target = "eventName")
@@ -44,7 +42,9 @@ public interface EventMapper {
     @Mapping(source = "description", target = "description")
     @Mapping(source = "image", target = "imageData", qualifiedByName = "imageToImageData")
     @Mapping(source = "fee", target = "fee")
+    @Mapping(source = "location.id", target = "locationId")
     @Mapping(source = "location.name", target = "locationName")
+    @Mapping(source = "activityType.id", target = "activityTypeId")
     @Mapping(source = "activityType.name", target = "activityTypeName")
     @Mapping(source = "time.registrationDate", target = "registrationDate")
     @Mapping(source = "time.startDate", target = "startDate")

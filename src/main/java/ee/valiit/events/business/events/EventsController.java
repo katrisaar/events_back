@@ -1,6 +1,6 @@
 package ee.valiit.events.business.events;
 
-import ee.valiit.events.business.events.dto.EventDto;
+import ee.valiit.events.business.events.dto.EventSimple;
 import ee.valiit.events.business.events.dto.EventShorty;
 import ee.valiit.events.business.eventuser.*;
 import ee.valiit.events.business.location.LocationDto;
@@ -21,19 +21,23 @@ import java.util.List;
 public class EventsController {
 
     @Resource
-    EventsService eventsService;
+    private EventsService eventsService;
 
     @GetMapping("/events/all")
     @Operation(summary = "Tagastab aktiivsete ürituste nimekirja.")
-    public List<EventDto> getActiveEvents(@RequestParam Integer userId) {
+    public List<EventSimple> getActiveEvents(@RequestParam Integer userId) {
         return eventsService.getActiveEvents(userId);
     }
+
+    //TODO: ära tõsta
 
     @GetMapping("/location")
     @Operation(summary = "Tagastab frondi rippmenüü jaoks kõik olemasolevad piirkonnad.")
     public List<LocationDto> getLocations() {
         return eventsService.getLocations();
     }
+
+    //TODO: ära tõsta
 
     @PostMapping("/location")
     @Operation(summary = "Kasutaja poolt piirkonna lisamine",
@@ -77,6 +81,7 @@ public class EventsController {
     public List<InterestedEvent> findInterestedEvents(@RequestParam Integer userId) {
         return eventsService.findInterestedEvents(userId);
     }
+    //TODO: ära tõsta
 
     @GetMapping("/events/history")
     @Operation(summary = "Tagastab userId alusel kõikide toimunud ürituste nimekirja, mida kasutaja on korraldanud või kus ta on osalenud",
@@ -94,6 +99,7 @@ public class EventsController {
         List<ExistingActivityTypes> activityTypes = eventsService.getActivityTypes();
         return activityTypes;
     }
+    //TODO: ära tõsta
 
     @PostMapping("/activitytype")
     @Operation(summary = "Uue tegevusvaldkonna lisamine",
@@ -143,17 +149,20 @@ public class EventsController {
     public EventInfo getEvent(@RequestParam Integer eventId) {
         return eventsService.getEvent(eventId);
     }
+
     @PostMapping("/event")
     @Operation(summary = "Uue ürituse lisamine.")
     public void addNewEvent(@RequestBody EventInfo eventInfo, @RequestParam Integer userId) {
         eventsService.addNewEvent(eventInfo, userId);
     }
+    //TODO: ära tõsta
 
     @GetMapping("/connection/organisers")
     @Operation(summary = "Toob eventId alusel ära kõik selle ürituse korraldajad")
     public List<EventUserProfileName> getOrganisers(@RequestParam Integer eventId) {
         return eventsService.getOrganisers(eventId);
     }
+    //TODO: ära tõsta
 
     @GetMapping("/connection/participants")
     @Operation(summary = "Toob eventId alusel ära kõik sellel üritusel osalejad.",
@@ -164,6 +173,7 @@ public class EventsController {
     public List<EventUserProfileName> getParticipants(@RequestParam Integer eventId) {
         return eventsService.getParticipants(eventId);
     }
+    //TODO: ära tõsta
 
     @GetMapping("/connection/type")
     @Operation(summary = "Tagastab userId ja eventId alusel kasutaja seoseliigi antud sündmusega. Kui seost ei ole, siis tagastab liigiks 'none'.")

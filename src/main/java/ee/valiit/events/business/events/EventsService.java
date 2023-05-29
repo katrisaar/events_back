@@ -1,6 +1,7 @@
 package ee.valiit.events.business.events;
 
 import ee.valiit.events.business.enums.EventUserConnectionType;
+import ee.valiit.events.business.events.dto.EventSimple;
 import ee.valiit.events.business.events.dto.EventDto;
 import ee.valiit.events.business.events.dto.EventShorty;
 import ee.valiit.events.business.eventuser.*;
@@ -38,6 +39,7 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -89,9 +91,9 @@ public class EventsService {
     @Resource
     ImageService imageService;
 
-    public List<EventDto> getActiveEvents(Integer userId) {
-        List<EventDto> allActiveEvents = eventService.findAllActiveEvents(userId);
-        for (EventDto event : allActiveEvents) {
+    public List<EventSimple> getActiveEvents(Integer userId) {
+        List<EventSimple> allActiveEvents = eventService.findAllActiveEvents(userId);
+        for (EventSimple event : allActiveEvents) {
             if (getUserConnectionToEvent(event.getEventId(), userId).getName().equals("none")) {
                 event.setConnectionTypeName("");
             } else {
@@ -204,8 +206,8 @@ public class EventsService {
     @Transactional
     public void addNewEvent(EventInfo eventInfo, Integer userId) {
 
-        ActivityType activityType = activityTypeService.getActivityTypeBy(eventInfo.getActivityTypeName());
-        Location location = locationService.getLocationBy(eventInfo.getLocationName());
+        ActivityType activityType = activityTypeService.getActivityTypeBy(eventInfo.getActivityTypeId());
+        Location location = locationService.getLocationBy(eventInfo.getLocationId());
         Time time = timeMapper.toTime(eventInfo);
         timeService.addTime(time);
         Address address = addressMapper.toAddress(eventInfo);
@@ -251,6 +253,13 @@ public class EventsService {
         spot.setTaken(spot.getTaken()-1);
         spot.setAvailable(spot.getAvailable()+1);
         spotService.update(spot);
+        if (spot.getAvailable() == 1) {
+            LocalDate registrationDate = event.getTime().getRegistrationDate();
+            if (LocalDate.now().isBefore(registrationDate)) {
+                event.setStatus(Status.ACTIVE.getStatus());
+                eventService.updateEvent(event);
+            }
+        }
     }
 
     @Transactional
