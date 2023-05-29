@@ -1,8 +1,6 @@
 package ee.valiit.events.business.events.dto;
 
 import ee.valiit.events.domain.event.Event;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +14,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventDto implements Serializable {
+public class EventSimple implements Serializable {
 
     private String name;
     private Integer fee;

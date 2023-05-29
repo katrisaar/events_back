@@ -1,6 +1,6 @@
 package ee.valiit.events.business.events;
 
-import ee.valiit.events.business.events.dto.EventDto;
+import ee.valiit.events.business.events.dto.EventSimple;
 import ee.valiit.events.business.events.dto.EventShorty;
 import ee.valiit.events.business.eventuser.*;
 import ee.valiit.events.business.location.LocationDto;
@@ -25,7 +25,7 @@ public class EventsController {
 
     @GetMapping("/events/all")
     @Operation(summary = "Tagastab aktiivsete ürituste nimekirja.")
-    public List<EventDto> getActiveEvents(@RequestParam Integer userId) {
+    public List<EventSimple> getActiveEvents(@RequestParam Integer userId) {
         return eventsService.getActiveEvents(userId);
     }
 

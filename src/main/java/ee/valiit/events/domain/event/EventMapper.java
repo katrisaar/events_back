@@ -1,11 +1,9 @@
 package ee.valiit.events.domain.event;
 
 import ee.valiit.events.business.enums.Status;
-import ee.valiit.events.business.events.dto.EventDto;
+import ee.valiit.events.business.events.dto.EventSimple;
 import ee.valiit.events.business.events.dto.EventInfo;
 import ee.valiit.events.business.events.dto.EventShorty;
-import ee.valiit.events.domain.connectiontype.ConnectionType;
-import ee.valiit.events.domain.eventuser.EventUser;
 import ee.valiit.events.domain.image.Image;
 import ee.valiit.events.domain.util.ImageUtil;
 import ee.valiit.events.domain.util.TimeUtil;
@@ -28,9 +26,9 @@ public interface EventMapper {
     @Mapping(source = "fee", target = "fee")
     @Mapping(source = "activityType.name", target = "activityTypeName")
     @Mapping(source = "spots.available", target = "spotsAvailable")
-    EventDto toDto(Event event);
+    EventSimple toDto(Event event);
 
-    List<EventDto> eventDtos(List<Event> events);
+    List<EventSimple> eventDtos(List<Event> events);
 
     @Mapping(source = "id", target = "eventId")
     @Mapping(source = "name", target = "eventName")

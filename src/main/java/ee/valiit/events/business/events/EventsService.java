@@ -1,8 +1,7 @@
 package ee.valiit.events.business.events;
 
 import ee.valiit.events.business.enums.EventUserConnectionType;
-import ee.valiit.events.business.enums.Status;
-import ee.valiit.events.business.events.dto.EventDto;
+import ee.valiit.events.business.events.dto.EventSimple;
 import ee.valiit.events.business.events.dto.EventShorty;
 import ee.valiit.events.business.eventuser.*;
 import ee.valiit.events.business.location.LocationDto;
@@ -17,7 +16,6 @@ import ee.valiit.events.domain.event.EventMapper;
 import ee.valiit.events.domain.event.EventService;
 import ee.valiit.events.domain.eventuser.EventUser;
 import ee.valiit.events.domain.eventuser.EventUserMapper;
-import ee.valiit.events.domain.eventuser.EventUserRepository;
 import ee.valiit.events.domain.eventuser.EventUserService;
 import ee.valiit.events.domain.activitytype.ActivityType;
 import ee.valiit.events.domain.activitytype.ActivityTypeMapper;
@@ -34,10 +32,8 @@ import ee.valiit.events.domain.user.User;
 import ee.valiit.events.domain.user.UserService;
 import ee.valiit.events.domain.spot.SpotMapper;
 import ee.valiit.events.domain.time.Time;
-import ee.valiit.events.business.enums.Status;
 import ee.valiit.events.domain.time.TimeMapper;
 import ee.valiit.events.domain.time.TimeService;
-import ee.valiit.events.domain.util.ImageUtil;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -93,9 +89,9 @@ public class EventsService {
     @Resource
     ImageService imageService;
 
-    public List<EventDto> getActiveEvents(Integer userId) {
-        List<EventDto> allActiveEvents = eventService.findAllActiveEvents(userId);
-        for (EventDto event : allActiveEvents) {
+    public List<EventSimple> getActiveEvents(Integer userId) {
+        List<EventSimple> allActiveEvents = eventService.findAllActiveEvents(userId);
+        for (EventSimple event : allActiveEvents) {
             if (getUserConnectionToEvent(event.getEventId(), userId).getName().equals("none")) {
                 event.setConnectionTypeName("");
             } else {
@@ -202,7 +198,7 @@ public class EventsService {
     @Transactional
     public void addNewEvent(EventInfo eventInfo, Integer userId) {
 
-        ActivityType activityType = activityTypeService.getActivityTypeBy(eventInfo.getActivityTypeName());
+        ActivityType activityType = activityTypeService.getActivityTypeBy(eventInfo.getActivityTypeId());
         Location location = locationService.getLocationBy(eventInfo.getLocationId());
         Time time = timeMapper.toTime(eventInfo);
         timeService.addTime(time);
