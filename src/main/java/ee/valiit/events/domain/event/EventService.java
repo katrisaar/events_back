@@ -1,6 +1,7 @@
 package ee.valiit.events.domain.event;
 
 import ee.valiit.events.business.enums.Status;
+import ee.valiit.events.business.events.dto.EventSimple;
 import ee.valiit.events.business.events.dto.EventDto;
 import ee.valiit.events.domain.eventuser.EventUserRepository;
 import ee.valiit.events.domain.location.Location;
@@ -26,7 +27,7 @@ public class EventService {
     @Resource
     EventUserRepository eventUserRepository;
 
-    public List<EventDto> findAllActiveEvents(Integer userId) {
+    public List<EventSimple> findAllActiveEvents(Integer userId) {
         List<Event> activeEvents = eventRepository.findActiveEventsBy(Status.ACTIVE.getStatus());
         return eventMapper.eventDtos(activeEvents);
     }

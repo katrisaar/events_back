@@ -20,7 +20,9 @@ public class EventInfo implements Serializable {
     private String description;
     private Integer fee;
     private String imageData;
+    private Integer activityTypeId;
     private String activityTypeName;
+    private Integer locationId;
     private String locationName;
     private Integer spotsMin;
     private Integer spotsMax;
