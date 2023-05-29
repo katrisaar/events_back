@@ -203,6 +203,19 @@ public class EventsService {
         event.setAddress(address);
         event.setSpots(spot);
         eventService.addEvent(event);
+        User user = userService.getUserBy(userId);
+        ConnectionType connectionType = connectionTypeService.getConnectionTypeBy(EventUserConnectionType.ORGANIZING.getTypeName());
+        eventUserService.addConnection(event, user, connectionType);
 
+    }
+
+    @Transactional
+    public void deleteParticipant(Integer eventId, Integer userId) {
+        eventUserService.deleteParticipatingConnection(eventId, userId, EventUserConnectionType.PARTICIPATING.getTypeName());
+        Event event = eventService.getEventBy(eventId);
+        Spot spot = event.getSpots();
+        spot.setTaken(spot.getTaken()-1);
+        spot.setAvailable(spot.getAvailable()+1);
+        spotService.update(spot);
     }
 }

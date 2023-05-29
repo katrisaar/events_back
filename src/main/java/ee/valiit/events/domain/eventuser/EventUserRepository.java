@@ -40,7 +40,9 @@ public interface EventUserRepository extends JpaRepository<EventUser, Integer> {
     @Query("""
             select e from EventUser e
             where e.event.id = ?1 and e.user.id = ?2 and e.connectionType.name = ?3 and e.status = ?4""")
-    Optional<EventUser> findActiveInterestedConnectionBy(Integer eventId, Integer userId, String connectionTypeName, String status);
+    Optional<EventUser> findActiveConnectionBy(Integer eventId, Integer userId, String connectionTypeName, String status);
+
+
 
 
 }

@@ -166,4 +166,10 @@ public class EventsController {
     public void addParticipant(@RequestParam Integer eventId, @RequestParam Integer userId) {
         eventsService.addParticipant(eventId, userId);
     }
+
+    @DeleteMapping("/connection/participant")
+    @Operation (summary = "Kustutab osaleja tüüpi seose kasutaja ja ürituse vahel etteantud userId ja eventId alusel.")
+    public void deleteParticipant(@RequestParam Integer eventId, @RequestParam Integer userId) {
+        eventsService.deleteParticipant(eventId, userId);
+    }
 }

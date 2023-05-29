@@ -5,6 +5,7 @@ import ee.valiit.events.business.enums.Status;
 import ee.valiit.events.domain.connectiontype.ConnectionType;
 import ee.valiit.events.domain.event.Event;
 import ee.valiit.events.domain.user.User;
+import ee.valiit.events.domain.user.UserRepository;
 import ee.valiit.events.validation.ValidationService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,11 @@ public class EventUserService {
 
     @Resource
     EventUserRepository eventUserRepository;
+    private final UserRepository userRepository;
+
+    public EventUserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public List<EventUser> findActiveOrganisedEventUsers(Integer userId) {
         List<EventUser> eventUsers = eventUserRepository.findAllActiveOrganisedEventUsersBy(userId, EventUserConnectionType.ORGANIZING.getTypeName(), Status.ACTIVE.getStatus());
@@ -53,7 +59,7 @@ public class EventUserService {
     }
 
     public void deleteInterestedConnectionIfExists(Integer eventId, Integer userId) {
-        Optional<EventUser> interestedConnection = eventUserRepository.findActiveInterestedConnectionBy(eventId, userId, EventUserConnectionType.INTERESTED.getTypeName(), Status.ACTIVE.getStatus());
+        Optional<EventUser> interestedConnection = eventUserRepository.findActiveConnectionBy(eventId, userId, EventUserConnectionType.INTERESTED.getTypeName(), Status.ACTIVE.getStatus());
         if (interestedConnection.isPresent()) {
             EventUser eventUser = interestedConnection.get();
             eventUser.setStatus(Status.DELETED.getStatus());
@@ -68,5 +74,15 @@ public class EventUserService {
         eventUser.setConnectionType(connectionType);
         eventUser.setStatus(Status.ACTIVE.getStatus());
         eventUserRepository.save(eventUser);
+    }
+
+    public void addConnection(Event event, User user, ConnectionType connectionType) {
+
+    }
+
+    public void deleteParticipatingConnection(Integer eventId, Integer userId, String connectionType) {
+        Optional<EventUser> optionalEventUser = eventUserRepository.findActiveConnectionBy(eventId, userId, connectionType, Status.ACTIVE.getStatus());
+        EventUser eventUser = optionalEventUser.get();
+        eventUserRepository.delete(eventUser);
     }
 }
