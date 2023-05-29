@@ -62,6 +62,42 @@ public class EventService {
         eventRepository.save(event);
     }
 
+    public void cancelEvent(Integer eventId) {
+        Event event = eventRepository.findById(eventId).get();
+        event.setStatus(Status.CANCELLED.getStatus());
+        eventRepository.save(event);
+    }
+
+    public void deleteEvent(Integer eventId) {
+        Event event = eventRepository.findById(eventId).get();
+        event.setStatus(Status.DELETED.getStatus());
+        eventRepository.save(event);
+    }
+
+    public void updateRegistrationEndedEventsStatusToFilled() {
+        List<Event> events = eventRepository.FindEventsWithEndedRegistration(Status.ACTIVE.getStatus(), LocalDate.now());
+        for (Event event : events) {
+            event.setStatus(Status.FILLED.getStatus());
+        }
+        eventRepository.saveAll(events);
+    }
+
+    public void updateEndedEventsStatusToHistory() {
+        List<Event> events = eventRepository.findEndedActiveOrFilledEventsBy(Status.ACTIVE.getStatus(), Status.FILLED.getStatus(), LocalDate.now());
+        for (Event event : events) {
+            event.setStatus(Status.HISTORY.getStatus());
+        }
+        eventRepository.saveAll(events);
+    }
+
+    public void updateCancelledEndedEventsStatusToDeleted() {
+        List<Event> events = eventRepository.findSpecificStatusEventsWhatHaveEnded(Status.CANCELLED.getStatus(), LocalDate.now());
+        for (Event event : events) {
+            event.setStatus(Status.DELETED.getStatus());
+        }
+        eventRepository.saveAll(events);
+    }
+
     public void updateEvent(Event event) {
         eventRepository.save(event);
     }
