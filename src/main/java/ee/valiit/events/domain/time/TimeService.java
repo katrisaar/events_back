@@ -13,6 +13,6 @@ public class TimeService {
     public void addTime(Time time) {
 //        time.setDateCreated(Instant.from(LocalDateTime.now()));
         timeRepository.save(time);
-
     }
+
 }

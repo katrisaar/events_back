@@ -84,4 +84,20 @@ public class EventUserService {
         Optional<EventUser> eventUserOptional = eventUserRepository.findActiveConnectionBy(eventId, userId, EventUserConnectionType.ORGANIZING.getTypeName(), Status.ACTIVE.getStatus());
         ValidationService.validateUserAlreadyIsEventOrganiser(eventUserOptional);
     }
+
+    public void cancelAllActiveEventConnectionsToUsersBy(Integer eventId) {
+        List<EventUser> eventConnections = eventUserRepository.findAllActiveEventConnectionsToUserBy(eventId, Status.ACTIVE.getStatus());
+        for (EventUser eventConnection : eventConnections) {
+            eventConnection.setStatus(Status.CANCELLED.getStatus());
+        }
+        eventUserRepository.saveAll(eventConnections);
+    }
+
+    public void deleteAllActiveEventConnectionsToUsersBy(Integer eventId) {
+        List<EventUser> eventConnections = eventUserRepository.findAllActiveEventConnectionsToUserBy(eventId, Status.ACTIVE.getStatus());
+        for (EventUser eventConnection : eventConnections) {
+            eventConnection.setStatus(Status.DELETED.getStatus());
+        }
+        eventUserRepository.saveAll(eventConnections);
+    }
 }

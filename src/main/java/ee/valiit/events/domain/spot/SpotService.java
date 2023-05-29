@@ -15,4 +15,5 @@ public class SpotService {
     public void addSpot(Spot spot) {
         spotRepository.save(spot);
     }
+
 }

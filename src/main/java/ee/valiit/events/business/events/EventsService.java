@@ -1,7 +1,6 @@
 package ee.valiit.events.business.events;
 
 import ee.valiit.events.business.enums.EventUserConnectionType;
-import ee.valiit.events.business.enums.Status;
 import ee.valiit.events.business.events.dto.EventDto;
 import ee.valiit.events.business.events.dto.EventShorty;
 import ee.valiit.events.business.eventuser.*;
@@ -17,7 +16,6 @@ import ee.valiit.events.domain.event.EventMapper;
 import ee.valiit.events.domain.event.EventService;
 import ee.valiit.events.domain.eventuser.EventUser;
 import ee.valiit.events.domain.eventuser.EventUserMapper;
-import ee.valiit.events.domain.eventuser.EventUserRepository;
 import ee.valiit.events.domain.eventuser.EventUserService;
 import ee.valiit.events.domain.activitytype.ActivityType;
 import ee.valiit.events.domain.activitytype.ActivityTypeMapper;
@@ -34,10 +32,8 @@ import ee.valiit.events.domain.user.User;
 import ee.valiit.events.domain.user.UserService;
 import ee.valiit.events.domain.spot.SpotMapper;
 import ee.valiit.events.domain.time.Time;
-import ee.valiit.events.business.enums.Status;
 import ee.valiit.events.domain.time.TimeMapper;
 import ee.valiit.events.domain.time.TimeService;
-import ee.valiit.events.domain.util.ImageUtil;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -239,5 +235,23 @@ public class EventsService {
             spot.setAvailable(spot.getAvailable()+1);
             spotService.update(spot);
         }
+    }
+
+    @Transactional
+    public void cancelEvent(Integer eventId) {
+        eventUserService.cancelAllActiveEventConnectionsToUsersBy(eventId);
+        eventService.cancelEvent(eventId);
+    }
+
+    @Transactional
+    public void deleteEvent(Integer eventId) {
+        eventUserService.deleteAllActiveEventConnectionsToUsersBy(eventId);
+        eventService.deleteEvent(eventId);
+    }
+
+    public void updateEventStatuses() {
+        eventService.updateRegistrationEndedEventsStatusToFilled();
+        eventService.updateEndedEventsStatusToHistory();
+        eventService.updateCancelledEndedEventsStatusToDeleted();
     }
 }
