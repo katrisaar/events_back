@@ -5,7 +5,6 @@ import ee.valiit.events.business.enums.Status;
 import ee.valiit.events.domain.connectiontype.ConnectionType;
 import ee.valiit.events.domain.event.Event;
 import ee.valiit.events.domain.user.User;
-import ee.valiit.events.domain.user.UserRepository;
 import ee.valiit.events.validation.ValidationService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -18,11 +17,6 @@ public class EventUserService {
 
     @Resource
     EventUserRepository eventUserRepository;
-    private final UserRepository userRepository;
-
-    public EventUserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     public List<EventUser> findActiveOrganisedEventUsers(Integer userId) {
         List<EventUser> eventUsers = eventUserRepository.findAllActiveOrganisedEventUsersBy(userId, EventUserConnectionType.ORGANIZING.getTypeName(), Status.ACTIVE.getStatus());
