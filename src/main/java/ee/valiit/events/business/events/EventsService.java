@@ -238,6 +238,16 @@ public class EventsService {
     }
 
     @Transactional
+    public void deleteParticipant(Integer eventId, Integer userId) {
+        eventUserService.deleteParticipatingConnection(eventId, userId, EventUserConnectionType.PARTICIPATING.getTypeName());
+        Event event = eventService.getEventBy(eventId);
+        Spot spot = event.getSpots();
+        spot.setTaken(spot.getTaken()-1);
+        spot.setAvailable(spot.getAvailable()+1);
+        spotService.update(spot);
+    }
+
+    @Transactional
     public void cancelEvent(Integer eventId) {
         eventUserService.cancelAllActiveEventConnectionsToUsersBy(eventId);
         eventService.cancelEvent(eventId);
@@ -249,6 +259,7 @@ public class EventsService {
         eventService.deleteEvent(eventId);
     }
 
+    @Transactional
     public void updateEventStatuses() {
         eventService.updateRegistrationEndedEventsStatusToFilled();
         eventService.updateEndedEventsStatusToHistory();
