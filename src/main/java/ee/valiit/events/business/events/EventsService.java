@@ -17,7 +17,6 @@ import ee.valiit.events.domain.event.EventMapper;
 import ee.valiit.events.domain.event.EventService;
 import ee.valiit.events.domain.eventuser.EventUser;
 import ee.valiit.events.domain.eventuser.EventUserMapper;
-import ee.valiit.events.domain.eventuser.EventUserRepository;
 import ee.valiit.events.domain.eventuser.EventUserService;
 import ee.valiit.events.domain.activitytype.ActivityType;
 import ee.valiit.events.domain.activitytype.ActivityTypeMapper;
@@ -34,14 +33,13 @@ import ee.valiit.events.domain.user.User;
 import ee.valiit.events.domain.user.UserService;
 import ee.valiit.events.domain.spot.SpotMapper;
 import ee.valiit.events.domain.time.Time;
-import ee.valiit.events.business.enums.Status;
 import ee.valiit.events.domain.time.TimeMapper;
 import ee.valiit.events.domain.time.TimeService;
-import ee.valiit.events.domain.util.ImageUtil;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -249,5 +247,12 @@ public class EventsService {
         spot.setTaken(spot.getTaken()-1);
         spot.setAvailable(spot.getAvailable()+1);
         spotService.update(spot);
+        if (spot.getAvailable() == 1) {
+            LocalDate registrationDate = event.getTime().getRegistrationDate();
+            if (LocalDate.now().isBefore(registrationDate)) {
+                event.setStatus(Status.ACTIVE.getStatus());
+                eventService.updateEvent(event);
+            }
+        }
     }
 }
