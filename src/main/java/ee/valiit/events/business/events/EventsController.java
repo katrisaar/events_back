@@ -69,7 +69,8 @@ public class EventsController {
     }
 
     @DeleteMapping("/event/cancel")
-    @Operation(summary = "Tühistab (märgib staatuseks C ehk 'Cancelled' etteantud eventId alusel ürituse ja sellega seotud osalused")
+    @Operation(summary = "Tühistab etteantud eventId alusel ürituse ja sellega seotud osalused",
+            description = "Tühistamiseks märgib staatuseks C ehk 'Cancelled'")
     public void cancelEvent(@RequestParam Integer eventId) {
         eventsService.cancelEvent(eventId);
     }

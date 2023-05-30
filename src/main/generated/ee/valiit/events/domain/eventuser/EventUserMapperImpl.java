@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-05-30T06:52:18+0300",
+    date = "2023-05-30T09:36:54+0300",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (JetBrains s.r.o.)"
 )
 @Component
@@ -133,6 +133,7 @@ public class EventUserMapperImpl implements EventUserMapper {
 
         eventUserProfileName.setFirstName( eventUserUserContactFirstName( eventUser ) );
         eventUserProfileName.setLastName( eventUserUserContactLastName( eventUser ) );
+        eventUserProfileName.setUserId( eventUserUserId( eventUser ) );
 
         return eventUserProfileName;
     }
@@ -359,6 +360,21 @@ public class EventUserMapperImpl implements EventUserMapper {
             return null;
         }
         return lastName;
+    }
+
+    private Integer eventUserUserId(EventUser eventUser) {
+        if ( eventUser == null ) {
+            return null;
+        }
+        User user = eventUser.getUser();
+        if ( user == null ) {
+            return null;
+        }
+        Integer id = user.getId();
+        if ( id == null ) {
+            return null;
+        }
+        return id;
     }
 
     private String eventUserConnectionTypeName(EventUser eventUser) {

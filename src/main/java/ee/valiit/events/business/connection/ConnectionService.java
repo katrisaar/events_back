@@ -121,7 +121,7 @@ public class ConnectionService {
 
     @Transactional
     public void deleteParticipant(Integer eventId, Integer userId) {
-        eventUserService.deleteParticipatingConnection(eventId, userId, EventUserConnectionType.PARTICIPATING.getTypeName());
+        eventUserService.deleteDefinedTypeConnection(eventId, userId, EventUserConnectionType.PARTICIPATING.getTypeName());
         removeParticipantSpotFromEvent(eventId);
     }
 
@@ -138,5 +138,9 @@ public class ConnectionService {
                 eventService.updateEvent(event);
             }
         }
+    }
+
+    public void deleteOrganiser(Integer eventId, Integer userId) {
+        eventUserService.deleteDefinedTypeConnection(eventId, userId, EventUserConnectionType.ORGANIZING.getTypeName());
     }
 }

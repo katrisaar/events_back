@@ -16,4 +16,5 @@ import java.io.Serializable;
 public class EventUserProfileName implements Serializable {
     private String firstName;
     private String lastName;
+    private Integer userId;
 }
