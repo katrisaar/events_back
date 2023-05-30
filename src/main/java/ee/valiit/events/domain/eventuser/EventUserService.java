@@ -129,7 +129,7 @@ public class EventUserService {
         eventUserRepository.deleteAll(eventConnections);
     }
 
-    public Optional<EventUser> updateExistingActiveConnectionToParticipateIfExists(Integer eventId, Integer userId) {
+    public Optional<EventUser> findActiveExistingConnection(Integer eventId, Integer userId) {
         return eventUserRepository.findSpecifiedStatusUserConnectionToEventBy(eventId, userId, Status.ACTIVE.getStatus());
         }
 

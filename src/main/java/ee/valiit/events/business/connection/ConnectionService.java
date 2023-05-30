@@ -82,7 +82,7 @@ public class ConnectionService {
 
     @Transactional
     public void addParticipant(Integer eventId, Integer userId) {
-        Optional<EventUser> eventUserOptional = eventUserService.updateExistingActiveConnectionToParticipateIfExists(eventId, userId);
+        Optional<EventUser> eventUserOptional = eventUserService.findActiveExistingConnection(eventId, userId);
         Event event = eventService.getEventBy(eventId);
         ConnectionType connectionType = connectionTypeService.getConnectionTypeBy(EventUserConnectionType.PARTICIPATING.getTypeName());
 
@@ -94,14 +94,7 @@ public class ConnectionService {
             User user = userService.getUserBy(userId);
             eventUserService.addConnection(event, user, connectionType);
         }
-        Spot spot = event.getSpots();
-        spot.setTaken(spot.getTaken() + 1);
-        spot.setAvailable(spot.getAvailable() - 1);
-        spotService.update(spot);
-        if (spot.getAvailable() == 0) {
-            event.setStatus(Status.FILLED.getStatus());
-            eventService.updateEvent(event);
-        }
+        addParticipantSpotToEvent(event);
     }
 
     public void addOrganiser(Integer eventId, String username) {
@@ -125,6 +118,21 @@ public class ConnectionService {
         removeParticipantSpotFromEvent(eventId);
     }
 
+    public void deleteOrganiser(Integer eventId, Integer userId) {
+        eventUserService.deleteDefinedTypeConnection(eventId, userId, EventUserConnectionType.ORGANIZING.getTypeName());
+    }
+
+    private void addParticipantSpotToEvent(Event event) {
+        Spot spot = event.getSpots();
+        spot.setTaken(spot.getTaken() + 1);
+        spot.setAvailable(spot.getAvailable() - 1);
+        spotService.update(spot);
+        if (spot.getAvailable() == 0) {
+            event.setStatus(Status.FILLED.getStatus());
+            eventService.updateEvent(event);
+        }
+    }
+
     private void removeParticipantSpotFromEvent(Integer eventId) {
         Event event = eventService.getEventBy(eventId);
         Spot spot = event.getSpots();
@@ -140,7 +148,4 @@ public class ConnectionService {
         }
     }
 
-    public void deleteOrganiser(Integer eventId, Integer userId) {
-        eventUserService.deleteDefinedTypeConnection(eventId, userId, EventUserConnectionType.ORGANIZING.getTypeName());
-    }
 }
