@@ -16,4 +16,7 @@ public class SpotService {
         spotRepository.save(spot);
     }
 
+    public Spot getSpots(Integer eventId) {
+        return spotRepository.findById(eventId).get();
+    }
 }

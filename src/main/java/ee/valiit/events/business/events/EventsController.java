@@ -68,6 +68,12 @@ public class EventsController {
         eventsService.addNewEvent(eventInfo, userId);
     }
 
+    @PutMapping("/event")
+    @Operation(summary = "Ürituse muutmine.")
+    public void updateEvent(@RequestBody EventInfo eventInfo, @RequestParam Integer eventId) {
+        eventsService.updateEvent(eventInfo, eventId);
+    }
+
     @DeleteMapping("/event/cancel")
     @Operation(summary = "Tühistab (märgib staatuseks C ehk 'Cancelled' etteantud eventId alusel ürituse ja sellega seotud osalused")
     public void cancelEvent(@RequestParam Integer eventId) {

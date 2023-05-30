@@ -12,4 +12,7 @@ public class AddressService {
         addressRepository.save(address);
     }
 
+    public Address getAddress(Integer eventId) {
+        return addressRepository.findById(eventId).get();
+    }
 }
