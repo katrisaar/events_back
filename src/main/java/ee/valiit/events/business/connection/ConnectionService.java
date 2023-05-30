@@ -107,22 +107,25 @@ public class ConnectionService {
     public void addOrganiser(Integer eventId, String username) {
         User user = userService.findActiveUser(username);
         eventUserService.validateUserIsNotAlreadyEventOrganiser(user.getId(), eventId);
-        eventUserService.deleteInterestedConnectionIfExists(eventId, user.getId());
-        boolean participationConnectionExists = eventUserService.deleteParticipationConnectionIfExists(eventId, user.getId());
+        ConnectionType organiserConnectionType = connectionTypeService.getConnectionTypeBy(EventUserConnectionType.ORGANIZING.getTypeName());
+        eventUserService.replaceInterestedConnectionIfExists(eventId, user.getId(), organiserConnectionType);
+        boolean participationConnectionExists = eventUserService.replaceParticipationConnectionIfExists(eventId, user.getId(), organiserConnectionType);
         Event event = eventService.getEventBy(eventId);
-        ConnectionType connectionType = connectionTypeService.getConnectionTypeBy(EventUserConnectionType.ORGANIZING.getTypeName());
-        eventUserService.addConnection(event, user, connectionType);
         if (participationConnectionExists) {
-            Spot spot = event.getSpots();
-            spot.setTaken(spot.getTaken()-1);
-            spot.setAvailable(spot.getAvailable()+1);
-            spotService.update(spot);
+            removeParticipantSpotFromEvent(eventId);
+        }
+        if (eventUserService.newConnectionIsNeeded(eventId, user.getId())) {
+            eventUserService.addConnection(event, user, organiserConnectionType);
         }
     }
 
     @Transactional
     public void deleteParticipant(Integer eventId, Integer userId) {
         eventUserService.deleteParticipatingConnection(eventId, userId, EventUserConnectionType.PARTICIPATING.getTypeName());
+        removeParticipantSpotFromEvent(eventId);
+    }
+
+    private void removeParticipantSpotFromEvent(Integer eventId) {
         Event event = eventService.getEventBy(eventId);
         Spot spot = event.getSpots();
         spot.setTaken(spot.getTaken()-1);

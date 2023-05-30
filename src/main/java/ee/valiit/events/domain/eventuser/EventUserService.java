@@ -61,11 +61,11 @@ public class EventUserService {
 
     }
 
-    public void deleteInterestedConnectionIfExists(Integer eventId, Integer userId) {
+    public void replaceInterestedConnectionIfExists(Integer eventId, Integer userId, ConnectionType organiserConnectionType) {
         Optional<EventUser> interestedConnection = eventUserRepository.findActiveConnectionBy(eventId, userId, EventUserConnectionType.INTERESTED.getTypeName(), Status.ACTIVE.getStatus());
         if (interestedConnection.isPresent()) {
             EventUser eventUser = interestedConnection.get();
-            eventUser.setStatus(Status.DELETED.getStatus());
+            eventUser.setConnectionType(organiserConnectionType);
             eventUserRepository.save(eventUser);
         }
     }
@@ -79,11 +79,11 @@ public class EventUserService {
         eventUserRepository.save(eventUser);
     }
 
-    public boolean deleteParticipationConnectionIfExists(Integer eventId, Integer userId) {
+    public boolean replaceParticipationConnectionIfExists(Integer eventId, Integer userId, ConnectionType organiserConnectionType) {
         Optional<EventUser> participatingConnection = eventUserRepository.findActiveConnectionBy(eventId, userId, EventUserConnectionType.PARTICIPATING.getTypeName(), Status.ACTIVE.getStatus());
         if (participatingConnection.isPresent()) {
             EventUser eventUser = participatingConnection.get();
-            eventUser.setStatus(Status.DELETED.getStatus());
+            eventUser.setConnectionType(organiserConnectionType);
             eventUserRepository.save(eventUser);
         }
         return participatingConnection.isPresent();
@@ -135,5 +135,9 @@ public class EventUserService {
 
     public void update(EventUser eventUser) {
         eventUserRepository.save(eventUser);
+    }
+
+    public boolean newConnectionIsNeeded(Integer eventId, Integer userId) {
+        return !eventUserRepository.activeConnectionExists(eventId, userId, Status.ACTIVE.getStatus());
     }
 }
