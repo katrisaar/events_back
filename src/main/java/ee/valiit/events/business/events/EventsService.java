@@ -80,7 +80,6 @@ public class EventsService {
         this.activityTypeRepository = activityTypeRepository;
     }
 
-
     public List<EventSimple> getActiveEvents(Integer userId) {
         List<EventSimple> allActiveEvents = eventService.findAllActiveEvents(userId);
         for (EventSimple event : allActiveEvents) {
@@ -92,8 +91,6 @@ public class EventsService {
         }
         return allActiveEvents;
     }
-
-
 
     public List<EventShorty> findSoonToEndEvents() {
         List<Event> events = eventService.findSoonToEndEvents();
