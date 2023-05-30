@@ -15,6 +15,7 @@ import ee.valiit.events.domain.spot.SpotService;
 import ee.valiit.events.domain.user.User;
 import ee.valiit.events.domain.user.UserService;
 import jakarta.annotation.Resource;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -135,5 +136,12 @@ public class ConnectionService {
                 eventService.updateEvent(event);
             }
         }
+    }
+
+    public void addInterested(Integer eventId, Integer userId) {
+        Event event = eventService.getEventBy(eventId);
+        User user = userService.getUserBy(userId);
+        ConnectionType connectionType = connectionTypeService.getConnectionTypeBy(EventUserConnectionType.INTERESTED.getTypeName());
+        eventUserService.addConnection(event, user, connectionType);
     }
 }
