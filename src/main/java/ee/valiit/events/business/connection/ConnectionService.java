@@ -39,23 +39,23 @@ public class ConnectionService {
 
 
     public List<OrganisedEvent> findOrganisedEvents(Integer userId) {
-        List<EventUser> eventUsers = eventUserService.findActiveOrCancelledOrganisedEventUsers(userId);
+        List<EventUser> eventUsers = eventUserService.findAndValidateActiveOrCancelledOrganisedEventUsers(userId);
         return eventUserMapper.toOrganisedEvents(eventUsers);
     }
 
     public List<ParticipatingEvent> findParticipatingEvents(Integer userId) {
-        List<EventUser> eventUsers = eventUserService.findActiveOrCancelledParticipatingEventUsers(userId);
+        List<EventUser> eventUsers = eventUserService.findAndValidateActiveOrCancelledParticipatingEventUsers(userId);
         return eventUserMapper.toParticipatingEvents(eventUsers);
     }
 
     public List<InterestedEvent> findInterestedEvents(Integer userId) {
-        List<EventUser> eventUsers = eventUserService.findActiveInterestedEventUsers(userId);
+        List<EventUser> eventUsers = eventUserService.findAndValidateActiveInterestedEventUsers(userId);
         return eventUserMapper.toInterestedEvents(eventUsers);
     }
 
 
     public List<HistoryEvent> findHistoryEvents(Integer userId) {
-        List<EventUser> eventUsers = eventUserService.findHistoryEventsBy(userId);
+        List<EventUser> eventUsers = eventUserService.findAndValidateHistoryEventsBy(userId);
         return eventUserMapper.toHistoryEvents(eventUsers);
     }
 
@@ -65,7 +65,7 @@ public class ConnectionService {
     }
 
     public List<EventUserProfileName> getParticipants(Integer eventId) {
-        List<EventUser> eventUsers = eventUserService.findActiveEventParticipants(eventId);
+        List<EventUser> eventUsers = eventUserService.findAndValidateActiveEventParticipants(eventId);
         return eventUserMapper.toEventUserProfileNames(eventUsers);
     }
 
@@ -122,18 +122,7 @@ public class ConnectionService {
         eventUserService.deleteDefinedTypeConnection(eventId, userId, EventUserConnectionType.ORGANIZING.getTypeName());
     }
 
-    private void addParticipantSpotToEvent(Event event) {
-        Spot spot = event.getSpots();
-        spot.setTaken(spot.getTaken() + 1);
-        spot.setAvailable(spot.getAvailable() - 1);
-        spotService.update(spot);
-        if (spot.getAvailable() == 0) {
-            event.setStatus(Status.FILLED.getStatus());
-            eventService.updateEvent(event);
-        }
-    }
-
-    private void removeParticipantSpotFromEvent(Integer eventId) {
+    public void removeParticipantSpotFromEvent(Integer eventId) {
         Event event = eventService.getEventBy(eventId);
         Spot spot = event.getSpots();
         spot.setTaken(spot.getTaken()-1);
@@ -148,4 +137,14 @@ public class ConnectionService {
         }
     }
 
+    private void addParticipantSpotToEvent(Event event) {
+        Spot spot = event.getSpots();
+        spot.setTaken(spot.getTaken() + 1);
+        spot.setAvailable(spot.getAvailable() - 1);
+        spotService.update(spot);
+        if (spot.getAvailable() == 0) {
+            event.setStatus(Status.FILLED.getStatus());
+            eventService.updateEvent(event);
+        }
+    }
 }
