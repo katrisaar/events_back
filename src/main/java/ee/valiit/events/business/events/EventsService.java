@@ -1,11 +1,8 @@
 package ee.valiit.events.business.events;
 
 import ee.valiit.events.business.connection.ConnectionService;
-import ee.valiit.events.business.connection.dto.HistoryEvent;
-import ee.valiit.events.business.connection.dto.InterestedEvent;
-import ee.valiit.events.business.connection.dto.OrganisedEvent;
-import ee.valiit.events.business.connection.dto.ParticipatingEvent;
 import ee.valiit.events.business.enums.EventUserConnectionType;
+import ee.valiit.events.business.enums.Status;
 import ee.valiit.events.business.events.dto.EventInfo;
 import ee.valiit.events.business.events.dto.EventShorty;
 import ee.valiit.events.business.events.dto.EventSimple;
@@ -19,7 +16,6 @@ import ee.valiit.events.domain.connectiontype.ConnectionTypeService;
 import ee.valiit.events.domain.event.Event;
 import ee.valiit.events.domain.event.EventMapper;
 import ee.valiit.events.domain.event.EventService;
-import ee.valiit.events.domain.eventuser.EventUser;
 import ee.valiit.events.domain.eventuser.EventUserMapper;
 import ee.valiit.events.domain.eventuser.EventUserService;
 import ee.valiit.events.domain.image.Image;
@@ -153,8 +149,26 @@ public class EventsService {
     @Transactional
     public void updateEventStatuses() {
         eventService.updateRegistrationEndedEventsStatusToFilled();
-        eventService.updateEndedEventsStatusToHistory();
-        eventService.updateCancelledEndedEventsStatusToDeleted();
+        updateEndedActiveOrFilledEventsAndRelatedConnectionsStatusToHistory();
+        updateCancelledEndedEventsAndRelatedConnectionsStatusToDeleted();
+    }
+
+    private void updateEndedActiveOrFilledEventsAndRelatedConnectionsStatusToHistory() {
+        List<Event> endedActiveOrFilledEvents = eventService.findEndedActiveOrFilledEvents();
+        for (Event endedEvent : endedActiveOrFilledEvents) {
+            endedEvent.setStatus(Status.HISTORY.getStatus());
+            eventService.updateEvent(endedEvent);
+            eventUserService.updateStatusOfRelatedActiveConnectionsToHistoryBy(endedEvent.getId());
+        }
+    }
+
+    private void updateCancelledEndedEventsAndRelatedConnectionsStatusToDeleted() {
+        List<Event> endedCancelledEvents = eventService.findEndedCancelledEvents();
+        for (Event endedEvent : endedCancelledEvents) {
+            endedEvent.setStatus(Status.DELETED.getStatus());
+            eventService.updateEvent(endedEvent);
+            eventUserService.deleteRelatedCancelledConnectionsBy(endedEvent.getId());
+        }
     }
 
 }

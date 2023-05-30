@@ -3,7 +3,6 @@ package ee.valiit.events.domain.event;
 import ee.valiit.events.business.enums.Status;
 import ee.valiit.events.business.events.dto.EventSimple;
 import ee.valiit.events.domain.eventuser.EventUserRepository;
-import ee.valiit.events.domain.location.Location;
 import ee.valiit.events.domain.location.LocationRepository;
 import ee.valiit.events.validation.ValidationService;
 import jakarta.annotation.Resource;
@@ -78,23 +77,15 @@ public class EventService {
         eventRepository.saveAll(events);
     }
 
-    public void updateEndedEventsStatusToHistory() {
-        List<Event> events = eventRepository.findEndedActiveOrFilledEventsBy(Status.ACTIVE.getStatus(), Status.FILLED.getStatus(), LocalDate.now());
-        for (Event event : events) {
-            event.setStatus(Status.HISTORY.getStatus());
-        }
-        eventRepository.saveAll(events);
-    }
-
-    public void updateCancelledEndedEventsStatusToDeleted() {
-        List<Event> events = eventRepository.findSpecificStatusEventsWhatHaveEnded(Status.CANCELLED.getStatus(), LocalDate.now());
-        for (Event event : events) {
-            event.setStatus(Status.DELETED.getStatus());
-        }
-        eventRepository.saveAll(events);
-    }
-
     public void updateEvent(Event event) {
         eventRepository.save(event);
+    }
+
+    public List<Event> findEndedActiveOrFilledEvents() {
+        return eventRepository.findEndedActiveOrFilledEventsBy(Status.ACTIVE.getStatus(), Status.FILLED.getStatus(), LocalDate.now());
+    }
+
+    public List<Event> findEndedCancelledEvents() {
+        return eventRepository.findSpecificStatusEventsWhatHaveEnded(Status.CANCELLED.getStatus(), LocalDate.now());
     }
 }

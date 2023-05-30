@@ -39,12 +39,12 @@ public class ConnectionService {
 
 
     public List<OrganisedEvent> findOrganisedEvents(Integer userId) {
-        List<EventUser> eventUsers = eventUserService.findActiveOrganisedEventUsers(userId);
+        List<EventUser> eventUsers = eventUserService.findActiveOrCancelledOrganisedEventUsers(userId);
         return eventUserMapper.toOrganisedEvents(eventUsers);
     }
 
     public List<ParticipatingEvent> findParticipatingEvents(Integer userId) {
-        List<EventUser> eventUsers = eventUserService.findActiveParticipatingEventUsers(userId);
+        List<EventUser> eventUsers = eventUserService.findActiveOrCancelledParticipatingEventUsers(userId);
         return eventUserMapper.toParticipatingEvents(eventUsers);
     }
 
@@ -82,15 +82,26 @@ public class ConnectionService {
 
     @Transactional
     public void addParticipant(Integer eventId, Integer userId) {
-        eventUserService.deleteInterestedConnectionIfExists(eventId, userId);
+        Optional<EventUser> eventUserOptional = eventUserService.updateExistingActiveConnectionToParticipateIfExists(eventId, userId);
         Event event = eventService.getEventBy(eventId);
-        User user = userService.getUserBy(userId);
         ConnectionType connectionType = connectionTypeService.getConnectionTypeBy(EventUserConnectionType.PARTICIPATING.getTypeName());
-        eventUserService.addConnection(event, user, connectionType);
+
+        if (eventUserOptional.isPresent()) {
+            EventUser eventUser = eventUserOptional.get();
+            eventUser.setConnectionType(connectionType);
+            eventUserService.update(eventUser);
+        } else {
+            User user = userService.getUserBy(userId);
+            eventUserService.addConnection(event, user, connectionType);
+        }
         Spot spot = event.getSpots();
         spot.setTaken(spot.getTaken() + 1);
         spot.setAvailable(spot.getAvailable() - 1);
         spotService.update(spot);
+        if (spot.getAvailable() == 0) {
+            event.setStatus(Status.FILLED.getStatus());
+            eventService.updateEvent(event);
+        }
     }
 
     public void addOrganiser(Integer eventId, String username) {

@@ -80,7 +80,7 @@ public class ConnectionController {
     }
 
     @PostMapping("/connection/participant")
-    @Operation(summary = "Loob uue osaleja tüüpi seose kasutaja ja ürituse vahel etteantud userId ja eventId alusel.")
+    @Operation(summary = "Määrab kasutaja üritusel osalejaks etteantud userId ja eventId alusel.")
     public void addParticipant(@RequestParam Integer eventId, @RequestParam Integer userId) {
         connectionService.addParticipant(eventId, userId);
     }

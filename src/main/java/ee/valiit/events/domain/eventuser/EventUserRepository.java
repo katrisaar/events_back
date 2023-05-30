@@ -12,7 +12,7 @@ public interface EventUserRepository extends JpaRepository<EventUser, Integer> {
             select e from EventUser e
             where e.user.id = ?1 and e.connectionType.name = ?2 and (e.status = ?3 or e.status = ?4)
             order by e.status, e.event.time.startDate""")
-    List<EventUser> findAllActiveOrCancelledOrganisedEventUsersBy(Integer id, String name, String statusActive, String statusCancelled);
+    List<EventUser> findAllActiveOrCancelledOrganisedEventUsersBy(Integer userId, String connectionTypeName, String statusActive, String statusCancelled);
 
 
 
@@ -41,7 +41,7 @@ public interface EventUserRepository extends JpaRepository<EventUser, Integer> {
     List<EventUser> findActiveEventParticipantsBy(Integer eventId, String ConnectionTypeName, String status);
 
     @Query("select e from EventUser e where e.event.id = ?1 and e.user.id = ?2 and e.status = ?3")
-    Optional<EventUser> findActiveUserConnectionToEventBy(Integer eventId, Integer userId, String status);
+    Optional<EventUser> findSpecifiedStatusUserConnectionToEventBy(Integer eventId, Integer userId, String status);
 
     @Query("""
             select e from EventUser e
@@ -49,7 +49,7 @@ public interface EventUserRepository extends JpaRepository<EventUser, Integer> {
     Optional<EventUser> findActiveConnectionBy(Integer eventId, Integer userId, String connectionTypeName, String status);
 
     @Query("select e from EventUser e where e.event.id = ?1 and e.status = ?2")
-    List<EventUser> findAllActiveEventConnectionsToUserBy(Integer eventId, String status);
+    List<EventUser> findAllSpecifiedStatusEventConnectionsBy(Integer eventId, String status);
 
 
     @Query("select e from EventUser e where e.event.id = ?1")
