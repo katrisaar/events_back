@@ -16,7 +16,6 @@ public class ActivityTypesService {
     @Resource
     ActivityTypeMapper activityTypeMapper;
 
-
     public List<ExistingActivityTypes> getActivityTypes() {
         List<ActivityType> activityTypes = activityTypeService.getActivityTypes();
         List<ExistingActivityTypes> existingActivityTypes = activityTypeMapper.toDtos(activityTypes);
