@@ -18,8 +18,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-05-29T18:18:07+0300",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (JetBrains s.r.o.)"
+    date = "2023-05-31T09:22:05+0300",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Eclipse Adoptium)"
 )
 @Component
 public class EventMapperImpl implements EventMapper {
@@ -129,6 +129,21 @@ public class EventMapperImpl implements EventMapper {
         event.setName( eventInfo.getEventName() );
         event.setDescription( eventInfo.getDescription() );
         event.setFee( eventInfo.getFee() );
+
+        event.setStatus( Status.ACTIVE.getStatus() );
+
+        return event;
+    }
+
+    @Override
+    public Event partialUpdate(EventInfo eventInfo, Event event) {
+        if ( eventInfo == null ) {
+            return event;
+        }
+
+        event.setDescription( eventInfo.getDescription() );
+        event.setFee( eventInfo.getFee() );
+        event.setName( eventInfo.getEventName() );
 
         event.setStatus( Status.ACTIVE.getStatus() );
 

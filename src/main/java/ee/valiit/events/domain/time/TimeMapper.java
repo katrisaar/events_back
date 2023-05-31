@@ -18,6 +18,10 @@ public interface TimeMapper {
     @Mapping(source = "endTime", target = "endTime", qualifiedByName = "getLocalTimeFromString")
     Time toTime(EventInfo eventInfo);
 
+    @Mapping(source = "startTime", target = "startTime", qualifiedByName = "getLocalTimeFromString")
+    @Mapping(source = "endTime", target = "endTime", qualifiedByName = "getLocalTimeFromString")
+    Time partialTimeUpdate(EventInfo eventInfo, @MappingTarget Time time);
+
 
     @Named("getLocalTimeFromString")
     static LocalTime getLocalTimeFromString(String timeString) {

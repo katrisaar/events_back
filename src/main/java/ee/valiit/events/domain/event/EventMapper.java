@@ -64,6 +64,12 @@ public interface EventMapper {
     @Mapping(source = "fee", target = "fee")
     Event toEvent(EventInfo eventInfo);
 
+    @Mapping(source = "description", target = "description")
+    @Mapping(source = "fee", target = "fee")
+    @Mapping(source = "eventName", target = "name")
+    @Mapping(expression = "java(Status.ACTIVE.getStatus())", target = "status")
+    Event partialUpdate(EventInfo eventInfo, @MappingTarget Event event);
+
 
     @Named("imageToImageData")
     static String imageToImageData(Image image) {

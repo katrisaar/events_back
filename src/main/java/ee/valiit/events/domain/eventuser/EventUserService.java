@@ -18,29 +18,29 @@ public class EventUserService {
     @Resource
     EventUserRepository eventUserRepository;
 
-    public List<EventUser> findActiveOrCancelledOrganisedEventUsers(Integer userId) {
+    public List<EventUser> findAndValidateActiveOrCancelledOrganisedEventUsers(Integer userId) {
         List<EventUser> eventUsers = eventUserRepository.findAllActiveOrCancelledOrganisedEventUsersBy(userId, EventUserConnectionType.ORGANIZING.getTypeName(),
                 Status.ACTIVE.getStatus(), Status.CANCELLED.getStatus());
         ValidationService.validateEventUserListExists(eventUsers);
         return eventUsers;
     }
 
-    public List<EventUser> findActiveOrCancelledParticipatingEventUsers(Integer userId) {
+    public List<EventUser> findAndValidateActiveOrCancelledParticipatingEventUsers(Integer userId) {
         List<EventUser> eventUsers = eventUserRepository.findAllActiveOrCancelledParticipatingEventUsersBy(userId, EventUserConnectionType.PARTICIPATING.getTypeName(),
                 Status.ACTIVE.getStatus(), Status.CANCELLED.getStatus());
         ValidationService.validateEventUserListExists(eventUsers);
         return eventUsers;
     }
 
-    public List<EventUser> findActiveInterestedEventUsers(Integer userId) {
-        List<EventUser> eventUsers = eventUserRepository.findAllActiveInterestedEventUsersBy(userId, EventUserConnectionType.INTERESTED.getTypeName(), Status.ACTIVE.getStatus());
+    public List<EventUser> findAndValidateActiveInterestedEventUsers(Integer userId) {
+        List<EventUser> eventUsers = eventUserRepository.findAllDefinedTypeEventUsersBy(userId, EventUserConnectionType.INTERESTED.getTypeName(), Status.ACTIVE.getStatus());
         ValidationService.validateEventUserListExists(eventUsers);
         return eventUsers;
     }
 
 
-    public List<EventUser> findHistoryEventsBy(Integer userId) {
-        List<EventUser> eventUsers = eventUserRepository.findHistoryEventsBy(userId, Status.HISTORY.getStatus());
+    public List<EventUser> findAndValidateHistoryEventsBy(Integer userId) {
+        List<EventUser> eventUsers = eventUserRepository.findDefinedStatusEventsBy(userId, Status.HISTORY.getStatus());
         ValidationService.validateEventUserListExists(eventUsers);
         return eventUsers;
     }
@@ -49,7 +49,7 @@ public class EventUserService {
         return eventUserRepository.getActiveEventOrganisersBy(eventId, EventUserConnectionType.ORGANIZING.getTypeName(), Status.ACTIVE.getStatus());
     }
 
-    public List<EventUser> findActiveEventParticipants(Integer eventId) {
+    public List<EventUser> findAndValidateActiveEventParticipants(Integer eventId) {
         List<EventUser> eventUsers = eventUserRepository.findActiveEventParticipantsBy(eventId, EventUserConnectionType.PARTICIPATING.getTypeName(), Status.ACTIVE.getStatus());
         ValidationService.validateEventHasParticipants(eventUsers);
         return eventUsers;
@@ -61,11 +61,11 @@ public class EventUserService {
 
     }
 
-    public void deleteInterestedConnectionIfExists(Integer eventId, Integer userId) {
+    public void replaceInterestedConnectionIfExists(Integer eventId, Integer userId, ConnectionType organiserConnectionType) {
         Optional<EventUser> interestedConnection = eventUserRepository.findActiveConnectionBy(eventId, userId, EventUserConnectionType.INTERESTED.getTypeName(), Status.ACTIVE.getStatus());
         if (interestedConnection.isPresent()) {
             EventUser eventUser = interestedConnection.get();
-            eventUser.setStatus(Status.DELETED.getStatus());
+            eventUser.setConnectionType(organiserConnectionType);
             eventUserRepository.save(eventUser);
         }
     }
@@ -79,11 +79,11 @@ public class EventUserService {
         eventUserRepository.save(eventUser);
     }
 
-    public boolean deleteParticipationConnectionIfExists(Integer eventId, Integer userId) {
+    public boolean replaceParticipationConnectionIfExists(Integer eventId, Integer userId, ConnectionType organiserConnectionType) {
         Optional<EventUser> participatingConnection = eventUserRepository.findActiveConnectionBy(eventId, userId, EventUserConnectionType.PARTICIPATING.getTypeName(), Status.ACTIVE.getStatus());
         if (participatingConnection.isPresent()) {
             EventUser eventUser = participatingConnection.get();
-            eventUser.setStatus(Status.DELETED.getStatus());
+            eventUser.setConnectionType(organiserConnectionType);
             eventUserRepository.save(eventUser);
         }
         return participatingConnection.isPresent();
@@ -94,7 +94,7 @@ public class EventUserService {
         ValidationService.validateUserAlreadyIsEventOrganiser(eventUserOptional);
     }
 
-    public void deleteParticipatingConnection(Integer eventId, Integer userId, String connectionType) {
+    public void deleteDefinedTypeConnection(Integer eventId, Integer userId, String connectionType) {
         Optional<EventUser> optionalEventUser = eventUserRepository.findActiveConnectionBy(eventId, userId, connectionType, Status.ACTIVE.getStatus());
         EventUser eventUser = optionalEventUser.get();
         eventUserRepository.delete(eventUser);
@@ -129,12 +129,41 @@ public class EventUserService {
         eventUserRepository.deleteAll(eventConnections);
     }
 
-    public Optional<EventUser> updateExistingActiveConnectionToParticipateIfExists(Integer eventId, Integer userId) {
+    public Optional<EventUser> findActiveExistingConnection(Integer eventId, Integer userId) {
         return eventUserRepository.findSpecifiedStatusUserConnectionToEventBy(eventId, userId, Status.ACTIVE.getStatus());
         }
 
     public void update(EventUser eventUser) {
         eventUserRepository.save(eventUser);
+    }
+
+    public boolean newConnectionIsNeeded(Integer eventId, Integer userId) {
+        return !eventUserRepository.activeConnectionExists(eventId, userId, Status.ACTIVE.getStatus());
+    }
+
+    public void findAndDeleteAllInterestedEventsConnections(Integer userId) {
+        List<EventUser> eventUsers = eventUserRepository.findAllDefinedTypeEventUsersBy(userId, EventUserConnectionType.INTERESTED.getTypeName(), Status.ACTIVE.getStatus());
+        eventUserRepository.deleteAll(eventUsers);
+    }
+
+    public List<EventUser> findAllActiveParticipationEventsConnections(Integer userId) {
+        return eventUserRepository.findAllDefinedTypeEventUsersBy(userId, EventUserConnectionType.PARTICIPATING.getTypeName(), Status.ACTIVE.getStatus());
+    }
+
+    public void deleteAll(List<EventUser> participationConnections) {
+        eventUserRepository.deleteAll(participationConnections);
+    }
+
+    public List<EventUser> findAllActiveOrganisingEventsConnections(Integer userId) {
+        return eventUserRepository.findAllDefinedTypeEventUsersBy(userId, EventUserConnectionType.ORGANIZING.getTypeName(), Status.ACTIVE.getStatus());
+    }
+
+    public void delete(EventUser eventUser) {
+        eventUserRepository.delete(eventUser);
+    }
+
+    public List<EventUser> findActiveEventParticipants(Integer eventId) {
+        return eventUserRepository.findActiveEventParticipantsBy(eventId, EventUserConnectionType.PARTICIPATING.getTypeName(), Status.ACTIVE.getStatus());
     }
 
     public void deleteInterestedConnection(Integer eventId, Integer userId) {

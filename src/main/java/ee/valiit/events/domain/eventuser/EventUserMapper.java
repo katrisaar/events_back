@@ -42,6 +42,7 @@ public interface EventUserMapper {
 
     @Mapping(source = "user.contact.firstName", target = "firstName")
     @Mapping(source = "user.contact.lastName", target = "lastName")
+    @Mapping(source = "user.id", target = "userId")
     EventUserProfileName toEventUserProfileNames(EventUser eventUser);
 
     List<EventUserProfileName> toEventUserProfileNames(List<EventUser> eventUsers);

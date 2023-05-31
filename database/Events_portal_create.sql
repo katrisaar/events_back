@@ -40,7 +40,7 @@ CREATE TABLE event (
     id serial  NOT NULL,
     name varchar(255)  NOT NULL,
     description varchar(3000)  NOT NULL,
-    fee int  NULL,
+    fee int  NULL CHECK (fee >= 0),
     status char(1)  NOT NULL,
     image_id int  NULL,
     activity_type_id int  NOT NULL,
@@ -85,8 +85,8 @@ CREATE TABLE role (
 -- Table: spots
 CREATE TABLE spots (
     id serial  NOT NULL,
-    min int  NOT NULL,
-    max int  NOT NULL,
+    min int  NOT NULL CHECK (min >= 0),
+    max int  NOT NULL CHECK (max >= 0),
     available int  NOT NULL,
     taken int  NOT NULL,
     CONSTRAINT spots_pk PRIMARY KEY (id)

@@ -1,8 +1,15 @@
 package ee.valiit.events.business.profile;
 
+import ee.valiit.events.business.connection.ConnectionService;
+import ee.valiit.events.business.enums.Status;
+import ee.valiit.events.business.events.EventsService;
 import ee.valiit.events.business.profile.dto.LoginResponse;
 import ee.valiit.events.business.profile.dto.ProfileInfoWithImage;
 import ee.valiit.events.business.profile.dto.ProfileRequest;
+import ee.valiit.events.domain.event.Event;
+import ee.valiit.events.domain.event.EventService;
+import ee.valiit.events.domain.eventuser.EventUser;
+import ee.valiit.events.domain.eventuser.EventUserService;
 import ee.valiit.events.domain.image.Image;
 import ee.valiit.events.domain.image.ImageService;
 import ee.valiit.events.domain.user.User;
@@ -32,6 +39,14 @@ public class ProfileService {
     private RoleService roleService;
     @Resource
     ImageService imageService;
+    @Resource
+    EventUserService eventUserService;
+    @Resource
+    EventService eventService;
+    @Resource
+    EventsService eventsService;
+    @Resource
+    ConnectionService connectionService;
     @Resource
     private UserMapper userMapper;
     @Resource
@@ -113,7 +128,38 @@ public class ProfileService {
         return userMapper.toProfileInfos(allUsers);
     }
 
+    @Transactional
     public void deleteUser(Integer userId) {
         userService.deactivateUser(userId);
+        eventUserService.findAndDeleteAllInterestedEventsConnections(userId);
+
+        List<EventUser> participationConnections = eventUserService.findAllActiveParticipationEventsConnections(userId);
+        for (EventUser connection : participationConnections) {
+            Event event = connection.getEvent();
+            connectionService.removeParticipantSpotFromEvent(event.getId());
+        }
+        eventUserService.deleteAll(participationConnections);
+
+        List<EventUser> organisingConnections = eventUserService.findAllActiveOrganisingEventsConnections(userId);
+        for (EventUser connection : organisingConnections) {
+            Event event = connection.getEvent();
+            connection.setStatus(Status.CANCELLED.getStatus());
+            eventUserService.update(connection);
+            List<EventUser> otherOrganisers = eventUserService.getActiveEventOrganisers(event.getId());
+            if (otherOrganisers.isEmpty()) {
+                List<EventUser> eventParticipants = eventUserService.findActiveEventParticipants(event.getId());
+                if (eventParticipants.isEmpty()) {
+                    eventUserService.deleteAllActiveEventConnectionsToUsersBy(event.getId());
+                    eventService.deleteEvent(event.getId());
+                    eventUserService.delete(connection);
+                } else {
+                    eventUserService.cancelAllActiveEventConnectionsToUsersBy(event.getId());
+                    eventService.cancelEvent(event.getId());
+                }
+            } else {
+                eventUserService.delete(connection);
+            }
+        }
     }
+
 }
