@@ -199,7 +199,7 @@ public class EventsService {
         updateCancelledEndedEventsAndRelatedConnectionsStatusToDeleted();
     }
 
-    private void updateEndedActiveOrFilledEventsAndRelatedConnectionsStatusToHistory() {
+    public void updateEndedActiveOrFilledEventsAndRelatedConnectionsStatusToHistory() {
         List<Event> endedActiveOrFilledEvents = eventService.findEndedActiveOrFilledEvents();
         for (Event endedEvent : endedActiveOrFilledEvents) {
             endedEvent.setStatus(Status.HISTORY.getStatus());
@@ -208,7 +208,7 @@ public class EventsService {
         }
     }
 
-    private void updateCancelledEndedEventsAndRelatedConnectionsStatusToDeleted() {
+    public void updateCancelledEndedEventsAndRelatedConnectionsStatusToDeleted() {
         List<Event> endedCancelledEvents = eventService.findEndedCancelledEvents();
         for (Event endedEvent : endedCancelledEvents) {
             endedEvent.setStatus(Status.DELETED.getStatus());

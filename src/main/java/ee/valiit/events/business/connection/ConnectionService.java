@@ -39,23 +39,23 @@ public class ConnectionService {
 
 
     public List<OrganisedEvent> findOrganisedEvents(Integer userId) {
-        List<EventUser> eventUsers = eventUserService.findActiveOrCancelledOrganisedEventUsers(userId);
+        List<EventUser> eventUsers = eventUserService.findAndValidateActiveOrCancelledOrganisedEventUsers(userId);
         return eventUserMapper.toOrganisedEvents(eventUsers);
     }
 
     public List<ParticipatingEvent> findParticipatingEvents(Integer userId) {
-        List<EventUser> eventUsers = eventUserService.findActiveOrCancelledParticipatingEventUsers(userId);
+        List<EventUser> eventUsers = eventUserService.findAndValidateActiveOrCancelledParticipatingEventUsers(userId);
         return eventUserMapper.toParticipatingEvents(eventUsers);
     }
 
     public List<InterestedEvent> findInterestedEvents(Integer userId) {
-        List<EventUser> eventUsers = eventUserService.findActiveInterestedEventUsers(userId);
+        List<EventUser> eventUsers = eventUserService.findAndValidateActiveInterestedEventUsers(userId);
         return eventUserMapper.toInterestedEvents(eventUsers);
     }
 
 
     public List<HistoryEvent> findHistoryEvents(Integer userId) {
-        List<EventUser> eventUsers = eventUserService.findHistoryEventsBy(userId);
+        List<EventUser> eventUsers = eventUserService.findAndValidateHistoryEventsBy(userId);
         return eventUserMapper.toHistoryEvents(eventUsers);
     }
 
@@ -65,7 +65,7 @@ public class ConnectionService {
     }
 
     public List<EventUserProfileName> getParticipants(Integer eventId) {
-        List<EventUser> eventUsers = eventUserService.findActiveEventParticipants(eventId);
+        List<EventUser> eventUsers = eventUserService.findAndValidateActiveEventParticipants(eventId);
         return eventUserMapper.toEventUserProfileNames(eventUsers);
     }
 
@@ -82,7 +82,7 @@ public class ConnectionService {
 
     @Transactional
     public void addParticipant(Integer eventId, Integer userId) {
-        Optional<EventUser> eventUserOptional = eventUserService.updateExistingActiveConnectionToParticipateIfExists(eventId, userId);
+        Optional<EventUser> eventUserOptional = eventUserService.findActiveExistingConnection(eventId, userId);
         Event event = eventService.getEventBy(eventId);
         ConnectionType connectionType = connectionTypeService.getConnectionTypeBy(EventUserConnectionType.PARTICIPATING.getTypeName());
 
@@ -94,35 +94,35 @@ public class ConnectionService {
             User user = userService.getUserBy(userId);
             eventUserService.addConnection(event, user, connectionType);
         }
-        Spot spot = event.getSpots();
-        spot.setTaken(spot.getTaken() + 1);
-        spot.setAvailable(spot.getAvailable() - 1);
-        spotService.update(spot);
-        if (spot.getAvailable() == 0) {
-            event.setStatus(Status.FILLED.getStatus());
-            eventService.updateEvent(event);
-        }
+        addParticipantSpotToEvent(event);
     }
 
     public void addOrganiser(Integer eventId, String username) {
         User user = userService.findActiveUser(username);
         eventUserService.validateUserIsNotAlreadyEventOrganiser(user.getId(), eventId);
-        eventUserService.deleteInterestedConnectionIfExists(eventId, user.getId());
-        boolean participationConnectionExists = eventUserService.deleteParticipationConnectionIfExists(eventId, user.getId());
+        ConnectionType organiserConnectionType = connectionTypeService.getConnectionTypeBy(EventUserConnectionType.ORGANIZING.getTypeName());
+        eventUserService.replaceInterestedConnectionIfExists(eventId, user.getId(), organiserConnectionType);
+        boolean participationConnectionExists = eventUserService.replaceParticipationConnectionIfExists(eventId, user.getId(), organiserConnectionType);
         Event event = eventService.getEventBy(eventId);
-        ConnectionType connectionType = connectionTypeService.getConnectionTypeBy(EventUserConnectionType.ORGANIZING.getTypeName());
-        eventUserService.addConnection(event, user, connectionType);
         if (participationConnectionExists) {
-            Spot spot = event.getSpots();
-            spot.setTaken(spot.getTaken()-1);
-            spot.setAvailable(spot.getAvailable()+1);
-            spotService.update(spot);
+            removeParticipantSpotFromEvent(eventId);
+        }
+        if (eventUserService.newConnectionIsNeeded(eventId, user.getId())) {
+            eventUserService.addConnection(event, user, organiserConnectionType);
         }
     }
 
     @Transactional
     public void deleteParticipant(Integer eventId, Integer userId) {
-        eventUserService.deleteParticipatingConnection(eventId, userId, EventUserConnectionType.PARTICIPATING.getTypeName());
+        eventUserService.deleteDefinedTypeConnection(eventId, userId, EventUserConnectionType.PARTICIPATING.getTypeName());
+        removeParticipantSpotFromEvent(eventId);
+    }
+
+    public void deleteOrganiser(Integer eventId, Integer userId) {
+        eventUserService.deleteDefinedTypeConnection(eventId, userId, EventUserConnectionType.ORGANIZING.getTypeName());
+    }
+
+    public void removeParticipantSpotFromEvent(Integer eventId) {
         Event event = eventService.getEventBy(eventId);
         Spot spot = event.getSpots();
         spot.setTaken(spot.getTaken()-1);
@@ -134,6 +134,17 @@ public class ConnectionService {
                 event.setStatus(Status.ACTIVE.getStatus());
                 eventService.updateEvent(event);
             }
+        }
+    }
+
+    private void addParticipantSpotToEvent(Event event) {
+        Spot spot = event.getSpots();
+        spot.setTaken(spot.getTaken() + 1);
+        spot.setAvailable(spot.getAvailable() - 1);
+        spotService.update(spot);
+        if (spot.getAvailable() == 0) {
+            event.setStatus(Status.FILLED.getStatus());
+            eventService.updateEvent(event);
         }
     }
 }
