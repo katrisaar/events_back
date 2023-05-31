@@ -107,4 +107,9 @@ public class ConnectionController {
         connectionService.addInterested(eventId, userId);
     }
 
+    @DeleteMapping("/connection/interested")
+    @Operation (summary = "Kustutab huvitatud tüüpi seose kasutaja ja ürituse vahel etteantud userId ja eventId alusel.")
+    public void deleteInterested(@RequestParam Integer eventId, @RequestParam Integer userId) {
+        connectionService.deleteInterested(eventId, userId);
+    }
 }

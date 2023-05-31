@@ -136,4 +136,9 @@ public class EventUserService {
     public void update(EventUser eventUser) {
         eventUserRepository.save(eventUser);
     }
+
+    public void deleteInterestedConnection(Integer eventId, Integer userId) {
+        EventUser eventUser = eventUserRepository.findActiveConnectionBy(eventId, userId, EventUserConnectionType.INTERESTED.getTypeName(), Status.ACTIVE.getStatus()).get();
+        eventUserRepository.delete(eventUser);
+    }
 }
