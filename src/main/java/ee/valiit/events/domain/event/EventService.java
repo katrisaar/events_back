@@ -88,4 +88,5 @@ public class EventService {
     public List<Event> findEndedCancelledEvents() {
         return eventRepository.findSpecificStatusEventsWhatHaveEnded(Status.CANCELLED.getStatus(), LocalDate.now());
     }
+
 }

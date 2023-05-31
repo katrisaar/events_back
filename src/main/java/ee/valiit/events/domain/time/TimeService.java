@@ -15,4 +15,7 @@ public class TimeService {
         timeRepository.save(time);
     }
 
+    public Time getTime(Integer eventId) {
+        return timeRepository.findById(eventId).get();
+    }
 }

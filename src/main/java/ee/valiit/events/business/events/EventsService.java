@@ -7,6 +7,7 @@ import ee.valiit.events.business.events.dto.EventInfo;
 import ee.valiit.events.business.events.dto.EventShorty;
 import ee.valiit.events.business.events.dto.EventSimple;
 import ee.valiit.events.domain.activitytype.ActivityType;
+import ee.valiit.events.domain.activitytype.ActivityTypeRepository;
 import ee.valiit.events.domain.activitytype.ActivityTypeService;
 import ee.valiit.events.domain.address.Address;
 import ee.valiit.events.domain.address.AddressMapper;
@@ -30,6 +31,7 @@ import ee.valiit.events.domain.time.TimeMapper;
 import ee.valiit.events.domain.time.TimeService;
 import ee.valiit.events.domain.user.User;
 import ee.valiit.events.domain.user.UserService;
+import ee.valiit.events.domain.util.ImageUtil;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,7 +74,11 @@ public class EventsService {
     AddressMapper addressMapper;
     @Resource
     SpotMapper spotMapper;
+    private final ActivityTypeRepository activityTypeRepository;
 
+    public EventsService(ActivityTypeRepository activityTypeRepository) {
+        this.activityTypeRepository = activityTypeRepository;
+    }
 
     public List<EventSimple> getActiveEvents(Integer userId) {
         List<EventSimple> allActiveEvents = eventService.findAllActiveEvents(userId);
@@ -85,8 +91,6 @@ public class EventsService {
         }
         return allActiveEvents;
     }
-
-
 
     public List<EventShorty> findSoonToEndEvents() {
         List<Event> events = eventService.findSoonToEndEvents();
@@ -107,7 +111,6 @@ public class EventsService {
         Event event = eventService.getEventBy(eventId);
         return eventMapper.toEventInfo(event);
     }
-
 
     @Transactional
     public void addNewEvent(EventInfo eventInfo, Integer userId) {
@@ -132,6 +135,49 @@ public class EventsService {
         ConnectionType connectionType = connectionTypeService.getConnectionTypeBy(EventUserConnectionType.ORGANIZING.getTypeName());
         eventUserService.addConnection(event, user, connectionType);
 
+    }
+    @Transactional
+    public void updateEvent(EventInfo eventInfo, Integer eventId) {
+        Event event = eventService.getEventBy(eventId);
+        eventMapper.partialUpdate(eventInfo, event);
+        Time time = event.getTime();
+        Address address = event.getAddress();
+        Spot spot = event.getSpots();
+        ActivityType activityType = activityTypeService.getActivityTypeBy(eventInfo.getActivityTypeId());
+        event.setActivityType(activityType);
+        Location location = locationService.getLocationBy(eventInfo.getLocationId());
+        event.setLocation(location);
+        timeMapper.partialTimeUpdate(eventInfo, time);
+        timeService.addTime(time);
+        address.setDescription(eventInfo.getAddressDescription()); //kuna aadressil uks vali, siis pole vaja mapperit
+        addressService.addAddress(address);
+        spotMapper.partialSpotsUpdate(eventInfo, spot);
+        spotService.addSpot(spot);
+        handleImageChange(event, eventInfo.getImageData());
+        eventService.updateEvent(event);
+
+    }
+
+    private void handleImageChange(Event event, String imageDataFromUpdate) {
+        Image currentImage = event.getImage();
+
+        if (currentImageUpdateIsRequired(currentImage, imageDataFromUpdate)) {
+            currentImage.setData(ImageUtil.base64ImageDataToByteArray(imageDataFromUpdate));
+        }
+
+        if (newImageIsRequired(imageDataFromUpdate, currentImage)) {
+            Image image = new Image(ImageUtil.base64ImageDataToByteArray(imageDataFromUpdate));
+            event.setImage(image);
+            imageService.addImage(image);
+        }
+
+    }
+    private boolean newImageIsRequired(String imageDataFromUpdate, Image currentImage) {
+        return currentImage == null && !imageDataFromUpdate.isEmpty();
+    }
+
+    private boolean currentImageUpdateIsRequired(Image currectImage, String imageDataFromUpdate) {
+        return ImageUtil.imageIsPresent(currectImage) && !imageDataFromUpdate.equals((ImageUtil.byteArrayToBase64ImageData(currectImage.getData())));
     }
 
     @Transactional
@@ -170,5 +216,4 @@ public class EventsService {
             eventUserService.deleteRelatedCancelledConnectionsBy(endedEvent.getId());
         }
     }
-
 }

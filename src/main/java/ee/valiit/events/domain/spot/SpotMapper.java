@@ -11,4 +11,8 @@ public interface SpotMapper {
     @Mapping(source = "spotsTaken", target = "taken")
     Spot toSpot(EventInfo eventInfo);
 
+    @Mapping(source = "spotsAvailable", target = "available")
+    @Mapping(source = "spotsMin", target = "min")
+    @Mapping(source = "spotsMax", target = "max")
+    Spot partialSpotsUpdate(EventInfo eventInfo, @MappingTarget Spot spot);
 }
