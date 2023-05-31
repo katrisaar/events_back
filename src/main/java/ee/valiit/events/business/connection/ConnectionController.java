@@ -106,4 +106,15 @@ public class ConnectionController {
     public void deleteOrganiser(@RequestParam Integer eventId, @RequestParam Integer userId) {
         connectionService.deleteOrganiser(eventId, userId);
     }
+    @PostMapping("connection/interested")
+    @Operation(summary = "Võimaldab etteantud UserId ja eventId alusel määrata, et kasutaja on üritusest huvitatud")
+    public void addInterested(@RequestParam Integer eventId, @RequestParam Integer userId) {
+        connectionService.addInterested(eventId, userId);
+    }
+
+    @DeleteMapping("/connection/interested")
+    @Operation (summary = "Kustutab huvitatud tüüpi seose kasutaja ja ürituse vahel etteantud userId ja eventId alusel.")
+    public void deleteInterested(@RequestParam Integer eventId, @RequestParam Integer userId) {
+        connectionService.deleteInterested(eventId, userId);
+    }
 }

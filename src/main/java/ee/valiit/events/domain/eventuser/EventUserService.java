@@ -165,4 +165,9 @@ public class EventUserService {
     public List<EventUser> findActiveEventParticipants(Integer eventId) {
         return eventUserRepository.findActiveEventParticipantsBy(eventId, EventUserConnectionType.PARTICIPATING.getTypeName(), Status.ACTIVE.getStatus());
     }
+
+    public void deleteInterestedConnection(Integer eventId, Integer userId) {
+        EventUser eventUser = eventUserRepository.findActiveConnectionBy(eventId, userId, EventUserConnectionType.INTERESTED.getTypeName(), Status.ACTIVE.getStatus()).get();
+        eventUserRepository.delete(eventUser);
+    }
 }

@@ -147,4 +147,16 @@ public class ConnectionService {
             eventService.updateEvent(event);
         }
     }
+
+    public void addInterested(Integer eventId, Integer userId) {
+        Event event = eventService.getEventBy(eventId);
+        User user = userService.getUserBy(userId);
+        ConnectionType connectionType = connectionTypeService.getConnectionTypeBy(EventUserConnectionType.INTERESTED.getTypeName());
+        eventUserService.addConnection(event, user, connectionType);
+    }
+
+    public void deleteInterested(Integer eventId, Integer userId) {
+        eventUserService.deleteInterestedConnection(eventId, userId);
+
+    }
 }
