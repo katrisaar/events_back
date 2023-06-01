@@ -7,7 +7,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface EventRepository extends JpaRepository<Event, Integer> {
-    @Query("select e from Event e where e.status = ?1")
+
+    @Query("select e from Event e where e.status = ?1 order by e.time.startDate, e.time.registrationDate, e.name")
     List<Event> findActiveEventsBy(String status);
 
     @Query("select e from Event e where e.status = ?1 order by e.time.registrationDate limit 3")

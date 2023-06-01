@@ -7,13 +7,11 @@ INSERT INTO public.contact (id, first_name, last_name, email, image_id) VALUES (
 INSERT INTO public.contact (id, first_name, last_name, email, image_id) VALUES (DEFAULT, 'Mati', 'Mutikas', 'mati@muti.ee', null);
 INSERT INTO public.contact (id, first_name, last_name, email, image_id) VALUES (DEFAULT, 'Meelis', 'Meeletu', 'mell@meel.ee', null);
 
-
 INSERT INTO public."user" (id, username, password, role_id, status, contact_id) VALUES (DEFAULT, 'juss', '123', 2, 'A', 1);
 INSERT INTO public."user" (id, username, password, role_id, status, contact_id) VALUES (DEFAULT, 'admin', '123', 1, 'A', 2);
 INSERT INTO public."user" (id, username, password, role_id, status, contact_id) VALUES (DEFAULT, 'mari', '123', 2, 'D', 3);
 INSERT INTO public."user" (id, username, password, role_id, status, contact_id) VALUES (DEFAULT, 'mati', '123', 2, 'A', 4);
 INSERT INTO public."user" (id, username, password, role_id, status, contact_id) VALUES (DEFAULT, 'meelis', '123', 2, 'A', 5);
-
 
 INSERT INTO public.activity_type (id, name) VALUES (DEFAULT, 'Kokkamine');
 INSERT INTO public.activity_type (id, name) VALUES (DEFAULT, 'Pallimängud');
@@ -28,7 +26,6 @@ INSERT INTO public.address (id, description, addressxcoordinate, addressycoordin
 INSERT INTO public.address (id, description, addressxcoordinate, addressycoordinate) VALUES (DEFAULT, 'Muti tee 23-4', null, null);
 INSERT INTO public.address (id, description, addressxcoordinate, addressycoordinate) VALUES (DEFAULT, 'Karu tee 2-4', null, null);
 
-
 INSERT INTO public.location (id, name) VALUES (DEFAULT, 'Tallinn');
 INSERT INTO public.location (id, name) VALUES (DEFAULT, 'Viljandi');
 INSERT INTO public.location (id, name) VALUES (DEFAULT, 'Pärnu');
@@ -39,7 +36,6 @@ INSERT INTO public.spots (id, min, max, available, taken) VALUES (DEFAULT, 2, 6,
 INSERT INTO public.spots (id, min, max, available, taken) VALUES (DEFAULT, 12, 30, 29, 1);
 INSERT INTO public.spots (id, min, max, available, taken) VALUES (DEFAULT, 4, 8, 8, 0);
 INSERT INTO public.spots (id, min, max, available, taken) VALUES (DEFAULT, 4, 8, 8, 0);
-
 
 INSERT INTO public.time (id, date_created, registration_date, start_date, start_time, end_date, end_time) VALUES (DEFAULT, '2023-05-22 14:09:42.000000', '2023-06-21', '2023-06-23', '14:00:00', '2023-06-23', '21:00:00');
 INSERT INTO public.time (id, date_created, registration_date, start_date, start_time, end_date, end_time) VALUES (DEFAULT, '2023-05-22 14:11:18.000000', '2023-05-30', '2023-05-31', '10:00:00', '2023-05-31', '18:00:00');
