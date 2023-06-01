@@ -135,17 +135,6 @@ public class ConnectionService {
         }
     }
 
-    private void addParticipantSpotToEvent(Event event) {
-        Spot spot = event.getSpots();
-        spot.setTaken(spot.getTaken() + 1);
-        spot.setAvailable(spot.getAvailable() - 1);
-        spotService.update(spot);
-        if (spot.getAvailable() == 0) {
-            event.setStatus(Status.FILLED.getStatus());
-            eventService.updateEvent(event);
-        }
-    }
-
     public void addInterested(Integer eventId, Integer userId) {
         Event event = eventService.getEventBy(eventId);
         User user = userService.getUserBy(userId);
@@ -156,5 +145,16 @@ public class ConnectionService {
     public void deleteInterested(Integer eventId, Integer userId) {
         eventUserService.deleteInterestedConnection(eventId, userId);
 
+    }
+
+    private void addParticipantSpotToEvent(Event event) {
+        Spot spot = event.getSpots();
+        spot.setTaken(spot.getTaken() + 1);
+        spot.setAvailable(spot.getAvailable() - 1);
+        spotService.update(spot);
+        if (spot.getAvailable() == 0) {
+            event.setStatus(Status.FILLED.getStatus());
+            eventService.updateEvent(event);
+        }
     }
 }
