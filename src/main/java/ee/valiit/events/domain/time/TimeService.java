@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TimeService {
-
     @Resource
     private TimeRepository timeRepository;
 

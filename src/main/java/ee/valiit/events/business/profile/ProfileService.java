@@ -29,7 +29,6 @@ import java.util.List;
 
 @Service
 public class ProfileService {
-
     @Resource
     private UserService userService;
     @Resource

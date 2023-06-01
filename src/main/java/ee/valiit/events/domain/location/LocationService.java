@@ -8,7 +8,6 @@ import java.util.List;
 
 @Service
 public class LocationService {
-
     @Resource
     private LocationRepository locationRepository;
 

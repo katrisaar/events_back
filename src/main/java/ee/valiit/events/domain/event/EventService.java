@@ -11,7 +11,6 @@ import java.util.List;
 
 @Service
 public class EventService {
-
     @Resource
     EventRepository eventRepository;
     @Resource

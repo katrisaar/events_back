@@ -17,7 +17,6 @@ import java.util.List;
 
 @RestController
 public class ProfileController {
-
     @Resource
     private ProfileService profileService;
 

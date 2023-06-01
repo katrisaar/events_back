@@ -14,7 +14,6 @@ import java.util.Optional;
 
 @Service
 public class EventUserService {
-
     @Resource
     private EventUserRepository eventUserRepository;
 

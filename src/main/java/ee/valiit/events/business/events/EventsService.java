@@ -38,7 +38,6 @@ import java.util.List;
 
 @Service
 public class EventsService {
-
     @Resource
     private EventService eventService;
     @Resource

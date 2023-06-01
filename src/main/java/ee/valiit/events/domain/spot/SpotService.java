@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SpotService {
-
     @Resource
     SpotRepository spotRepository;
 
