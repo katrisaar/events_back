@@ -106,21 +106,11 @@ public class EventsService {
     public void addNewEvent(EventInfo eventInfo, Integer userId) {
         ActivityType activityType = activityTypeService.getActivityTypeBy(eventInfo.getActivityTypeId());
         Location location = locationService.getLocationBy(eventInfo.getLocationId());
-        Time time = timeMapper.toTime(eventInfo);
-        timeService.addTime(time);
-        Address address = addressMapper.toAddress(eventInfo);
-        addressService.addAddress(address);
-        Spot spot = spotMapper.toSpot(eventInfo);
-        spotService.addSpot(spot);
+        Time time = addTime(eventInfo);
+        Address address = addAddress(eventInfo);
+        Spot spot = addSpots(eventInfo);
         Image image = imageService.addImage(eventInfo.getImageData());
-        Event event = eventMapper.toEvent(eventInfo);
-        event.setActivityType(activityType);
-        event.setLocation(location);
-        event.setTime(time);
-        event.setAddress(address);
-        event.setSpots(spot);
-        event.setImage(image);
-        eventService.addEvent(event);
+        Event event = addEvent(eventInfo, activityType, location, time, address, spot, image);
         User user = userService.getUserBy(userId);
         ConnectionType connectionType = connectionTypeService.getConnectionTypeBy(EventUserConnectionType.ORGANIZING.getTypeName());
         eventUserService.addConnection(event, user, connectionType);
@@ -145,28 +135,6 @@ public class EventsService {
         spotService.addSpot(spot);
         handleImageChange(event, eventInfo.getImageData());
         eventService.updateEvent(event);
-    }
-
-    private void handleImageChange(Event event, String imageDataFromUpdate) {
-        Image currentImage = event.getImage();
-
-        if (currentImageUpdateIsRequired(currentImage, imageDataFromUpdate)) {
-            currentImage.setData(ImageUtil.base64ImageDataToByteArray(imageDataFromUpdate));
-        }
-
-        if (newImageIsRequired(imageDataFromUpdate, currentImage)) {
-            Image image = new Image(ImageUtil.base64ImageDataToByteArray(imageDataFromUpdate));
-            event.setImage(image);
-            imageService.addImage(image);
-        }
-    }
-
-    private boolean newImageIsRequired(String imageDataFromUpdate, Image currentImage) {
-        return currentImage == null && !imageDataFromUpdate.isEmpty();
-    }
-
-    private boolean currentImageUpdateIsRequired(Image currectImage, String imageDataFromUpdate) {
-        return ImageUtil.imageIsPresent(currectImage) && !imageDataFromUpdate.equals((ImageUtil.byteArrayToBase64ImageData(currectImage.getData())));
     }
 
     @Transactional
@@ -204,5 +172,55 @@ public class EventsService {
             eventService.updateEvent(endedEvent);
             eventUserService.deleteRelatedCancelledConnectionsBy(endedEvent.getId());
         }
+    }
+
+    private void handleImageChange(Event event, String imageDataFromUpdate) {
+        Image currentImage = event.getImage();
+        if (currentImageUpdateIsRequired(currentImage, imageDataFromUpdate)) {
+            currentImage.setData(ImageUtil.base64ImageDataToByteArray(imageDataFromUpdate));
+        }
+        if (newImageIsRequired(imageDataFromUpdate, currentImage)) {
+            Image image = new Image(ImageUtil.base64ImageDataToByteArray(imageDataFromUpdate));
+            event.setImage(image);
+            imageService.addImage(image);
+        }
+    }
+
+    private boolean newImageIsRequired(String imageDataFromUpdate, Image currentImage) {
+        return currentImage == null && !imageDataFromUpdate.isEmpty();
+    }
+
+    private boolean currentImageUpdateIsRequired(Image currectImage, String imageDataFromUpdate) {
+        return ImageUtil.imageIsPresent(currectImage) && !imageDataFromUpdate.equals((ImageUtil.byteArrayToBase64ImageData(currectImage.getData())));
+    }
+
+    private Event addEvent(EventInfo eventInfo, ActivityType activityType, Location location, Time time, Address address, Spot spot, Image image) {
+        Event event = eventMapper.toEvent(eventInfo);
+        event.setActivityType(activityType);
+        event.setLocation(location);
+        event.setTime(time);
+        event.setAddress(address);
+        event.setSpots(spot);
+        event.setImage(image);
+        eventService.addEvent(event);
+        return event;
+    }
+
+    private Spot addSpots(EventInfo eventInfo) {
+        Spot spot = spotMapper.toSpot(eventInfo);
+        spotService.addSpot(spot);
+        return spot;
+    }
+
+    private Address addAddress(EventInfo eventInfo) {
+        Address address = addressMapper.toAddress(eventInfo);
+        addressService.addAddress(address);
+        return address;
+    }
+
+    private Time addTime(EventInfo eventInfo) {
+        Time time = timeMapper.toTime(eventInfo);
+        timeService.addTime(time);
+        return time;
     }
 }

@@ -83,40 +83,6 @@ public class ProfileService {
         userService.addUser(user);
     }
 
-    private void updateContactData(ProfileRequest profileRequest, Contact contact) {
-        contact.setFirstName(profileRequest.getFirstName());
-        contact.setLastName(profileRequest.getLastName());
-        contact.setEmail(profileRequest.getEmail());
-        contactService.addContact(contact);
-    }
-
-    private void updateUsernameAndPassword(ProfileRequest profileRequest, User user) {
-        userMapper.partialUpdate(profileRequest, user);
-        if (!profileRequest.getPassword().isEmpty()) {
-            user.setPassword(profileRequest.getPassword());
-        }
-    }
-
-    private void handleImageChange(Contact contact, String imageDataFromUpdate) {
-        Image currentImage = contact.getImage();
-        if (currentImageUpdateIsRequired(currentImage, imageDataFromUpdate)) {
-            currentImage.setData(ImageUtil.base64ImageDataToByteArray(imageDataFromUpdate));
-        }
-        if (newImageIsRequired(imageDataFromUpdate, currentImage)) {
-            Image image = new Image(ImageUtil.base64ImageDataToByteArray(imageDataFromUpdate));
-            contact.setImage(image);
-            imageService.addImage(image);
-        }
-    }
-
-    private boolean newImageIsRequired(String imageDataFromUpdate, Image currentImage) {
-        return currentImage == null && !imageDataFromUpdate.isEmpty();
-    }
-
-    private boolean currentImageUpdateIsRequired(Image currectImage, String imageDataFromUpdate) {
-        return ImageUtil.imageIsPresent(currectImage) && !imageDataFromUpdate.equals((ImageUtil.byteArrayToBase64ImageData(currectImage.getData())));
-    }
-
     public List<ProfileInfo> getAllUsers() {
         List<User> allUsers = userService.getAllUsers();
         return userMapper.toProfileInfos(allUsers);
@@ -154,5 +120,39 @@ public class ProfileService {
                 eventUserService.delete(connection);
             }
         }
+    }
+
+    private void updateContactData(ProfileRequest profileRequest, Contact contact) {
+        contact.setFirstName(profileRequest.getFirstName());
+        contact.setLastName(profileRequest.getLastName());
+        contact.setEmail(profileRequest.getEmail());
+        contactService.addContact(contact);
+    }
+
+    private void updateUsernameAndPassword(ProfileRequest profileRequest, User user) {
+        userMapper.partialUpdate(profileRequest, user);
+        if (!profileRequest.getPassword().isEmpty()) {
+            user.setPassword(profileRequest.getPassword());
+        }
+    }
+
+    private void handleImageChange(Contact contact, String imageDataFromUpdate) {
+        Image currentImage = contact.getImage();
+        if (currentImageUpdateIsRequired(currentImage, imageDataFromUpdate)) {
+            currentImage.setData(ImageUtil.base64ImageDataToByteArray(imageDataFromUpdate));
+        }
+        if (newImageIsRequired(imageDataFromUpdate, currentImage)) {
+            Image image = new Image(ImageUtil.base64ImageDataToByteArray(imageDataFromUpdate));
+            contact.setImage(image);
+            imageService.addImage(image);
+        }
+    }
+
+    private boolean newImageIsRequired(String imageDataFromUpdate, Image currentImage) {
+        return currentImage == null && !imageDataFromUpdate.isEmpty();
+    }
+
+    private boolean currentImageUpdateIsRequired(Image currectImage, String imageDataFromUpdate) {
+        return ImageUtil.imageIsPresent(currectImage) && !imageDataFromUpdate.equals((ImageUtil.byteArrayToBase64ImageData(currectImage.getData())));
     }
 }
