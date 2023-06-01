@@ -13,7 +13,7 @@ public class LocationService {
     private LocationRepository locationRepository;
 
     public List<Location> getAllLocations() {
-        return locationRepository.findAll();
+        return locationRepository.findAllSortedByName();
     }
 
     public void validateLocationIsAvailableBy(String newLocationName) {

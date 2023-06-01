@@ -12,7 +12,7 @@ public class ActivityTypeService {
     private ActivityTypeRepository activityTypeRepository;
 
     public List<ActivityType> getActivityTypes() {
-        List<ActivityType> activityTypes = activityTypeRepository.findAll();
+        List<ActivityType> activityTypes = activityTypeRepository.findAllBySortedName();
         return activityTypes;
     }
 
