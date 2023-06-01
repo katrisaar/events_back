@@ -42,5 +42,4 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "contact_id", nullable = false)
     private Contact contact;
-
 }

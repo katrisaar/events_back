@@ -3,14 +3,14 @@ package ee.valiit.events.domain.user;
 import ee.valiit.events.business.enums.Status;
 import ee.valiit.events.business.profile.dto.LoginResponse;
 import ee.valiit.events.business.profile.dto.ProfileInfo;
-import org.mapstruct.*;
-
-import java.util.List;
 import ee.valiit.events.business.profile.dto.ProfileInfoWithImage;
 import ee.valiit.events.business.profile.dto.ProfileRequest;
 import ee.valiit.events.domain.image.Image;
 import ee.valiit.events.domain.user.contact.Contact;
 import ee.valiit.events.domain.util.ImageUtil;
+import org.mapstruct.*;
+
+import java.util.List;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING, imports = {Status.class})
 public interface UserMapper {
@@ -37,6 +37,7 @@ public interface UserMapper {
     @Mapping(source = "role.name", target = "roleName")
     @Mapping(source = "status", target = "status")
     ProfileInfo toProfileInfo(User user);
+
     @Mapping(ignore = true, target = "password")
     User partialUpdate(ProfileRequest profileRequest, @MappingTarget User user);
 
@@ -58,5 +59,4 @@ public interface UserMapper {
         }
         return ImageUtil.byteArrayToBase64ImageData(image.getData());
     }
-
 }

@@ -27,39 +27,4 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         apiError.setErrorCode(exception.getErrorCode());
         return new ResponseEntity<>(apiError, HttpStatus.FORBIDDEN);
     }
-
-
-//    @Override
-//    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException exception, HttpHeaders headers, HttpStatus status, WebRequest request) {
-//        ApiError apiError = new ApiError();
-//        apiError.setMessage("Invalid request body content.");
-//        apiError.setErrorCode(exception.getMessage());
-//        return handleExceptionInternal(exception, apiError, headers, HttpStatus.BAD_REQUEST, request);
-//    }
-//
-//    @Override
-//    protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException exception, HttpHeaders headers, HttpStatus status, WebRequest request) {
-//        ApiError apiError = new ApiError();
-//        apiError.setMessage("Invalid parameter type.");
-//        apiError.setErrorCode(exception.getMessage());
-//        return handleExceptionInternal(exception, apiError, headers, HttpStatus.BAD_REQUEST, request);
-//    }
-//
-//    @Override
-//    protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException exception, final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
-//        ApiError apiError = new ApiError();
-//        apiError.setMessage("Invalid request body content.");
-//        final List<String> errors = new ArrayList<>();
-//        for (final FieldError error : exception.getBindingResult().getFieldErrors()) {
-//            // default lahendus
-//            // errors.add(error.getField() + ": " + error.getDefaultMessage());
-//            errors.add(error.getDefaultMessage());
-//        }
-//        for (final ObjectError error : exception.getBindingResult().getGlobalErrors()) {
-//            errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
-//        }
-//        apiError.setErrorCode(errors.toString());
-//        return handleExceptionInternal(exception, apiError, headers, HttpStatus.BAD_REQUEST, request);
-//    }
-
 }

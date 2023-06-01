@@ -20,5 +20,4 @@ public class ImageService {
         imageRepository.save(image);
         return image;
     }
-
 }

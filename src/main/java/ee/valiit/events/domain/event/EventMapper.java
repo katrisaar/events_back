@@ -1,17 +1,13 @@
 package ee.valiit.events.domain.event;
 
 import ee.valiit.events.business.enums.Status;
-import ee.valiit.events.business.events.dto.EventSimple;
 import ee.valiit.events.business.events.dto.EventInfo;
 import ee.valiit.events.business.events.dto.EventShorty;
+import ee.valiit.events.business.events.dto.EventSimple;
 import ee.valiit.events.domain.image.Image;
 import ee.valiit.events.domain.util.ImageUtil;
 import ee.valiit.events.domain.util.TimeUtil;
 import org.mapstruct.*;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
-import org.mapstruct.ReportingPolicy;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -70,7 +66,6 @@ public interface EventMapper {
     @Mapping(expression = "java(Status.ACTIVE.getStatus())", target = "status")
     Event partialUpdate(EventInfo eventInfo, @MappingTarget Event event);
 
-
     @Named("imageToImageData")
     static String imageToImageData(Image image) {
         if (image == null) {
@@ -78,6 +73,7 @@ public interface EventMapper {
         }
         return ImageUtil.byteArrayToBase64ImageData(image.getData());
     }
+
     @Named("getStringFromLocalTime")
     static String getStringFromLocalTime(LocalTime localTime) {
         return TimeUtil.getStringFromLocalTime(localTime);

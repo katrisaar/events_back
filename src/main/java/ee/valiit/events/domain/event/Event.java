@@ -1,11 +1,11 @@
 package ee.valiit.events.domain.event;
 
-import ee.valiit.events.domain.location.Location;
-import ee.valiit.events.domain.spot.Spot;
-import ee.valiit.events.domain.time.Time;
 import ee.valiit.events.domain.activitytype.ActivityType;
 import ee.valiit.events.domain.address.Address;
 import ee.valiit.events.domain.image.Image;
+import ee.valiit.events.domain.location.Location;
+import ee.valiit.events.domain.spot.Spot;
+import ee.valiit.events.domain.time.Time;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -68,5 +68,4 @@ public class Event {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "time_id", nullable = false)
     private Time time;
-
 }

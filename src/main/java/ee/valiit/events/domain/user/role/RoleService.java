@@ -9,6 +9,7 @@ public class RoleService {
 
     @Resource
     private RoleRepository roleRepository;
+
     public Role getCustomerRoleBy() {
         return roleRepository.getRoleBy(UserRoleType.CUSTOMER.getTypeName());
     }

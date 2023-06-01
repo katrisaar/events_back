@@ -35,5 +35,4 @@ public class Contact {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id")
     private Image image;
-
 }

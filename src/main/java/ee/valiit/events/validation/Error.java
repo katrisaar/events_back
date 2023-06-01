@@ -13,7 +13,6 @@ public enum Error {
     PARTICIPANTS_LIST_IS_EMPTY("Ei ole veel ühtegi osalejat.", 666),
     USER_ALREADY_IS_ORGANISER("See kasutaja juba on antud ürituse korraldaja", 668);
 
-
     private final String message;
     private final int errorCode;
 

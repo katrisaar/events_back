@@ -2,8 +2,6 @@ package ee.valiit.events.domain.event;
 
 import ee.valiit.events.business.enums.Status;
 import ee.valiit.events.business.events.dto.EventSimple;
-import ee.valiit.events.domain.eventuser.EventUserRepository;
-import ee.valiit.events.domain.location.LocationRepository;
 import ee.valiit.events.validation.ValidationService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
@@ -16,19 +14,13 @@ public class EventService {
 
     @Resource
     EventRepository eventRepository;
-
     @Resource
     EventMapper eventMapper;
-    @Resource
-    LocationRepository locationRepository;
-    @Resource
-    EventUserRepository eventUserRepository;
 
-    public List<EventSimple> findAllActiveEvents(Integer userId) {
+    public List<EventSimple> findAllActiveEvents() {
         List<Event> activeEvents = eventRepository.findActiveEventsBy(Status.ACTIVE.getStatus());
         return eventMapper.eventDtos(activeEvents);
     }
-
 
     public List<Event> findSoonToEndEvents() {
         List<Event> events = eventRepository.findThreeActiveSoonToEndEventsBy(Status.ACTIVE.getStatus());
@@ -41,7 +33,6 @@ public class EventService {
         ValidationService.validateEventListExists(events);
         return events;
     }
-
 
     public List<Event> findMostRecentEvents() {
         List<Event> events = eventRepository.findThreeActiveMostRecentEventsBy(Status.ACTIVE.getStatus());
@@ -88,5 +79,4 @@ public class EventService {
     public List<Event> findEndedCancelledEvents() {
         return eventRepository.findSpecificStatusEventsWhatHaveEnded(Status.CANCELLED.getStatus(), LocalDate.now());
     }
-
 }

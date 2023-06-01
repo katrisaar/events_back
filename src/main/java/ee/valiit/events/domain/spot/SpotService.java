@@ -12,11 +12,8 @@ public class SpotService {
     public void update(Spot spot) {
         spotRepository.save(spot);
     }
+
     public void addSpot(Spot spot) {
         spotRepository.save(spot);
-    }
-
-    public Spot getSpots(Integer eventId) {
-        return spotRepository.findById(eventId).get();
     }
 }

@@ -8,6 +8,7 @@ import java.util.List;
 
 @Service
 public class LocationService {
+
     @Resource
     private LocationRepository locationRepository;
 
@@ -20,14 +21,11 @@ public class LocationService {
         ValidationService.validateLocationAlreadyExists(locationExists);
     }
 
-    public void addLocation(Location location) { locationRepository.save(location); }
-
-    public Location getLocationBy(String locationName) {
-        return locationRepository.findLocationBy(locationName);
+    public void addLocation(Location location) {
+        locationRepository.save(location);
     }
 
     public Location getLocationBy(Integer locationId) {
         return locationRepository.findById(locationId).get();
-
     }
 }

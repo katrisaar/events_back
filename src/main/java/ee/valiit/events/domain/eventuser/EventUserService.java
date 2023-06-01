@@ -16,7 +16,7 @@ import java.util.Optional;
 public class EventUserService {
 
     @Resource
-    EventUserRepository eventUserRepository;
+    private EventUserRepository eventUserRepository;
 
     public List<EventUser> findAndValidateActiveOrCancelledOrganisedEventUsers(Integer userId) {
         List<EventUser> eventUsers = eventUserRepository.findAllActiveOrCancelledOrganisedEventUsersBy(userId, EventUserConnectionType.ORGANIZING.getTypeName(),
@@ -38,7 +38,6 @@ public class EventUserService {
         return eventUsers;
     }
 
-
     public List<EventUser> findAndValidateHistoryEventsBy(Integer userId) {
         List<EventUser> eventUsers = eventUserRepository.findDefinedStatusEventsBy(userId, Status.HISTORY.getStatus());
         ValidationService.validateEventUserListExists(eventUsers);
@@ -56,9 +55,7 @@ public class EventUserService {
     }
 
     public Optional<EventUser> findActiveUserConnectionToEvent(Integer eventId, Integer userId) {
-        Optional<EventUser> connection = eventUserRepository.findSpecifiedStatusUserConnectionToEventBy(eventId, userId, Status.ACTIVE.getStatus());
-        return connection;
-
+        return eventUserRepository.findSpecifiedStatusUserConnectionToEventBy(eventId, userId, Status.ACTIVE.getStatus());
     }
 
     public void replaceInterestedConnectionIfExists(Integer eventId, Integer userId, ConnectionType organiserConnectionType) {
@@ -131,7 +128,7 @@ public class EventUserService {
 
     public Optional<EventUser> findActiveExistingConnection(Integer eventId, Integer userId) {
         return eventUserRepository.findSpecifiedStatusUserConnectionToEventBy(eventId, userId, Status.ACTIVE.getStatus());
-        }
+    }
 
     public void update(EventUser eventUser) {
         eventUserRepository.save(eventUser);

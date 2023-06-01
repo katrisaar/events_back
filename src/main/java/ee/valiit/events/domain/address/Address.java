@@ -28,5 +28,4 @@ public class Address {
 
     @Column(name = "addressycoordinate", precision = 6, scale = 4)
     private BigDecimal addressycoordinate;
-
 }

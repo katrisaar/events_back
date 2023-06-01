@@ -8,22 +8,11 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-05-30T09:31:54+0300",
+    date = "2023-06-01T11:20:11+0300",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.6 (Eclipse Adoptium)"
 )
 @Component
 public class LocationMapperImpl implements LocationMapper {
-
-    @Override
-    public Location toEntity(LocationDto locationDto) {
-        if ( locationDto == null ) {
-            return null;
-        }
-
-        Location location = new Location();
-
-        return location;
-    }
 
     @Override
     public LocationDto toLocationDto(Location location) {

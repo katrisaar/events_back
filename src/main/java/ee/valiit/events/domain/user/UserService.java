@@ -31,7 +31,6 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return userRepository.findAllUsers();
-
     }
 
     public User getUserBy(Integer userId) {

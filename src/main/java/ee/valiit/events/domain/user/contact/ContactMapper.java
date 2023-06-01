@@ -11,5 +11,4 @@ public interface ContactMapper {
 
     @Mapping(ignore = true, target = "image")
     Contact toContact(ProfileRequest profileRequest);
-
 }

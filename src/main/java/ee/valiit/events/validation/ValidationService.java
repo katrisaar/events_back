@@ -40,6 +40,7 @@ public class ValidationService {
             throw new DataNotFoundException(Error.EVENT_LIST_IS_EMPTY.getMessage(), Error.EVENT_LIST_IS_EMPTY.getErrorCode());
         }
     }
+
     public static void validateActivityTypeAlreadyExists(boolean activityTypeExists) {
         if (activityTypeExists) {
             throw new BusinessException(Error.ACTIVITY_TYPE_ALREADY_EXISTS.getMessage(), Error.ACTIVITY_TYPE_ALREADY_EXISTS.getErrorCode());

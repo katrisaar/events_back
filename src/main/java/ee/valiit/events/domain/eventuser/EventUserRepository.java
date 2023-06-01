@@ -57,5 +57,4 @@ public interface EventUserRepository extends JpaRepository<EventUser, Integer> {
 
     @Query("select (count(e) > 0) from EventUser e where e.event.id = ?1 and e.user.id = ?2 and e.status = ?3")
     boolean activeConnectionExists(Integer eventId, Integer userId, String status);
-
 }

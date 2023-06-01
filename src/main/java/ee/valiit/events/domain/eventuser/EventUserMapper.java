@@ -1,13 +1,15 @@
 package ee.valiit.events.domain.eventuser;
 
 import ee.valiit.events.business.connection.dto.*;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
 public interface EventUserMapper {
-
 
     @Mapping(source = "event.id", target = "eventId")
     @Mapping(source = "event.name", target = "eventName")

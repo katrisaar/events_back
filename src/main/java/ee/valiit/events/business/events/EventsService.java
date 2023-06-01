@@ -71,7 +71,7 @@ public class EventsService {
     private SpotMapper spotMapper;
 
     public List<EventSimple> getActiveEvents(Integer userId) {
-        List<EventSimple> allActiveEvents = eventService.findAllActiveEvents(userId);
+        List<EventSimple> allActiveEvents = eventService.findAllActiveEvents();
         for (EventSimple event : allActiveEvents) {
             if (connectionService.getUserConnectionToEvent(event.getEventId(), userId).getName().equals("none")) {
                 event.setConnectionTypeName("");

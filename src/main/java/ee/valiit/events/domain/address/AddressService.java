@@ -11,8 +11,4 @@ public class AddressService {
     public void addAddress(Address address) {
         addressRepository.save(address);
     }
-
-    public Address getAddress(Integer eventId) {
-        return addressRepository.findById(eventId).get();
-    }
 }

@@ -8,6 +8,7 @@ public class ConnectionTypeService {
 
     @Resource
     ConnectionTypeRepository connectionTypeRepository;
+
     public ConnectionType getConnectionTypeBy(String typeName) {
         return connectionTypeRepository.getConnectionTypeBy(typeName);
     }

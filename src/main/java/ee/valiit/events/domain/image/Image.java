@@ -2,7 +2,10 @@ package ee.valiit.events.domain.image;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor
@@ -19,5 +22,4 @@ public class Image {
     @NonNull
     @Column(name = "data", nullable = false)
     private byte[] data;
-
 }

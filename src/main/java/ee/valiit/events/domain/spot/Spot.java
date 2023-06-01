@@ -30,5 +30,4 @@ public class Spot {
     @NotNull
     @Column(name = "taken", nullable = false)
     private Integer taken;
-
 }

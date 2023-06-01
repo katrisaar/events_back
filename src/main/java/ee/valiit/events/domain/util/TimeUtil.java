@@ -14,6 +14,7 @@ public class TimeUtil {
 
         return localTime;
     }
+
     public static String getStringFromLocalTime(LocalTime localTime) {
 
         // Create a DateTimeFormatter for the desired format

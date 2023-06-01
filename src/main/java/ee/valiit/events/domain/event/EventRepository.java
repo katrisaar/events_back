@@ -27,8 +27,4 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
 
     @Query("select e from Event e where e.status = ?1 and e.time.endDate < ?2")
     List<Event> findSpecificStatusEventsWhatHaveEnded(String status, LocalDate endDate);
-
-
-
-
 }
