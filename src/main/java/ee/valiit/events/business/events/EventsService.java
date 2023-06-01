@@ -149,11 +149,9 @@ public class EventsService {
 
     private void handleImageChange(Event event, String imageDataFromUpdate) {
         Image currentImage = event.getImage();
-
         if (currentImageUpdateIsRequired(currentImage, imageDataFromUpdate)) {
             currentImage.setData(ImageUtil.base64ImageDataToByteArray(imageDataFromUpdate));
         }
-
         if (newImageIsRequired(imageDataFromUpdate, currentImage)) {
             Image image = new Image(ImageUtil.base64ImageDataToByteArray(imageDataFromUpdate));
             event.setImage(image);
