@@ -15,7 +15,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EventSimple implements Serializable {
-
     private String name;
     private Integer fee;
     private Integer eventId;

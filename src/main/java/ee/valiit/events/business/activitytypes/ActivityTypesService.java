@@ -12,7 +12,6 @@ import java.util.List;
 public class ActivityTypesService {
     @Resource
     ActivityTypeService activityTypeService;
-
     @Resource
     ActivityTypeMapper activityTypeMapper;
 

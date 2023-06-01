@@ -95,7 +95,7 @@ CREATE TABLE spots (
 -- Table: time
 CREATE TABLE time (
     id serial  NOT NULL,
-    date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    date_created TIMESTAMP,
     registration_date date  NOT NULL,
     start_date date  NOT NULL,
     start_time time  NOT NULL,

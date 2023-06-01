@@ -2,8 +2,8 @@ package ee.valiit.events.business.profile;
 
 import ee.valiit.events.business.connection.ConnectionService;
 import ee.valiit.events.business.enums.Status;
-import ee.valiit.events.business.events.EventsService;
 import ee.valiit.events.business.profile.dto.LoginResponse;
+import ee.valiit.events.business.profile.dto.ProfileInfo;
 import ee.valiit.events.business.profile.dto.ProfileInfoWithImage;
 import ee.valiit.events.business.profile.dto.ProfileRequest;
 import ee.valiit.events.domain.event.Event;
@@ -13,7 +13,6 @@ import ee.valiit.events.domain.eventuser.EventUserService;
 import ee.valiit.events.domain.image.Image;
 import ee.valiit.events.domain.image.ImageService;
 import ee.valiit.events.domain.user.User;
-import ee.valiit.events.business.profile.dto.ProfileInfo;
 import ee.valiit.events.domain.user.UserMapper;
 import ee.valiit.events.domain.user.UserService;
 import ee.valiit.events.domain.user.contact.Contact;
@@ -38,15 +37,13 @@ public class ProfileService {
     @Resource
     private RoleService roleService;
     @Resource
-    ImageService imageService;
+    private ImageService imageService;
     @Resource
-    EventUserService eventUserService;
+    private EventUserService eventUserService;
     @Resource
-    EventService eventService;
+    private EventService eventService;
     @Resource
-    EventsService eventsService;
-    @Resource
-    ConnectionService connectionService;
+    private ConnectionService connectionService;
     @Resource
     private UserMapper userMapper;
     @Resource
@@ -102,17 +99,14 @@ public class ProfileService {
 
     private void handleImageChange(Contact contact, String imageDataFromUpdate) {
         Image currentImage = contact.getImage();
-
         if (currentImageUpdateIsRequired(currentImage, imageDataFromUpdate)) {
             currentImage.setData(ImageUtil.base64ImageDataToByteArray(imageDataFromUpdate));
         }
-
         if (newImageIsRequired(imageDataFromUpdate, currentImage)) {
             Image image = new Image(ImageUtil.base64ImageDataToByteArray(imageDataFromUpdate));
             contact.setImage(image);
             imageService.addImage(image);
         }
-
     }
 
     private boolean newImageIsRequired(String imageDataFromUpdate, Image currentImage) {
@@ -161,5 +155,4 @@ public class ProfileService {
             }
         }
     }
-
 }

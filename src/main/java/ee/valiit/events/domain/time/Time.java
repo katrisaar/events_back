@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
@@ -19,9 +20,8 @@ public class Time {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-
     @Column(name = "date_created")
-    private Instant dateCreated;
+    private LocalDateTime dateCreated;
 
     @NotNull
     @Column(name = "registration_date", nullable = false)
@@ -41,4 +41,7 @@ public class Time {
     @Column(name = "end_time")
     private LocalTime endTime;
 
+    public Time() {
+        this.dateCreated = LocalDateTime.now();
+    }
 }

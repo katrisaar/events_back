@@ -1,6 +1,5 @@
 package ee.valiit.events.business.activitytypes;
 
-
 import ee.valiit.events.domain.activitytype.ActivityType;
 import lombok.AllArgsConstructor;
 import lombok.Data;

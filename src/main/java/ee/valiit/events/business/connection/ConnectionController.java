@@ -96,7 +96,7 @@ public class ConnectionController {
     }
 
     @DeleteMapping("/connection/participant")
-    @Operation (summary = "Kustutab osaleja tüüpi seose kasutaja ja ürituse vahel etteantud userId ja eventId alusel.")
+    @Operation(summary = "Kustutab osaleja tüüpi seose kasutaja ja ürituse vahel etteantud userId ja eventId alusel.")
     public void deleteParticipant(@RequestParam Integer eventId, @RequestParam Integer userId) {
         connectionService.deleteParticipant(eventId, userId);
     }
@@ -106,6 +106,7 @@ public class ConnectionController {
     public void deleteOrganiser(@RequestParam Integer eventId, @RequestParam Integer userId) {
         connectionService.deleteOrganiser(eventId, userId);
     }
+
     @PostMapping("connection/interested")
     @Operation(summary = "Võimaldab etteantud UserId ja eventId alusel määrata, et kasutaja on üritusest huvitatud")
     public void addInterested(@RequestParam Integer eventId, @RequestParam Integer userId) {
@@ -113,7 +114,7 @@ public class ConnectionController {
     }
 
     @DeleteMapping("/connection/interested")
-    @Operation (summary = "Kustutab huvitatud tüüpi seose kasutaja ja ürituse vahel etteantud userId ja eventId alusel.")
+    @Operation(summary = "Kustutab huvitatud tüüpi seose kasutaja ja ürituse vahel etteantud userId ja eventId alusel.")
     public void deleteInterested(@RequestParam Integer eventId, @RequestParam Integer userId) {
         connectionService.deleteInterested(eventId, userId);
     }

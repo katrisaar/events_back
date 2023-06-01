@@ -3,10 +3,8 @@ package ee.valiit.events.business.locations;
 import ee.valiit.events.domain.location.Location;
 import ee.valiit.events.domain.location.LocationMapper;
 import ee.valiit.events.domain.location.LocationService;
-import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -15,7 +13,6 @@ public class LocationsService {
 
     @Resource
     LocationService locationService;
-
     @Resource
     LocationMapper locationMapper;
 

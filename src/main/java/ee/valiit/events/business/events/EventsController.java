@@ -93,5 +93,4 @@ public class EventsController {
     public void updateEventStatuses() {
         eventsService.updateEventStatuses();
     }
-
 }

@@ -7,7 +7,6 @@ import ee.valiit.events.business.events.dto.EventInfo;
 import ee.valiit.events.business.events.dto.EventShorty;
 import ee.valiit.events.business.events.dto.EventSimple;
 import ee.valiit.events.domain.activitytype.ActivityType;
-import ee.valiit.events.domain.activitytype.ActivityTypeRepository;
 import ee.valiit.events.domain.activitytype.ActivityTypeService;
 import ee.valiit.events.domain.address.Address;
 import ee.valiit.events.domain.address.AddressMapper;
@@ -17,7 +16,6 @@ import ee.valiit.events.domain.connectiontype.ConnectionTypeService;
 import ee.valiit.events.domain.event.Event;
 import ee.valiit.events.domain.event.EventMapper;
 import ee.valiit.events.domain.event.EventService;
-import ee.valiit.events.domain.eventuser.EventUserMapper;
 import ee.valiit.events.domain.eventuser.EventUserService;
 import ee.valiit.events.domain.image.Image;
 import ee.valiit.events.domain.image.ImageService;
@@ -42,43 +40,35 @@ import java.util.List;
 public class EventsService {
 
     @Resource
-    EventService eventService;
+    private EventService eventService;
     @Resource
-    LocationService locationService;
+    private LocationService locationService;
     @Resource
-    EventUserService eventUserService;
+    private EventUserService eventUserService;
     @Resource
-    UserService userService;
+    private UserService userService;
     @Resource
-    ConnectionTypeService connectionTypeService;
+    private ConnectionTypeService connectionTypeService;
     @Resource
-    SpotService spotService;
+    private SpotService spotService;
     @Resource
-    ConnectionService connectionService;
+    private ConnectionService connectionService;
     @Resource
-    ImageService imageService;
+    private ImageService imageService;
     @Resource
-    ActivityTypeService activityTypeService;
+    private ActivityTypeService activityTypeService;
     @Resource
-    AddressService addressService;
+    private AddressService addressService;
     @Resource
-    TimeService timeService;
-
+    private TimeService timeService;
     @Resource
-    EventMapper eventMapper;
+    private EventMapper eventMapper;
     @Resource
-    EventUserMapper eventUserMapper;
+    private TimeMapper timeMapper;
     @Resource
-    TimeMapper timeMapper;
+    private AddressMapper addressMapper;
     @Resource
-    AddressMapper addressMapper;
-    @Resource
-    SpotMapper spotMapper;
-    private final ActivityTypeRepository activityTypeRepository;
-
-    public EventsService(ActivityTypeRepository activityTypeRepository) {
-        this.activityTypeRepository = activityTypeRepository;
-    }
+    private SpotMapper spotMapper;
 
     public List<EventSimple> getActiveEvents(Integer userId) {
         List<EventSimple> allActiveEvents = eventService.findAllActiveEvents(userId);
@@ -134,8 +124,8 @@ public class EventsService {
         User user = userService.getUserBy(userId);
         ConnectionType connectionType = connectionTypeService.getConnectionTypeBy(EventUserConnectionType.ORGANIZING.getTypeName());
         eventUserService.addConnection(event, user, connectionType);
-
     }
+
     @Transactional
     public void updateEvent(EventInfo eventInfo, Integer eventId) {
         Event event = eventService.getEventBy(eventId);
@@ -149,13 +139,12 @@ public class EventsService {
         event.setLocation(location);
         timeMapper.partialTimeUpdate(eventInfo, time);
         timeService.addTime(time);
-        address.setDescription(eventInfo.getAddressDescription()); //kuna aadressil uks vali, siis pole vaja mapperit
+        address.setDescription(eventInfo.getAddressDescription());
         addressService.addAddress(address);
         spotMapper.partialSpotsUpdate(eventInfo, spot);
         spotService.addSpot(spot);
         handleImageChange(event, eventInfo.getImageData());
         eventService.updateEvent(event);
-
     }
 
     private void handleImageChange(Event event, String imageDataFromUpdate) {
@@ -170,8 +159,8 @@ public class EventsService {
             event.setImage(image);
             imageService.addImage(image);
         }
-
     }
+
     private boolean newImageIsRequired(String imageDataFromUpdate, Image currentImage) {
         return currentImage == null && !imageDataFromUpdate.isEmpty();
     }

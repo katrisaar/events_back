@@ -37,7 +37,6 @@ public class ConnectionService {
     @Resource
     EventUserMapper eventUserMapper;
 
-
     public List<OrganisedEvent> findOrganisedEvents(Integer userId) {
         List<EventUser> eventUsers = eventUserService.findAndValidateActiveOrCancelledOrganisedEventUsers(userId);
         return eventUserMapper.toOrganisedEvents(eventUsers);
@@ -52,7 +51,6 @@ public class ConnectionService {
         List<EventUser> eventUsers = eventUserService.findAndValidateActiveInterestedEventUsers(userId);
         return eventUserMapper.toInterestedEvents(eventUsers);
     }
-
 
     public List<HistoryEvent> findHistoryEvents(Integer userId) {
         List<EventUser> eventUsers = eventUserService.findAndValidateHistoryEventsBy(userId);
@@ -125,8 +123,8 @@ public class ConnectionService {
     public void removeParticipantSpotFromEvent(Integer eventId) {
         Event event = eventService.getEventBy(eventId);
         Spot spot = event.getSpots();
-        spot.setTaken(spot.getTaken()-1);
-        spot.setAvailable(spot.getAvailable()+1);
+        spot.setTaken(spot.getTaken() - 1);
+        spot.setAvailable(spot.getAvailable() + 1);
         spotService.update(spot);
         if (spot.getAvailable() == 1) {
             LocalDate registrationDate = event.getTime().getRegistrationDate();

@@ -14,7 +14,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProfileInfo implements Serializable {
-
     private Integer userId;
     private String username;
     private String roleName;
