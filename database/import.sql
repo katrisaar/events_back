@@ -1,6 +1,7 @@
 INSERT INTO public.role (id, name) VALUES (DEFAULT, 'admin');
 INSERT INTO public.role (id, name) VALUES (DEFAULT, 'customer');
 
+
 INSERT INTO public.contact (id, first_name, last_name, email, image_id) VALUES (DEFAULT, 'Juss', 'Jänku', 'juss@jänku.ee', null);
 INSERT INTO public.contact (id, first_name, last_name, email, image_id) VALUES (DEFAULT, 'Admin', 'Kõikvõimas', 'admin@admin.admin', null);
 INSERT INTO public.contact (id, first_name, last_name, email, image_id) VALUES (DEFAULT, 'Mari', 'Maasikas', 'mari@maasikas.ee', null);
@@ -42,7 +43,6 @@ INSERT INTO public.address (id, description, addressxcoordinate, addressycoordin
 INSERT INTO public.address (id, description, addressxcoordinate, addressycoordinate) VALUES (DEFAULT, 'Tallinn, Vaarika tee 22-22', null, null);
 
 
-
 INSERT INTO public.location (id, name) VALUES (DEFAULT, 'Tallinn');
 INSERT INTO public.location (id, name) VALUES (DEFAULT, 'Viljandi');
 INSERT INTO public.location (id, name) VALUES (DEFAULT, 'Pärnu');
@@ -70,7 +70,7 @@ INSERT INTO public.spots (id, min, max, available, taken) VALUES (DEFAULT, 2, 22
 
 
 INSERT INTO public.time (id, date_created, registration_date, start_date, start_time, end_date, end_time) VALUES (DEFAULT, '2023-05-22 14:09:42.000000', '2023-06-03', '2023-06-23', '14:00:00', '2023-06-25', '21:00:00');
-INSERT INTO public.time (id, date_created, registration_date, start_date, start_time, end_date, end_time) VALUES (DEFAULT, '2023-05-22 14:11:18.000000', '2023-06-06', '2023-06-09', '10:00:00', '2023-06-09', '18:00:00');
+INSERT INTO public.time (id, date_created, registration_date, start_date, start_time, end_date, end_time) VALUES (DEFAULT, '2023-05-22 14:11:18.000000', '2023-05-29', '2023-05-31', '10:00:00', '2023-05-31', '18:00:00');
 INSERT INTO public.time (id, date_created, registration_date, start_date, start_time, end_date, end_time) VALUES (DEFAULT, '2023-05-22 14:12:06.000000', '2023-06-02', '2023-06-04', '12:00:00', '2023-06-05', '17:00:00');
 INSERT INTO public.time (id, date_created, registration_date, start_date, start_time, end_date, end_time) VALUES (DEFAULT, '2023-05-22 14:13:01.000000', '2023-06-13', '2023-06-15', '11:00:00', '2023-06-16', '15:00:00');
 INSERT INTO public.time (id, date_created, registration_date, start_date, start_time, end_date, end_time) VALUES (DEFAULT, '2023-05-22 14:39:44.000000', '2023-06-06', '2023-06-16', '06:00:00', '2023-06-16', '11:00:00');
@@ -84,20 +84,20 @@ INSERT INTO public.time (id, date_created, registration_date, start_date, start_
 INSERT INTO public.time (id, date_created, registration_date, start_date, start_time, end_date, end_time) VALUES (DEFAULT, '2023-06-01 15:35:32.076702', '2023-06-29', '2023-07-01', '11:11:00', '2023-07-01', '15:15:00');
 INSERT INTO public.time (id, date_created, registration_date, start_date, start_time, end_date, end_time) VALUES (DEFAULT, '2023-06-01 15:43:37.625474', '2023-06-08', '2023-06-10', '12:12:00', '2023-06-10', '15:15:00');
 
-INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Saunapidu', 'jaanipäeva pidu saunas (mitte-nii-üksikul) saarel', 5, 'A', 2, 8, 6, 1, 1, 1);
-INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Võrkpall Petsiga', 'lähme võrkpalli mängima', 0, 'A', 1, 2, 2, 2, 2, 2);
-INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Metsamatk', 'loodusega ühendusse', 0, 'A', 4, 4, 1, 3, 3, 3);
-INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Küpsetame pannkooke', 'magusad pannkoogid', 3, 'A', 5, 1, 3, 4, 4, 4);
-INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Kalale minek', 'Matiga kalale', 0, 'A', 3, 6, 4, 5, 5, 5);
-INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Õuejooga', 'Alustame hommikut värskendava joogaga mererannas. Kaasa võtta oma joogamatt ja soe pleed.', 11, 'A', 7, 7, 5, 6, 6, 6);
-INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Päikesetõusu jooga', 'Teeme ergastava alguse päevale alustades päikesetõusuga koos rannas joogaga.', 20, 'A', 8, 7, 5, 7, 7, 7);
-INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Bachata intensiivtund', 'Kas ühele inimesele või ühele paarile intensiivtund bachatas. Sobib nii täiesti algajale kui ka juba kogenud bachata tantsijale, kes soovib oma oskusi lihvida.', 44, 'A', 9, 9, 1, 8, 8, 8);
-INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Bachata õuepidu', 'Teeme ühe korraliku bachata tantsujämmi mererannal', 7, 'H', 10, 9, 5, 9, 9, 9);
-INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Rabamatk Sõõriksoos', 'Matkame rabas', 0, 'H', 11, 4, 7, 10, 10, 10);
-INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Offroad sõit', 'Sõidame offroadi', 22, 'H', 12, 10, 7, 11, 11, 11);
-INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Grillime juurikaid', 'Teeme lihavaba grilliõhtu. Baasasjad on olemas. Igaüks võiks kaasa haarata midagi enda lemmikut, mida grilli peal katsetada.', 10, 'A', 13, 3, 1, 12, 12, 12);
-INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Korjame metsmaasikaid', 'Saame kokku Suure Munamäe vaatetorni all ja läheme koos kohalikele maasikaväljadele värskeid metsmaasikaid korjama', 0, 'A', 14, 11, 8, 13, 13, 13);
-INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Valmistame toortorti', 'Teeme koos ülimaitsva, ilusa ja tervisliku toortordi. Kõik vajalikud koostisosad on kohapeal olemas. Kaasa tuleb võtta hea tuju, uudishimu ja avatud meel.', 22, 'A', 15, 1, 1, 14, 14, 14);
+INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Saunapidu', 'jaanipäeva pidu saunas (mitte-nii-üksikul) saarel', 5, 'A', null, 8, 6, 1, 1, 1);
+INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Võrkpall Petsiga', 'lähme võrkpalli mängima', 0, 'A', null, 2, 2, 2, 2, 2);
+INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Metsamatk', 'loodusega ühendusse', 0, 'A', null, 4, 1, 3, 3, 3);
+INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Küpsetame pannkooke', 'magusad pannkoogid', 3, 'A', null, 1, 3, 4, 4, 4);
+INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Kalale minek', 'Matiga kalale', 0, 'A', null, 6, 4, 5, 5, 5);
+INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Õuejooga', 'Alustame hommikut värskendava joogaga mererannas. Kaasa võtta oma joogamatt ja soe pleed.', 11, 'A', null, 7, 5, 6, 6, 6);
+INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Päikesetõusu jooga', 'Teeme ergastava alguse päevale alustades päikesetõusuga koos rannas joogaga.', 20, 'A', null, 7, 5, 7, 7, 7);
+INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Bachata intensiivtund', 'Kas ühele inimesele või ühele paarile intensiivtund bachatas. Sobib nii täiesti algajale kui ka juba kogenud bachata tantsijale, kes soovib oma oskusi lihvida.', 44, 'A', null, 9, 1, 8, 8, 8);
+INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Bachata õuepidu', 'Teeme ühe korraliku bachata tantsujämmi mererannal', 7, 'H', null, 9, 5, 9, 9, 9);
+INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Rabamatk Sõõriksoos', 'Matkame rabas', 0, 'H', null, 4, 7, 10, 10, 10);
+INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Offroad sõit', 'Sõidame offroadi', 22, 'H', null, 10, 7, 11, 11, 11);
+INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Grillime juurikaid', 'Teeme lihavaba grilliõhtu. Baasasjad on olemas. Igaüks võiks kaasa haarata midagi enda lemmikut, mida grilli peal katsetada.', 10, 'A', null, 3, 1, 12, 12, 12);
+INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Korjame metsmaasikaid', 'Saame kokku Suure Munamäe vaatetorni all ja läheme koos kohalikele maasikaväljadele värskeid metsmaasikaid korjama', 0, 'A', null, 11, 8, 13, 13, 13);
+INSERT INTO public.event (id, name, description, fee, status, image_id, activity_type_id, location_id, spots_id, address_id, time_id) VALUES (DEFAULT, 'Valmistame toortorti', 'Teeme koos ülimaitsva, ilusa ja tervisliku toortordi. Kõik vajalikud koostisosad on kohapeal olemas. Kaasa tuleb võtta hea tuju, uudishimu ja avatud meel.', 22, 'A', null, 1, 1, 14, 14, 14);
 
 INSERT INTO public.connection_type (id, name) VALUES (DEFAULT, 'korraldaja');
 INSERT INTO public.connection_type (id, name) VALUES (DEFAULT, 'osaleja');
@@ -115,19 +115,19 @@ INSERT INTO public.event_user (id, connection_type_id, user_id, event_id, status
 INSERT INTO public.event_user (id, connection_type_id, user_id, event_id, status) VALUES (DEFAULT, 1, 1, 6, 'A');
 INSERT INTO public.event_user (id, connection_type_id, user_id, event_id, status) VALUES (DEFAULT, 1, 1, 7, 'A');
 INSERT INTO public.event_user (id, connection_type_id, user_id, event_id, status) VALUES (DEFAULT, 1, 2, 8, 'A');
+INSERT INTO public.event_user (id, connection_type_id, user_id, event_id, status) VALUES (DEFAULT, 1, 2, 9, 'H');
 INSERT INTO public.event_user (id, connection_type_id, user_id, event_id, status) VALUES (DEFAULT, 2, 2, 2, 'A');
 INSERT INTO public.event_user (id, connection_type_id, user_id, event_id, status) VALUES (DEFAULT, 2, 2, 1, 'A');
 INSERT INTO public.event_user (id, connection_type_id, user_id, event_id, status) VALUES (DEFAULT, 2, 2, 3, 'A');
 INSERT INTO public.event_user (id, connection_type_id, user_id, event_id, status) VALUES (DEFAULT, 3, 2, 4, 'A');
-INSERT INTO public.event_user (id, connection_type_id, user_id, event_id, status) VALUES (DEFAULT, 1, 2, 9, 'H');
 INSERT INTO public.event_user (id, connection_type_id, user_id, event_id, status) VALUES (DEFAULT, 1, 4, 10, 'H');
-INSERT INTO public.event_user (id, connection_type_id, user_id, event_id, status) VALUES (DEFAULT, 2, 2, 10, 'H');
-INSERT INTO public.event_user (id, connection_type_id, user_id, event_id, status) VALUES (DEFAULT, 2, 1, 10, 'H');
-INSERT INTO public.event_user (id, connection_type_id, user_id, event_id, status) VALUES (DEFAULT, 2, 5, 10, 'H');
 INSERT INTO public.event_user (id, connection_type_id, user_id, event_id, status) VALUES (DEFAULT, 1, 4, 11, 'H');
 INSERT INTO public.event_user (id, connection_type_id, user_id, event_id, status) VALUES (DEFAULT, 2, 2, 11, 'H');
+INSERT INTO public.event_user (id, connection_type_id, user_id, event_id, status) VALUES (DEFAULT, 2, 2, 10, 'H');
+INSERT INTO public.event_user (id, connection_type_id, user_id, event_id, status) VALUES (DEFAULT, 2, 1, 10, 'H');
 INSERT INTO public.event_user (id, connection_type_id, user_id, event_id, status) VALUES (DEFAULT, 2, 1, 11, 'H');
 INSERT INTO public.event_user (id, connection_type_id, user_id, event_id, status) VALUES (DEFAULT, 2, 5, 11, 'H');
+INSERT INTO public.event_user (id, connection_type_id, user_id, event_id, status) VALUES (DEFAULT, 2, 5, 10, 'H');
 INSERT INTO public.event_user (id, connection_type_id, user_id, event_id, status) VALUES (DEFAULT, 1, 5, 12, 'A');
 INSERT INTO public.event_user (id, connection_type_id, user_id, event_id, status) VALUES (DEFAULT, 1, 5, 13, 'A');
 INSERT INTO public.event_user (id, connection_type_id, user_id, event_id, status) VALUES (DEFAULT, 1, 5, 14, 'A');
