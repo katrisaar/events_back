@@ -13,11 +13,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/connection")
 public class ConnectionController {
     @Resource
     ConnectionService connectionService;
 
-    @GetMapping("/events/organised")
+    @GetMapping("/organiser")
     @Operation(summary = "Tagastab userId alusel kõikide kasutaja poolt korraldatavate tulevaste (aktiivsete ja täitunud) ürituste nimekirja.",
             description = "Tagastab ka tühistatud üritused, mille planeeritud toimumisaeg pole veel läbi. Kui ühtegi üritust ei leita, siis tagastab vea 555")
     @ApiResponses(value = {
@@ -27,7 +28,7 @@ public class ConnectionController {
         return connectionService.findOrganisedEvents(userId);
     }
 
-    @GetMapping("/events/participating")
+    @GetMapping("/participant")
     @Operation(summary = "Tagastab userId alusel kõikide tulevaste (aktiivsete) ürituste nimekirja, kuhu kasutaja on osalejana registreerunud.",
             description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea 555")
     @ApiResponses(value = {
@@ -37,7 +38,7 @@ public class ConnectionController {
         return connectionService.findParticipatingEvents(userId);
     }
 
-    @GetMapping("/events/interested")
+    @GetMapping("/interested")
     @Operation(summary = "Tagastab userId alusel kõikide tulevaste (aktiivsete) ürituste nimekirja, mille kasutaja on enda jaoks huvipakkuvaks märkinud.",
             description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea 555")
     @ApiResponses(value = {
@@ -47,7 +48,7 @@ public class ConnectionController {
         return connectionService.findInterestedEvents(userId);
     }
 
-    @GetMapping("/events/history")
+    @GetMapping("/history")
     @Operation(summary = "Tagastab userId alusel kõikide toimunud ürituste nimekirja, mida kasutaja on korraldanud või kus ta on osalenud",
             description = "Kui ühtegi vastavat üritust ei leita, siis tagastab vea 555")
     @ApiResponses(value = {
@@ -57,13 +58,13 @@ public class ConnectionController {
         return connectionService.findHistoryEvents(userId);
     }
 
-    @GetMapping("/connection/organisers")
+    @GetMapping("/organisers")
     @Operation(summary = "Toob eventId alusel ära kõik selle ürituse korraldajad")
     public List<EventUserProfileName> getOrganisers(@RequestParam Integer eventId) {
         return connectionService.getOrganisers(eventId);
     }
 
-    @GetMapping("/connection/participants")
+    @GetMapping("/participants")
     @Operation(summary = "Toob eventId alusel ära kõik sellel üritusel osalejad.",
             description = "Kui ühtegi osalejat ei leita, siis tagastab vea 666")
     @ApiResponses(value = {
@@ -73,19 +74,19 @@ public class ConnectionController {
         return connectionService.getParticipants(eventId);
     }
 
-    @GetMapping("/connection/type")
+    @GetMapping("/type")
     @Operation(summary = "Tagastab userId ja eventId alusel kasutaja seoseliigi antud sündmusega. Kui seost ei ole, siis tagastab liigiks 'none'.")
     public ConnectionTypeName getUserConnectionToEvent(@RequestParam Integer eventId, @RequestParam Integer userId) {
         return connectionService.getUserConnectionToEvent(eventId, userId);
     }
 
-    @PostMapping("/connection/participant")
+    @PostMapping("/participant")
     @Operation(summary = "Määrab kasutaja üritusel osalejaks etteantud userId ja eventId alusel.")
     public void addParticipant(@RequestParam Integer eventId, @RequestParam Integer userId) {
         connectionService.addParticipant(eventId, userId);
     }
 
-    @PostMapping("/connection/organiser")
+    @PostMapping("/organiser")
     @Operation(summary = "Lisab üritusele uue korraldaja sissetulnud kasutajanime ja eventId alusel.",
             description = "Kui sellise kasutajanimega aktiivset kasutajat süsteemis ei ole, siis tagastab vea 224.")
     @ApiResponses(value = {
@@ -95,25 +96,25 @@ public class ConnectionController {
         connectionService.addOrganiser(eventId, username);
     }
 
-    @DeleteMapping("/connection/participant")
+    @DeleteMapping("/participant")
     @Operation(summary = "Kustutab osaleja tüüpi seose kasutaja ja ürituse vahel etteantud userId ja eventId alusel.")
     public void deleteParticipant(@RequestParam Integer eventId, @RequestParam Integer userId) {
         connectionService.deleteParticipant(eventId, userId);
     }
 
-    @DeleteMapping("/connection/organiser")
+    @DeleteMapping("/organiser")
     @Operation(summary = "Kustutab korraldaja tüüpi seose kasutaja ja ürituse vahel etteantud userId ja eventId alusel.")
     public void deleteOrganiser(@RequestParam Integer eventId, @RequestParam Integer userId) {
         connectionService.deleteOrganiser(eventId, userId);
     }
 
-    @PostMapping("connection/interested")
+    @PostMapping("/interested")
     @Operation(summary = "Võimaldab etteantud UserId ja eventId alusel määrata, et kasutaja on üritusest huvitatud")
     public void addInterested(@RequestParam Integer eventId, @RequestParam Integer userId) {
         connectionService.addInterested(eventId, userId);
     }
 
-    @DeleteMapping("/connection/interested")
+    @DeleteMapping("/interested")
     @Operation(summary = "Kustutab huvitatud tüüpi seose kasutaja ja ürituse vahel etteantud userId ja eventId alusel.")
     public void deleteInterested(@RequestParam Integer eventId, @RequestParam Integer userId) {
         connectionService.deleteInterested(eventId, userId);
